@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>面经题库 · 33 道近期面试题</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --soft: #f0f3f9;
+      --text: #202839;
+      --muted: #627087;
+      --line: #dfe5ef;
+      --accent: #315ed8;
+      --accent-soft: #eaf0ff;
+      --shadow: 0 10px 28px rgba(28, 45, 81, .06);
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #121721;
+      --panel: #1b2230;
+      --soft: #252e40;
+      --text: #edf1f8;
+      --muted: #acb8cb;
+      --line: #344053;
+      --accent: #93b2ff;
+      --accent-soft: #273b67;
+      --shadow: 0 12px 28px rgba(0, 0, 0, .15);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--accent); }
+    a:hover { text-decoration-thickness: 2px; }
+    .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1500px; margin: 0 auto; min-height: 100vh; }
+    .sidebar { position: sticky; top: 0; height: 100vh; padding: 31px 19px; border-right: 1px solid var(--line); background: var(--panel); overflow-y: auto; }
+    .brand { display: flex; gap: 12px; align-items: center; padding: 2px 8px 28px; text-decoration: none; color: var(--text); }
+    .brand-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: var(--accent); color: #fff; font-size: 19px; font-weight: 800; }
+    .brand strong { display: block; font-size: 18px; letter-spacing: .02em; }
+    .brand small { display: block; color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .side-label { margin: 0 11px 10px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 11px; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: 13px; line-height: 1.45; }
+    .nav-link:hover, .nav-link:focus-visible { background: var(--soft); color: var(--text); outline: none; }
+    .nav-link small { flex: none; border-radius: 20px; background: var(--soft); padding: 0 7px; font-size: 11px; }
+    .sidebar-foot { margin: 30px 10px 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .main { width: min(100%, 1050px); padding: 48px clamp(20px, 5vw, 76px) 90px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .05em; }
+    h1 { font-size: clamp(32px, 4.3vw, 50px); line-height: 1.2; letter-spacing: -.045em; margin: 21px 0 13px; }
+    .lead { margin: 0; max-width: 700px; color: var(--muted); font-size: 16px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 11px; align-items: center; margin-top: 28px; }
+    .search-wrap { flex: 1 1 320px; position: relative; }
+    .search-wrap svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 19px; height: 19px; fill: none; stroke: var(--muted); stroke-width: 2; pointer-events: none; }
+    #search { width: 100%; height: 46px; padding: 0 16px 0 44px; border: 1px solid var(--line); border-radius: 12px; outline: none; background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
+    #search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    #search::placeholder { color: var(--muted); }
+    .tool-button { min-height: 45px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--panel); color: var(--text); white-space: nowrap; }
+    .tool-button:hover, .tool-button:focus-visible { border-color: var(--accent); outline: none; }
+    .summary-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin: 18px 2px 26px; color: var(--muted); font-size: 13px; }
+    .category { scroll-margin-top: 30px; margin-top: 44px; }
+    .category[hidden], .qa-card[hidden], #empty[hidden] { display: none; }
+    .section-heading { display: flex; align-items: baseline; gap: 12px; padding-bottom: 11px; border-bottom: 1px solid var(--line); margin-bottom: 15px; }
+    h2 { margin: 0; font-size: 23px; letter-spacing: -.025em; }
+    .section-count { color: var(--muted); font-size: 13px; }
+    .qa-card { margin: 11px 0; border: 1px solid var(--line); border-radius: 13px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
+    .qa-card[open] { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    .qa-card summary { display: flex; align-items: center; gap: 14px; list-style: none; padding: 19px 22px; cursor: pointer; font-size: 16px; font-weight: 700; line-height: 1.5; }
+    .qa-card summary::-webkit-details-marker { display: none; }
+    .qa-card summary:hover { background: var(--soft); }
+    .q-number { flex: none; display: grid; place-items: center; width: 31px; height: 31px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 800; }
+    .q-title { flex: 1; }
+    .chevron { flex: none; width: 9px; height: 9px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); transition: transform .15s; }
+    .qa-card[open] .chevron { transform: rotate(225deg); }
+    .answer { border-top: 1px solid var(--line); padding: 6px 23px 24px 67px; overflow-wrap: anywhere; }
+    .answer p { margin: 15px 0; }
+    .answer strong { color: var(--text); }
+    .answer ul, .answer ol { padding-left: 1.4em; }
+    .answer code { border-radius: 4px; padding: 2px 5px; background: var(--soft); font-size: .9em; }
+    .answer pre { overflow-x: auto; border-radius: 10px; padding: 15px; background: var(--soft); line-height: 1.55; }
+    .answer pre code { padding: 0; background: transparent; }
+    .answer table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 14px; }
+    .answer th, .answer td { padding: 9px 12px; border: 1px solid var(--line); text-align: left; min-width: 110px; }
+    .answer th { background: var(--soft); }
+    #empty { margin: 42px 0; padding: 35px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); text-align: center; }
+    .footer { margin-top: 65px; border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 850px) {
+      .layout { display: block; }
+      .sidebar { position: static; height: auto; padding: 16px 18px 6px; border-right: none; border-bottom: 1px solid var(--line); }
+      .brand { padding: 0 0 10px; }
+      .side-label, .sidebar-foot { display: none; }
+      .nav { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 9px; }
+      .nav-link { flex: none; max-width: 210px; border: 1px solid var(--line); }
+      .main { padding-top: 31px; }
+      .category { scroll-margin-top: 14px; }
+    }
+    @media (max-width: 560px) {
+      .main { padding: 29px 15px 70px; }
+      .qa-card summary { padding: 16px; gap: 10px; font-size: 15px; }
+      .answer { padding: 2px 16px 17px; }
+      .section-heading { align-items: center; }
+      h2 { font-size: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .chevron { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="分类目录">
+      <a class="brand" href="#top"><span class="brand-icon">问</span><span><strong>面经题库</strong><small>Interview Notes · 离线版</small></span></a>
+      <p class="side-label">分类目录</p>
+      <nav class="nav"><!-- NAV --></nav>
+      <p class="sidebar-foot">33 道问题 · 6 个类别<br>先口述，再展开答案。</p>
+    </aside>
+    <main class="main" id="top">
+      <span class="eyebrow">面试复盘 / 系统复习</span>
+      <h1>把每一道追问，<br>讲到原理和边界。</h1>
+      <p class="lead">Java、数据库、项目工程与 AI Infra 近期面经。每题包含简答与深入理解；先自己回答，再展开核对。</p>
+      <div class="toolbar">
+        <label class="search-wrap" aria-label="搜索题目和答案">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
+          <input id="search" type="search" placeholder="搜索题目、术语或答案…" autocomplete="off">
+        </label>
+        <button class="tool-button" id="toggle-all" type="button">展开全部</button>
+        <button class="tool-button" id="theme-toggle" type="button" aria-label="切换深浅色">深色模式</button>
+      </div>
+      <div class="summary-line"><span id="result-count" role="status">共 33 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
+      <div id="empty" hidden>没有找到相关题目。试试更短的关键词。</div>
+      <!-- QUESTIONS -->
+      <footer class="footer">个人面试复习资料。项目经历中的待核实字段请按真实情况填写，技术结论请结合版本与来源判断。</footer>
+    </main>
+  </div>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const search = document.querySelector('#search');
+      const cards = [...document.querySelectorAll('.qa-card')];
+      const sections = [...document.querySelectorAll('.category')];
+      const count = document.querySelector('#result-count');
+      const empty = document.querySelector('#empty');
+      const allButton = document.querySelector('#toggle-all');
+      const themeButton = document.querySelector('#theme-toggle');
+      let savedTheme = null;
+      try { savedTheme = localStorage.getItem('interview-notes-theme'); } catch (_) { /* file URL privacy mode */ }
+      if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+      else if (matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+
+      function updateThemeLabel() {
+        themeButton.textContent = root.dataset.theme === 'dark' ? '浅色模式' : '深色模式';
+      }
+      function updateAllLabel() {
+        const visible = cards.filter(card => !card.hidden);
+        allButton.textContent = visible.length && visible.every(card => card.open) ? '折叠全部' : '展开全部';
+      }
+      function filter() {
+        const query = search.value.trim().toLocaleLowerCase();
+        let shown = 0;
+        for (const card of cards) {
+          const match = !query || card.textContent.toLocaleLowerCase().includes(query);
+          card.hidden = !match;
+          if (match) shown++;
+        }
+        for (const section of sections) section.hidden = !section.querySelector('.qa-card:not([hidden])');
+        count.textContent = query ? `找到 ${shown} / ${cards.length} 道题` : `共 ${cards.length} 道题`;
+        empty.hidden = shown !== 0;
+        updateAllLabel();
+      }
+      search.addEventListener('input', filter);
+      allButton.addEventListener('click', () => {
+        const visible = cards.filter(card => !card.hidden);
+        const shouldOpen = !visible.every(card => card.open);
+        for (const card of visible) card.open = shouldOpen;
+        updateAllLabel();
+      });
+      document.addEventListener('toggle', event => {
+        if (event.target.matches?.('.qa-card')) updateAllLabel();
+      }, true);
+      themeButton.addEventListener('click', () => {
+        root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        try { localStorage.setItem('interview-notes-theme', root.dataset.theme); } catch (_) { /* keep current theme */ }
+        updateThemeLabel();
+      });
+      updateThemeLabel();
+      filter();
+    })();
+  </script>
+</body>
+</html>

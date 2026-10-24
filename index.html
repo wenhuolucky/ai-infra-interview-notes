@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>面经题库 · 33 道近期面试题</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --soft: #f0f3f9;
+      --text: #202839;
+      --muted: #627087;
+      --line: #dfe5ef;
+      --accent: #315ed8;
+      --accent-soft: #eaf0ff;
+      --shadow: 0 10px 28px rgba(28, 45, 81, .06);
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #121721;
+      --panel: #1b2230;
+      --soft: #252e40;
+      --text: #edf1f8;
+      --muted: #acb8cb;
+      --line: #344053;
+      --accent: #93b2ff;
+      --accent-soft: #273b67;
+      --shadow: 0 12px 28px rgba(0, 0, 0, .15);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: var(--accent); }
+    a:hover { text-decoration-thickness: 2px; }
+    .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1500px; margin: 0 auto; min-height: 100vh; }
+    .sidebar { position: sticky; top: 0; height: 100vh; padding: 31px 19px; border-right: 1px solid var(--line); background: var(--panel); overflow-y: auto; }
+    .brand { display: flex; gap: 12px; align-items: center; padding: 2px 8px 28px; text-decoration: none; color: var(--text); }
+    .brand-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: var(--accent); color: #fff; font-size: 19px; font-weight: 800; }
+    .brand strong { display: block; font-size: 18px; letter-spacing: .02em; }
+    .brand small { display: block; color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .side-label { margin: 0 11px 10px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 11px; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: 13px; line-height: 1.45; }
+    .nav-link:hover, .nav-link:focus-visible { background: var(--soft); color: var(--text); outline: none; }
+    .nav-link small { flex: none; border-radius: 20px; background: var(--soft); padding: 0 7px; font-size: 11px; }
+    .sidebar-foot { margin: 30px 10px 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .main { width: min(100%, 1050px); padding: 48px clamp(20px, 5vw, 76px) 90px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .05em; }
+    h1 { font-size: clamp(32px, 4.3vw, 50px); line-height: 1.2; letter-spacing: -.045em; margin: 21px 0 13px; }
+    .lead { margin: 0; max-width: 700px; color: var(--muted); font-size: 16px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 11px; align-items: center; margin-top: 28px; }
+    .search-wrap { flex: 1 1 320px; position: relative; }
+    .search-wrap svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 19px; height: 19px; fill: none; stroke: var(--muted); stroke-width: 2; pointer-events: none; }
+    #search { width: 100%; height: 46px; padding: 0 16px 0 44px; border: 1px solid var(--line); border-radius: 12px; outline: none; background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
+    #search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    #search::placeholder { color: var(--muted); }
+    .tool-button { min-height: 45px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--panel); color: var(--text); white-space: nowrap; }
+    .tool-button:hover, .tool-button:focus-visible { border-color: var(--accent); outline: none; }
+    .summary-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin: 18px 2px 26px; color: var(--muted); font-size: 13px; }
+    .category { scroll-margin-top: 30px; margin-top: 44px; }
+    .category[hidden], .qa-card[hidden], #empty[hidden] { display: none; }
+    .section-heading { display: flex; align-items: baseline; gap: 12px; padding-bottom: 11px; border-bottom: 1px solid var(--line); margin-bottom: 15px; }
+    h2 { margin: 0; font-size: 23px; letter-spacing: -.025em; }
+    .section-count { color: var(--muted); font-size: 13px; }
+    .qa-card { margin: 11px 0; border: 1px solid var(--line); border-radius: 13px; background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
+    .qa-card[open] { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    .qa-card summary { display: flex; align-items: center; gap: 14px; list-style: none; padding: 19px 22px; cursor: pointer; font-size: 16px; font-weight: 700; line-height: 1.5; }
+    .qa-card summary::-webkit-details-marker { display: none; }
+    .qa-card summary:hover { background: var(--soft); }
+    .q-number { flex: none; display: grid; place-items: center; width: 31px; height: 31px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 800; }
+    .q-title { flex: 1; }
+    .chevron { flex: none; width: 9px; height: 9px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); transition: transform .15s; }
+    .qa-card[open] .chevron { transform: rotate(225deg); }
+    .answer { border-top: 1px solid var(--line); padding: 6px 23px 24px 67px; overflow-wrap: anywhere; }
+    .answer p { margin: 15px 0; }
+    .answer strong { color: var(--text); }
+    .answer ul, .answer ol { padding-left: 1.4em; }
+    .answer code { border-radius: 4px; padding: 2px 5px; background: var(--soft); font-size: .9em; }
+    .answer pre { overflow-x: auto; border-radius: 10px; padding: 15px; background: var(--soft); line-height: 1.55; }
+    .answer pre code { padding: 0; background: transparent; }
+    .answer table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 14px; }
+    .answer th, .answer td { padding: 9px 12px; border: 1px solid var(--line); text-align: left; min-width: 110px; }
+    .answer th { background: var(--soft); }
+    #empty { margin: 42px 0; padding: 35px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); text-align: center; }
+    .footer { margin-top: 65px; border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 13px; }
+    @media (max-width: 850px) {
+      .layout { display: block; }
+      .sidebar { position: static; height: auto; padding: 16px 18px 6px; border-right: none; border-bottom: 1px solid var(--line); }
+      .brand { padding: 0 0 10px; }
+      .side-label, .sidebar-foot { display: none; }
+      .nav { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 9px; }
+      .nav-link { flex: none; max-width: 210px; border: 1px solid var(--line); }
+      .main { padding-top: 31px; }
+      .category { scroll-margin-top: 14px; }
+    }
+    @media (max-width: 560px) {
+      .main { padding: 29px 15px 70px; }
+      .qa-card summary { padding: 16px; gap: 10px; font-size: 15px; }
+      .answer { padding: 2px 16px 17px; }
+      .section-heading { align-items: center; }
+      h2 { font-size: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .chevron { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="分类目录">
+      <a class="brand" href="#top"><span class="brand-icon">问</span><span><strong>面经题库</strong><small>Interview Notes · 离线版</small></span></a>
+      <p class="side-label">分类目录</p>
+      <nav class="nav"><a class="nav-link" href="#category-1"><span>一、Java 集合与并发</span><small>6</small></a>
+<a class="nav-link" href="#category-2"><span>二、MySQL 与 Redis</span><small>4</small></a>
+<a class="nav-link" href="#category-3"><span>三、网络通信</span><small>1</small></a>
+<a class="nav-link" href="#category-4"><span>四、项目工程与可观测性</span><small>3</small></a>
+<a class="nav-link" href="#category-5"><span>五、AI 编程、提示词与新技术</span><small>4</small></a>
+<a class="nav-link" href="#category-6"><span>六、大模型分布式与推理优化</span><small>15</small></a></nav>
+      <p class="sidebar-foot">33 道问题 · 6 个类别<br>先口述，再展开答案。</p>
+    </aside>
+    <main class="main" id="top">
+      <span class="eyebrow">面试复盘 / 系统复习</span>
+      <h1>把每一道追问，<br>讲到原理和边界。</h1>
+      <p class="lead">Java、数据库、项目工程与 AI Infra 近期面经。每题包含简答与深入理解；先自己回答，再展开核对。</p>
+      <div class="toolbar">
+        <label class="search-wrap" aria-label="搜索题目和答案">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
+          <input id="search" type="search" placeholder="搜索题目、术语或答案…" autocomplete="off">
+        </label>
+        <button class="tool-button" id="toggle-all" type="button">展开全部</button>
+        <button class="tool-button" id="theme-toggle" type="button" aria-label="切换深浅色">深色模式</button>
+      </div>
+      <div class="summary-line"><span id="result-count" role="status">共 33 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
+      <div id="empty" hidden>没有找到相关题目。试试更短的关键词。</div>
+      <section class="category" id="category-1"><div class="section-heading"><h2>一、Java 集合与并发</h2><span class="section-count">6 题</span></div><details class="qa-card" id="q-1" data-category="1"><summary><span class="q-number">01</span><span class="q-title">ArrayList 和 LinkedList 有什么区别？哪个用得多？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong><code>ArrayList</code> 底层是可扩容数组，按下标访问是 O(1)，顺序遍历通常也更快；在中间插入或删除元素，需要移动后续元素。<code>LinkedList</code> 是双向链表，已定位到节点后增删节点可以是 O(1)，但按下标查找是 O(n)，每个节点还有指针开销。普通业务中我会优先选 <code>ArrayList</code>；只有频繁在两端操作、并且链表的使用方式确实合适时才考虑 <code>LinkedList</code>，队列场景也会比较 <code>ArrayDeque</code>。两者都不是天然线程安全的。</p>
+<p><strong>追问提醒：</strong>不要笼统说“LinkedList 插入一定比 ArrayList 快”：如果要先按下标找到插入位置，查找成本仍是 O(n)。<a href="https://docs.oracle.com/javase/tutorial/collections/implementations/list.html">Oracle 集合教程</a></p>
+<p><strong>深入理解：</strong>两种结构的关键差别不止时间复杂度。数组连续存放引用，CPU 顺序读取的缓存局部性较好；链表节点分散，遍历时要反复追踪指针。<code>ArrayList</code> 尾部追加通常是均摊 O(1)，扩容当次会复制数组；中间删除则通常需要移动元素。<code>LinkedList</code> 只有在已经拿到目标节点时，节点连接的调整才是 O(1)，按下标找节点仍是 O(n)。面试若给出“频繁头部插入”需求，我会先确认是否还要随机访问、是否只在两端操作，再比较 <code>ArrayDeque</code>，不直接选链表。</p></div></details>
+<details class="qa-card" id="q-2" data-category="1"><summary><span class="q-number">02</span><span class="q-title">`volatile` 有什么用？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong><code>volatile</code> 修饰字段，保证一个线程写入后，其他线程随后读取能看到该值，并提供相关的有序性保证；适合停止标记、状态发布等场景。它不把复合操作变成原子操作，例如 <code>count++</code> 仍然包含读、加、写，多线程下会丢失更新。计数可用 <code>AtomicInteger</code>，需要保护一组共享状态时用锁。</p>
+<p><strong>追问提醒：</strong>可见性、有序性与复合操作的原子性要分开说。它也不能替代数据库事务或分布式锁。<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/package-summary.html">Java 并发包文档</a></p>
+<p><strong>深入理解：</strong>可以用一个退出循环的例子解释：工作线程反复读取 <code>volatile boolean running</code>，控制线程把它改为 <code>false</code>，工作线程能观察到变化。Java 内存模型还规定，对同一 <code>volatile</code> 变量的写与后续读之间有 happens-before 关系，因此写之前的普通写入可以按规则被读线程看到。但这不等于把多个字段组成一个不可分割的状态，也不保证 <code>if (count == 0) count++</code> 的整体原子性。需要“读—改—写”时，用原子类或锁，并先明确竞争范围。</p></div></details>
+<details class="qa-card" id="q-3" data-category="1"><summary><span class="q-number">03</span><span class="q-title">`ConcurrentHashMap` 为什么线程安全？底层原理是什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>以常见的 JDK 8 及后续实现为例，它结合字段的可见性、CAS 和桶级别的同步控制：读取通常不需要锁；插入空桶时可用 CAS；发生桶内冲突更新时，会同步相应桶上的操作；扩容时允许线程协助迁移。冲突较多的桶可转为树结构。这样可以支持并发读写，而不必给整张表加一把互斥锁。</p>
+<p><strong>追问提醒：</strong>“分段锁”主要是较早实现的讲法，回答时说明 JDK 版本；单个 <code>put</code> 安全不代表 <code>get</code> 后再 <code>put</code> 这一整段逻辑原子，应使用 <code>compute</code>、<code>putIfAbsent</code> 等复合操作。它不允许 <code>null</code> 键和值。<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html">Oracle <code>ConcurrentHashMap</code> 文档</a></p>
+<p><strong>深入理解：</strong>可从操作路径回答底层：读操作取得桶和节点引用，在并发更新下依靠可见性语义读取已发布的节点；写入空桶用 CAS 竞争，非空桶上的结构性修改需要协调同一桶，扩容时使用转发节点提示线程迁移或协助迁移。哈希冲突很严重时，树化能改善桶内查找，但也受容量与阈值条件约束。更常见的业务错误是先 <code>get</code> 再自行判断并 <code>put</code>：这两步之间别的线程可能插入，应用应选择 <code>putIfAbsent</code>、<code>computeIfAbsent</code> 或带业务约束的原子更新。</p></div></details>
+<details class="qa-card" id="q-4" data-category="1"><summary><span class="q-number">04</span><span class="q-title">`synchronized` 怎么用？可以加在哪里？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>可以修饰实例方法、静态方法，或包住一段代码块。实例方法锁住当前对象 <code>this</code>；静态方法锁住对应的 <code>Class</code> 对象；代码块锁住指定对象。它通过对象监视器实现互斥，并在进入和退出同步区时建立相应的内存可见性关系。选锁时要确保所有竞争线程使用同一把锁，同时尽量缩小临界区。</p>
+<pre><code class="language-java">private final Object lock = new Object();
+
+public void update() {
+    synchronized (lock) {
+        // 只放需要一起保持一致的共享状态操作
+    }
+}
+</code></pre>
+<p><strong>追问提醒：</strong>不同实例的 <code>synchronized</code> 实例方法不互斥；锁只管同一 JVM 内共享该锁的线程，不能直接解决多实例分布式并发。<a href="https://docs.oracle.com/javase/specs/jls/se21/html/jls-14.html#jls-14.19">Java 语言规范：同步语句</a></p>
+<p><strong>深入理解：</strong>锁对象的身份决定互斥范围。两个线程分别调用同一个实例的同步方法会竞争；分别调用两个实例的同步方法则通常不会竞争；静态同步方法竞争的是同一个类对象。写业务代码时先说清“哪几项共享状态必须一起满足什么不变量”，再用同一把锁覆盖这段读写。不要把会阻塞的网络调用或长时间计算无故放进临界区。若锁竞争明显，还要测量等待时间，再考虑拆分状态、缩短临界区或使用并发容器。</p></div></details>
+<details class="qa-card" id="q-5" data-category="1"><summary><span class="q-number">05</span><span class="q-title">多进程和多线程有什么区别？结合并发理解。</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>进程是资源隔离与分配的重要单位，有独立地址空间；同一进程内的线程共享堆等进程资源，但各自有调用栈和执行状态。线程间共享数据方便，但会出现竞争、可见性和死锁；进程间通常要靠管道、套接字、共享内存等方式通信。多线程适合同一服务内并发处理请求；多进程有更强隔离，单个进程崩溃通常不会直接破坏其他进程地址空间。并发是任务交替推进，并行是同一时刻在多个执行单元上运行。</p>
+<p><strong>结合项目说法：</strong>Web 服务多个请求线程可并发访问共享缓存或单例对象，因此要避免共享可变状态，必要时使用并发容器或同步机制；部署为多个服务进程后，进程内锁又不能协调彼此。</p>
+<p><strong>深入理解：</strong>共享地址空间使线程间传递对象的成本低，但也意味着一个线程写坏共享内存会影响整个进程；进程边界提供隔离，代价是数据交换需要 IPC 和序列化或共享内存协调。选择方式要看目标：服务中的 I/O 并发通常可交给线程池或异步事件循环；需要故障隔离或利用多个独立运行单元时可用多进程。并发描述任务的时间关系，并行描述执行资源，所以单核也能并发，多核才可能让多个 CPU 任务真正同时运行。</p></div></details>
+<details class="qa-card" id="q-6" data-category="1"><summary><span class="q-number">06</span><span class="q-title">什么是 I/O 多路复用？Redis 如何利用它？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>I/O 多路复用让一个线程通过 <code>select</code>、<code>poll</code>、<code>epoll</code> 等机制监视多个连接的就绪事件，哪个连接可读或可写，就处理哪个连接，避免每条连接长期占用一个阻塞线程。Redis 的网络事件处理采用事件循环与多路复用，让一个线程高效管理大量连接；命令执行的具体线程模型要看 Redis 版本和配置，不能把 Redis 所有工作都说成“只有一个线程”。它适合连接多、单次操作较短的场景，但耗时命令仍会阻塞相应执行路径。</p>
+<p><strong>追问提醒：</strong>多路复用解决的是等待多个 I/O 事件的方式，不意味着 CPU 密集任务会自动并行。<a href="https://redis.io/docs/latest/develop/reference/internals/">Redis 内部说明</a></p>
+<p><strong>深入理解：</strong><code>epoll</code> 等接口返回“哪些描述符目前就绪”，程序仍须自己执行非阻塞读写、解析请求和安排后续处理。它降低了大量空闲连接对应的线程开销，并不让一个命令执行得更快。以 Redis 为例，要把“网络连接管理”“网络读写”和“命令执行”分开描述：具体版本和配置可能引入 I/O 线程，而慢命令或大 Key 处理仍可能影响服务延迟。排查时应同时看连接数、请求耗时、慢日志和 CPU 使用率。</p></div></details></section>
+<section class="category" id="category-2"><div class="section-heading"><h2>二、MySQL 与 Redis</h2><span class="section-count">4 题</span></div><details class="qa-card" id="q-7" data-category="2"><summary><span class="q-number">07</span><span class="q-title">事务隔离级别有哪些？默认是什么？各解决什么问题？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>SQL 常见四级如下；如果问的是 <strong>MySQL InnoDB</strong>，默认是 <code>REPEATABLE READ</code>（可重复读），实际环境仍可用 <code>SELECT @@transaction_isolation;</code> 确认。</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>能避免的典型现象</th>
+<th>仍需注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>READ UNCOMMITTED</code> 读未提交</td>
+<td>隔离性最低</td>
+<td>可能脏读、不可重复读、幻读</td>
+</tr>
+<tr>
+<td><code>READ COMMITTED</code> 读已提交</td>
+<td>避免脏读</td>
+<td>同一事务两次读可能不同，也可能出现幻读</td>
+</tr>
+<tr>
+<td><code>REPEATABLE READ</code> 可重复读</td>
+<td>避免脏读、普通一致性读的不可重复读</td>
+<td>标准语义下仍要讨论幻读；InnoDB 的快照读和加锁读处理方式不同</td>
+</tr>
+<tr>
+<td><code>SERIALIZABLE</code> 串行化</td>
+<td>通过更强隔离避免上述典型并发现象</td>
+<td>并发度与性能成本更高</td>
+</tr>
+</tbody>
+</table>
+<p><strong>追问提醒：</strong>InnoDB 的普通 <code>SELECT</code> 常通过 MVCC 快照读；加锁读和更新涉及锁，必要时通过 next-key lock 防止特定范围的幻读。不要简单说“RR 永远没有幻读”或“RR 一定有幻读”，先说清楚数据库实现和读的方式。<a href="https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html">MySQL 隔离级别</a>、<a href="https://dev.mysql.com/doc/refman/8.4/en/innodb-next-key-locking.html">MySQL 幻读与 next-key lock</a></p>
+<p><strong>深入理解：</strong>先定义异常再讲级别：脏读是读到未提交且可能回滚的数据；不可重复读是同一事务两次读取同一行出现不同已提交值；幻读关注按同一条件两次查询得到的行集合变化。级别越高，通常需要更强的快照或锁语义，但代价与实现有关。MySQL InnoDB 的一致性读靠 MVCC，<code>SELECT ... FOR UPDATE</code> 属于当前读并可能使用间隙锁或 next-key lock；所以讨论 RR 是否防幻读时，必须说明具体 SQL、索引和读写方式。业务若要防止库存超卖，还需约束、条件更新或锁，不能只报隔离级别。</p></div></details>
+<details class="qa-card" id="q-8" data-category="2"><summary><span class="q-number">08</span><span class="q-title">什么是索引、主键索引、约束性索引？如何建索引？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>索引是帮助数据库定位记录的数据结构，InnoDB 常见索引使用 B+ 树。主键索引既要求键值唯一且非空，又是 InnoDB 的聚簇索引：叶子节点对应整行数据。普通二级索引的叶子节点保存索引列与主键值。所谓“约束性索引”不是特别精确的统一术语，面试官可能指主键索引或唯一索引；应确认他的意思。<code>UNIQUE</code> 约束/唯一索引用来限制重复值，但是否允许多个 <code>NULL</code> 要按数据库实现讨论。</p>
+<pre><code class="language-sql">CREATE INDEX idx_order_user_status ON orders(user_id, status);
+CREATE UNIQUE INDEX uk_user_email ON users(email);
+</code></pre>
+<p><strong>建索引原则：</strong>从真实高频 SQL 的 <code>WHERE</code>、<code>JOIN</code>、<code>ORDER BY</code>、<code>GROUP BY</code> 出发；联合索引注意最左前缀和列顺序；优先使过滤有选择性，结合排序与覆盖需求设计；避免给低价值列堆大量索引，因为索引占空间，也增加写入维护成本。最后用 <code>EXPLAIN</code> 和真实数据分布验证。<a href="https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html">MySQL 索引使用</a>、<a href="https://dev.mysql.com/doc/refman/8.4/en/optimizing-innodb-queries.html">InnoDB 索引建议</a></p>
+<p><strong>深入理解：</strong>索引设计应从一条实际 SQL 倒推，而不是看到字段就建。先看等值条件、范围条件、排序与返回列，再通过 <code>EXPLAIN</code> 检查扫描行数、使用的索引和是否额外排序。例如 <code>(user_id, status, created_at)</code> 能否同时服务过滤与排序，要看查询条件和列顺序；遇到范围条件后，后续列能否继续用于定位也取决于执行计划。主键尽量短而稳定，因为 InnoDB 的二级索引叶子也保存主键值；索引过多会拖慢写入和占用磁盘。唯一索引同时提供数据约束，不能只把它当成加速工具。</p></div></details>
+<details class="qa-card" id="q-9" data-category="2"><summary><span class="q-number">09</span><span class="q-title">什么是回表？怎么减少回表？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>在 InnoDB 中，查询先命中二级索引，但所需列不全在该索引中时，需要取出主键，再到聚簇索引找整行，这一步通常叫回表。减少回表可让高频查询使用合适的覆盖索引，只查需要的列、避免无必要的 <code>SELECT *</code>；也要提高索引选择性，减少候选记录。不是任何回表都值得消除，索引过宽会增加存储与写入成本。</p>
+<p><strong>例子：</strong><code>SELECT status FROM orders WHERE user_id = ?</code> 若有 <code>(user_id, status)</code> 索引，查询所需列都在二级索引中，通常可通过覆盖索引完成；具体执行计划以 <code>EXPLAIN</code> 为准。<a href="https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html">MySQL 覆盖索引说明</a></p>
+<p><strong>深入理解：</strong>假设二级索引是 <code>(user_id, status)</code>，执行 <code>SELECT amount FROM orders WHERE user_id=?</code>，找到索引记录后还需要利用其中的主键去聚簇索引取 <code>amount</code>；若返回列是 <code>status</code>，就可能只读二级索引。覆盖索引避免的是这次额外查找，不保证一定是全局最优：为了覆盖许多字段而造一个很宽的索引，可能使索引页更少容纳记录、维护更贵。比较方案时要看实际过滤后的行数、回表次数、查询频率与写入成本。</p></div></details>
+<details class="qa-card" id="q-10" data-category="2"><summary><span class="q-number">10</span><span class="q-title">如何保证 Redis 与 MySQL 数据一致？Redis 一般放什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>先确定 MySQL 是事实来源、缓存允许多长时间的旧值。常见旁路缓存做法是：读时先查 Redis，未命中再查 MySQL 并写入带 TTL 的缓存；写时先提交数据库，再删除对应缓存，让下一次读取重新加载。删除失败要有重试、补偿或消息机制，TTL 作为兜底；极端并发下读写交错仍可能短暂出现旧缓存。对于必须强一致的数据，关键读取应直接查权威数据源，不能仅靠“先更新库再删缓存”宣称绝对一致。</p>
+<p><strong>Redis 常放：</strong>高频读取、允许短暂陈旧、重建成本可控的数据，例如商品详情、用户公开资料、配置快照；也常用于会话、限流计数、临时状态，但这些用途的持久化与一致性要求各不相同。敏感信息要控制存储内容与访问权限。<a href="https://redis.io/docs/latest/develop/use-cases/cache-aside/">Redis cache-aside 文档</a></p>
+<p><strong>深入理解：</strong>“更新数据库后删除缓存”只是常见最终一致性方案，关键在失败和竞态处理。例如数据库提交成功但缓存删除失败，旧值会一直留到 TTL 到期；可以用可靠事件或重试队列补删，并监测失败量。又如旧读请求先读到旧库值、写请求提交并删缓存、旧读请求随后把旧值写回缓存，仍可能出现短暂陈旧；缩短 TTL、版本号校验或针对关键 Key 的串行化可降低风险。面试时先说业务容忍的陈旧窗口，金额、库存等核心状态应以数据库约束和权威读为准。</p></div></details></section>
+<section class="category" id="category-3"><div class="section-heading"><h2>三、网络通信</h2><span class="section-count">1 题</span></div><details class="qa-card" id="q-11" data-category="3"><summary><span class="q-number">11</span><span class="q-title">SSE 与 WebSocket 有什么区别？分别基于哪层？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>SSE 是服务器向浏览器单向推送事件，基于 HTTP 响应流，浏览器常用 <code>EventSource</code>；客户端要发消息仍走普通 HTTP 请求。WebSocket 先通过 HTTP 握手，建立连接后按 WebSocket 协议双向通信。二者都运行在应用层；通常建立在 TCP 之上，不能把“基于网络哪一层”回答成 SSE 是传输层、WebSocket 是网络层。</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>更常选</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模型输出逐字流式展示、通知、进度更新</td>
+<td>SSE</td>
+</tr>
+<tr>
+<td>聊天、协同编辑、游戏等持续双向实时交互</td>
+<td>WebSocket</td>
+</tr>
+</tbody>
+</table>
+<p><strong>追问提醒：</strong>SSE 自带事件流格式，浏览器 <code>EventSource</code> 提供重连能力；WebSocket 双向且可发送文本/二进制帧。部署时还要考虑代理超时、心跳及连接数。<a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events">MDN SSE</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API">MDN WebSocket</a></p>
+<p><strong>深入理解：</strong>SSE 的消息沿一条保持打开的 HTTP 响应持续到达，天然适合“客户端发一次请求，服务端持续输出”的 LLM 流式回答；浏览器 <code>EventSource</code> 的自动重连与事件 ID 可以配合恢复，但服务端是否能补发取决于实现。WebSocket 在握手后使用独立帧协议，双方都能主动发送消息，适合频繁双向交互。工程选型还要看代理缓冲、连接保持、心跳、认证刷新与断线恢复。不能仅凭“实时性更高”就一律选 WebSocket，先问业务是否真的需要服务端之外的持续上行。</p></div></details></section>
+<section class="category" id="category-4"><div class="section-heading"><h2>四、项目工程与可观测性</h2><span class="section-count">3 题</span></div><details class="qa-card" id="q-12" data-category="4"><summary><span class="q-number">12</span><span class="q-title">日志中的操作人、操作时间从哪里取？并发时怎么保证不串？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>操作人应从服务端验证过的身份上下文取得，例如认证后解析的用户 ID，不能直接相信前端传来的“操作人”字段；操作时间由服务端生成，必要时由数据库写入时间统一记录。每个请求建立自己的上下文，把 <code>userId</code>、<code>requestId/traceId</code> 传给业务和日志层。Java 中可用请求作用域或 <code>ThreadLocal</code>/MDC 关联当前线程，但必须在请求结束时清理；线程池异步任务不能指望上下文自动传播，应显式传递必要字段。日志落库时还要按业务需要考虑与主操作的事务关系，以及重复写入的幂等性。</p>
+<p><strong>你的项目版待补充：</strong>认证方式是【JWT / Session / 其他】；用户 ID 从【具体对象】取得；日志写入方式是【AOP / 拦截器 / 业务代码】；异步任务是否有【上下文传递 / requestId】。只讲实际做过的部分。</p>
+<p><strong>深入理解：</strong>一次请求通常先经过鉴权过滤器或拦截器，服务端确认身份，再把用户 ID、请求 ID 与时间戳交给审计逻辑。时间建议记录明确时区的时间点，必要时统一用 UTC 存储，展示时再转换。并发的核心是上下文隔离：<code>ThreadLocal</code>/MDC 只绑定当前线程，线程池复用时漏清理会把上一请求的用户带到下一请求；异步任务换线程时又可能丢上下文。因此在 <code>finally</code> 清理，并对异步任务显式传递必要字段。日志若用于审计，还要明确主事务回滚时日志是否保留。</p></div></details>
+<details class="qa-card" id="q-13" data-category="4"><summary><span class="q-number">13</span><span class="q-title">全链路日志、异常诊断、可观测性建设，具体做了什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答模板：</strong>我先把一次请求划分为入口、业务处理、外部依赖或工具调用、响应几个阶段，在入口生成或接收 <code>traceId</code>，各阶段记录结构化日志、耗时、结果和错误码；异常统一处理，记录根因与必要上下文，同时避免把密钥和敏感内容写入日志。再用成功率、错误率、P95 延迟等指标定位异常阶段，必要时关联链路追踪。遇到问题时，我能从请求 ID 定位哪一步失败、耗时多少、是否重试，而不只看到最终的 500。</p>
+<p><strong>你的项目版待补充：</strong>系统有【哪些服务/外部 API/Agent 工具】；实际采集了【日志/指标/追踪中的哪些】；定位过【一个真实故障】；优化前后【可核实的耗时或错误率】。如果只做了日志记录，不要称为完整的分布式追踪平台。</p>
+<p><strong>深入理解：</strong>把三个概念区分开：日志回答“发生了什么”，指标回答“总体是否异常”，追踪回答“一次请求在哪些阶段耗时”。一个可讲的排障链路是：先从错误率或 P95 延迟发现异常，按 <code>traceId</code> 找到慢请求，再看哪次数据库查询、外部 API 或 Agent 工具调用耗时或重试。记录结构化字段时要限制基数和敏感内容，错误码需可聚合；发生异常要保留根因堆栈，同时避免重复记录同一个错误。若项目只有日志与 requestId，就如实称为日志关联，不说自己建了完整可观测平台。</p></div></details>
+<details class="qa-card" id="q-14" data-category="4"><summary><span class="q-number">14</span><span class="q-title">MCP 网关是独立开发还是协作？Agent 记忆如何实现、如何评估和优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答模板：</strong>MCP 网关这部分是【我独立负责的模块 / 与团队协作】，我的具体职责是【协议接入、工具注册/路由、鉴权、超时重试、审计等真实内容】。MCP 提供工具、资源等接入方式；长期记忆是 Agent 应用层设计，不能说“用了 MCP 就有记忆”。记忆通常要明确写入、存储、检索、更新和删除链路：例如从对话中提取用户偏好或任务事实，存到【真实存储】，后续根据当前问题检索，再把相关内容送入模型，同时控制过期、冲突和隐私。</p>
+<p><strong>效果评估模板：</strong>准备固定问题集，覆盖“该记住、该忘记、冲突更新、不相关记忆”场景；与无记忆基线比较事实召回准确率、错误引用率、任务完成率、延迟和成本，再按错误案例改进提取规则、检索阈值、去重和更新策略。若尚未做过量化评估，应直接说“目前主要做了功能验证，系统评估是后续计划”，不要虚构提升百分比。<a href="https://ts.sdk.modelcontextprotocol.io/v2/">MCP 官方 SDK 概览</a></p>
+<p><strong>深入理解：</strong>回答项目职责时建议画清调用链：Agent 决定调用工具，网关负责发现/路由、鉴权、超时、错误转换和审计，具体工具执行外部动作；记忆模块则处理事实提取、存储、召回和遗忘。评估记忆不能只看模型“回答得像”：准备带标准答案的数据集，测记忆命中率、错误记忆注入率、冲突更新后的正确率，并与无记忆版本比较。一次失败案例要能说明原因属于提取遗漏、检索召回不足、排序错误还是模型没有使用记忆，再对应调整，而不是一概归因于提示词。</p></div></details></section>
+<section class="category" id="category-5"><div class="section-heading"><h2>五、AI 编程、提示词与新技术</h2><span class="section-count">4 题</span></div><details class="qa-card" id="q-15" data-category="5"><summary><span class="q-number">15</span><span class="q-title">你用 AI 写了多少代码？AI 代码有什么不足？你负责什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答模板：</strong>“我没有把 AI 生成行数当作质量指标。目前【项目/仓库】总量约【X】行，其中 AI 辅助起草约【Y】行，这个数字按【统计口径】估算；如果没有统计过，我会明确说没有可靠数字。AI 更适合生成样板、单元测试初稿和候选方案；它可能误解需求，调用不存在或不适用的 API，遗漏异常、边界、并发和安全问题，还可能写出可运行但难维护的代码。我的责任是定义需求和接口、审查设计与依赖、补边界处理、运行测试和性能验证，最终对合入代码负责。”</p>
+<p><strong>追问提醒：</strong>若被要求给数量，可先说明仓库总行数、本人贡献和 AI 辅助比例是不同口径；不要临场编造精确数字。</p>
+<p><strong>深入理解：</strong>如果面试官追问行数，可以先定义统计口径：仓库总行数、你提交的代码行数、AI 起草后保留的行数并不是一个数字。<code>git diff --stat</code> 或代码统计工具只能估算修改量，也不能证明每行由谁写。更能体现工程能力的答法是选一个真实模块，讲清需求由谁定义、AI 给了什么初稿、你发现了哪处问题、如何通过测试或评审修正。对性能、安全和并发路径，最终责任仍在提交者；没有记录时坦言无法可靠估计百分比。</p></div></details>
+<details class="qa-card" id="q-16" data-category="5"><summary><span class="q-number">16</span><span class="q-title">现在写代码主要靠 AI 吗？生成后还会深入学习技术点吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答模板：</strong>“我会用 AI 加快资料检索、方案对比和重复代码编写，但核心流程、数据结构、并发边界和故障处理要自己理解。生成后我会检查调用链和官方文档，亲手跑测试、看日志，针对不了解的部分做最小实验。比如【换成你亲自弄懂的一次技术问题】，我通过【源码/文档/测试】发现【具体问题】，最后改成【实际方案】。”</p>
+<p><strong>关键点：</strong>选一个能继续被追问的真实例子，例如 Redis 缓存失效、<code>ThreadLocal</code> 泄漏、索引回表或 SSE 断线重连；不要只说“我会认真学习”。</p>
+<p><strong>深入理解：</strong>准备一个“由 AI 代码引出的技术理解”故事，而不是口头保证会学习。例如 AI 给了一个缓存方案，你通过并发时序发现删缓存后仍可能被旧读写回，于是补上 TTL、失败重试和压测。面试官可能继续问你读了哪些源码、怎么设计最小复现、改动前后指标如何变化，所以只挑自己能解释调用路径和验证方法的例子。AI 可以降低写样板代码的时间，却不能替你承担需求取舍和上线后的故障分析。</p></div></details>
+<details class="qa-card" id="q-17" data-category="5"><summary><span class="q-number">17</span><span class="q-title">提示词优化做了什么？初版手写还是 AI 生成？模型不执行的原因和修改？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答模板：</strong>“初版由【自己编写 / AI 辅助起草】；我先明确任务、输入输出格式、工具使用条件和不能编造的边界，再收集模型失败案例。一次问题是【真实失败现象】，我判断原因是【指令冲突 / 上下文缺失 / 工具描述不清 / 示例不足 / 模型能力限制等有证据的原因】，于是修改了【具体位置】，用固定样例比较修改前后的正确率、格式遵循率和工具调用情况。”</p>
+<p><strong>追问提醒：</strong>模型不按提示词执行未必能只靠重写提示词解决；需要先看工具接口、上下文长度、输入质量、模型能力和采样设置。把“提示词改了很多”替换成可复现的失败案例与验证结果。</p>
+<p><strong>深入理解：</strong>提示词优化最好按实验讲：固定模型版本、采样参数和一组包含正常、边界、对抗输入的样例；只改一处指令或工具描述；记录格式错误、漏调工具、误调工具和任务成功数。若模型总在某一步跳过工具，先排查工具是否可见、参数 schema 是否清晰、上下文是否截断，再决定是否改提示词。对重要动作还应在程序侧做参数校验和结果验证，不能把可靠性全部押在自然语言指令上。项目中说“提升了 X%”前，准备好样例数和统计方式。</p></div></details>
+<details class="qa-card" id="q-18" data-category="5"><summary><span class="q-number">18</span><span class="q-title">最近接触的新技术是什么？Browser-Use 如何实现浏览器自动化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>“我最近了解了 Browser-Use 类浏览器 Agent：模型接收任务和当前网页状态，决定下一步导航、点击或输入；浏览器控制层执行动作，重新读取页面状态，形成‘观察—决策—执行—校验’循环。页面状态可来自 DOM、可访问性信息或截图；底层通过浏览器自动化接口控制页面。固定、稳定的步骤可写确定性脚本，动态页面或难以预先指定选择器的步骤再交给 Agent，并给动作设置权限、超时和结果校验。”</p>
+<p><strong>版本提醒：</strong>不要背“Browser-Use 一定基于 Playwright”：其官方工程文章说明项目曾从 Playwright 转向直接使用 CDP；具体实现要看你讨论的版本与集成方式。若你只做过调研，没有实际接入，就说清楚“我读过文档、做过最小实验”，不要声称上线。<a href="https://browser-use.com/developers">Browser Use 官方开发者页</a>、<a href="https://browser-use.com/posts/playwright-to-cdp">Browser Use 工程文章</a></p>
+<p><strong>深入理解：</strong>一个浏览器 Agent 的循环可以拆为：读取当前页面状态、选动作、执行、等待页面变化、验证目标是否达成；失败则重试、回退或请求人工介入。DOM/可访问性树适合定位文字和控件，截图适合识别视觉布局；动态页面中元素可能重排，因此动作后要重新观察，不能长期复用旧坐标。真实系统还要处理登录态、弹窗、超时、下载、敏感操作确认和站点限制。面试时明确自己是使用过框架、读过源码还是仅做过调研。</p></div></details></section>
+<section class="category" id="category-6"><div class="section-heading"><h2>六、大模型分布式与推理优化</h2><span class="section-count">15 题</span></div><details class="qa-card" id="q-19" data-category="6"><summary><span class="q-number">19</span><span class="q-title">C++ 指针与引用的区别是什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>指针是保存地址的对象，可为空、可改指向，使用时通常要解引用；引用是已存在对象的别名，定义时必须绑定对象，之后不能重新绑定。函数参数若只是读取且希望避免拷贝，可用 <code>const T&amp;</code>；需要表示“可能没有对象”或可能改指向时用指针。<code>const</code> 指针和指向 <code>const</code> 的指针要区分。引用也不是“永远安全”：返回局部变量的引用或让引用指向已销毁对象，都会产生悬垂引用。<strong>项目回答</strong>应举自己处理资源或函数接口的例子，不要只背语法。</p>
+<p><strong>深入理解：</strong>指针与引用在接口设计上的差别比定义更重要。<code>T*</code> 可以表达可选对象，调用前需检查空值；<code>T&amp;</code> 表达必须存在的对象，调用方更容易理解前置条件。<code>const T&amp;</code> 能避免大对象拷贝，但返回引用时要保证被引用对象的寿命长于调用方使用时间。资源管理不要把裸指针误当所有权：动态资源优先考虑 RAII、<code>unique_ptr</code> 或明确的生命周期约定；CUDA 分配出的显存也应有可靠释放路径。</p></div></details>
+<details class="qa-card" id="q-20" data-category="6"><summary><span class="q-number">20</span><span class="q-title">CUDA 的 Grid、Block、Warp、Thread 与存储层级是什么关系？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>CUDA kernel 的软件线程层级是 Grid → Block → Thread；同一 Block 的线程在硬件执行时会划分为 Warp，NVIDIA 常见 Warp 为 32 个线程。寄存器通常是线程私有，shared memory 由一个 Block 内线程共享，global memory 可被设备上的线程访问；L1/L2 是硬件缓存，不能简单把“Grid 对应显存、Block 对应缓存、Warp 对应寄存器”逐级硬配对。Block 在 SM 上执行；同一 Warp 的分支分歧可能让执行效率下降。优化还要看合并访存、共享内存 bank conflict、寄存器压力与占用率。<a href="https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/writing-cuda-kernels.html">CUDA 编程指南</a></p>
+<p><strong>深入理解：</strong>线程层级与存储层级是两套概念：Grid 是本次 kernel 的全部 Block，Block 内线程能通过 shared memory 协作并使用 block 级同步；Warp 是硬件调度分组，线程各自仍有寄存器。Global memory 容量大但访问延迟和带宽成本高；L2/L1 缓存、shared memory、寄存器能减少重复读写，但越靠近计算单元资源越紧张。优化一个 kernel 时应先从访存合并、数据复用与占用率分析，而不是简单认为“用了 shared memory 就一定快”；shared memory 过大或寄存器过多会减少并发驻留的 Block。</p></div></details>
+<details class="qa-card" id="q-21" data-category="6"><summary><span class="q-number">21</span><span class="q-title">什么是 Warp？是不是 32 个线程永远同步执行？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>Warp 是 GPU 调度和执行线程的基本分组，NVIDIA 当前常见大小为 32。Warp 内线程可以有各自的寄存器和控制流；遇到分支分歧时，硬件会分别执行分支路径并屏蔽不活跃线程，因此不能理解为“32 个线程在任何时刻都执行完全相同的语句”。需要线程协作时按 CUDA 的同步原语和内存可见性规则写，不能只凭 Warp 大小推断安全。<a href="https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/writing-cuda-kernels.html">CUDA SIMT 说明</a></p>
+<p><strong>深入理解：</strong>传统 SIMT 模型中一条 Warp 指令覆盖多个 lane；如果条件分支不同，两个路径往往都需要执行，只是各自屏蔽不参与的 lane，因此有效吞吐可能下降。现代 NVIDIA 架构支持更灵活的线程调度，这也说明不能以“天然锁步”为理由省掉必要同步。Warp 内交换数据可以用专门的 shuffle 等原语，但要正确设置参与线程掩码；跨 Warp 协作一般需要 block 级同步和 shared memory。面试举例时可说过滤条件导致同一 Warp 一半线程进入不同分支，可能降低执行效率。</p></div></details>
+<details class="qa-card" id="q-22" data-category="6"><summary><span class="q-number">22</span><span class="q-title">CUDA 内存泄漏通常怎么产生、怎么排查？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>泄漏是已申请的资源在生命周期结束时没有释放，常见于 <code>cudaMalloc</code> 成功后异常路径漏掉 <code>cudaFree</code>、反复初始化、句柄或流未销毁、缓存无上界增长。空指针本身不是内存泄漏，递归也不是 CUDA 泄漏的典型定义。先看显存是否随重复请求持续增长、区分框架的缓存分配器与真正泄漏，再做最小复现；自写 CUDA 代码可用 Compute Sanitizer 的 <code>memcheck --leak-check full</code> 辅助定位。C++ 工程中用 RAII 封装资源，检查所有返回与异常路径。<a href="https://docs.nvidia.com/compute-sanitizer/ComputeSanitizer/index.html">NVIDIA Compute Sanitizer</a></p>
+<p><strong>深入理解：</strong>显存持续增长先不要立刻下“泄漏”结论：PyTorch 或推理引擎常有缓存分配器，进程占用看似不降，但缓存可被复用。应记录重复相同负载下的已分配量、预留量和请求结束后的基线，区分正常缓存、碎片化、未释放引用与真正丢失分配。对自写 CUDA/C++ 路径，逐个核对 <code>cudaMalloc</code>、stream、event、库句柄等资源的创建和销毁；用最小复现与 sanitizer 找到具体申请栈。空指针更可能引发非法访问，而不是解释泄漏。</p></div></details>
+<details class="qa-card" id="q-23" data-category="6"><summary><span class="q-number">23</span><span class="q-title">27B 模型 BF16、FP8、INT4 权重显存分别多少？H200 单卡能放下吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>只估权重时用“参数量 × 每参数字节数”：27B × 2 B ≈ <strong>54 GB</strong>（约 <strong>50.3 GiB</strong>）；FP8 约 <strong>27 GB</strong>；理想的 4 bit 打包约 <strong>13.5 GB</strong>，不是 12 GB。实际量化检查点还可能有 scale、零点、未量化层与对齐开销。常见 H200 SXM 标称 141 GB HBM3e，单卡容纳 27B BF16 权重在容量上可行，但服务显存还包括 KV/其他状态、激活、临时工作区和引擎预留，不能由 54 GB 直接推出并发数或延迟。若 <code>gpu_memory_utilization=0.9</code>，它是引擎显存预算设置，不等于“90% 显存都给 KV”。<a href="https://docs.nvidia.com/enterprise-reference-architectures/hgx-ai-factory-h100-h200-b200/latest/components.html">NVIDIA H200 规格</a>、<a href="https://huggingface.co/Qwen/Qwen3.5-27B">Qwen3.5-27B 模型卡</a></p>
+<p><strong>深入理解：</strong>权重估算只是显存预算的第一步。推理时还需 KV Cache、激活、CUDA 图或临时工作区、框架管理开销；训练则另有梯度、优化器状态和保存给反向的激活，BF16 权重能放进 141 GB 不意味着单卡能做全参数训练。FP8/INT4 的实际大小与量化格式、scale/zero point、分组粒度、未量化模块有关。面试中可先算理论值，再明确“这是权重下界”，最后按服务配置与目标上下文、并发量去做实际显存测量。</p></div></details>
+<details class="qa-card" id="q-24" data-category="6"><summary><span class="q-number">24</span><span class="q-title">KV Cache 显存如何估算？为什么不能直接说“能支撑 30 多并发”？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>对标准全注意力 Transformer，可先用 <code>batch × token数 × 层数 × 2(K/V) × KV头数 × 每头维度 × 每元素字节数</code> 估算；TP 切分 KV 头、KV 量化、页式分配、前缀复用都会改变实际占用。<strong>Qwen3.5-27B 是混合结构</strong>：64 层中每 4 层有 1 层全注意力，即 16 层；全注意力层的 4 个 KV 头、head dim 256，若 KV 用 BF16，则这部分约 <code>16×2×4×256×2 = 65,536 B</code>，即 <strong>64 KiB/历史 token</strong>，此外还要算线性注意力状态和实现开销。这是基于官方模型配置的理论估算，不是该项目实测显存。</p>
+<p><strong>项目回答模板：</strong>“我测到在【硬件型号、卡数、引擎版本、精度、输入/输出长度分布、最大长度】条件下，约【30+】个并发请求能稳定运行；最大并发与上下文长度、输出长度和调度配置强相关，我当时没有做极限容量曲线，因此不会把这个数当作通用上限。”<a href="https://huggingface.co/Qwen/Qwen3.5-27B">Qwen3.5-27B 模型卡</a></p>
+<p><strong>深入理解：</strong>估算时先把“每历史 token 的字节数”和“同时驻留的 token 总数”分开。以上述 64 KiB/token 的全注意力部分为例，若 30 个请求各保留 4,096 个历史 token，单这部分理论上约 <code>30×4096×64 KiB ≈ 7.5 GiB</code>；实际总量还要加线性注意力状态、页分配和运行时开销，且请求长度并不都相同。要把这个估算与框架日志、显存曲线和压测相互校验。并发指标至少要说明输入/输出长度分布、并发定义、排队策略与延迟目标；“能跑 30 个请求”和“30 并发满足 SLA”不是同一结论。</p></div></details>
+<details class="qa-card" id="q-25" data-category="6"><summary><span class="q-number">25</span><span class="q-title">27B 模型单卡能放下，训练或推理如何选 DP、TP、PP、CP？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>先分训练和推理。<strong>推理</strong>若单卡能满足显存与延迟，可从单卡副本加数据并行扩吞吐开始；若单请求延迟、单卡算力或显存成为瓶颈，再测 TP/PP/CP 的收益与通信代价。<strong>训练</strong>即使权重能放下，梯度、优化器状态、激活通常也让全参数训练无法单卡完成；应先算总训练显存，考虑 DDP、FSDP/ZeRO、激活重计算和序列长度，再决定是否叠加 TP、PP、CP。TP 层内通信频繁，通常优先放在高速互联域；PP 可以跨机器，只是跨机激活传输和流水线气泡会增加代价，不能说“禁止跨机器”。CP 主要用于长序列压力，未遇到该瓶颈时不必默认使用。<a href="https://docs.nvidia.com/megatron-core/developer-guide/latest/user-guide/parallelism-guide.html">Megatron Core 并行策略</a></p>
+<p><strong>深入理解：</strong>可以用“先算容量，再算通信，再看性能”来回答并行选型。推理单卡可用时，多开副本常能提升总吞吐且避免 TP 每层通信；但若一个请求的计算延迟或显存超限，多副本不能解决，才考虑 TP/PP。全量训练常见 AdamW 优化器状态与梯度占用很大，因此权重 54 GB 只是总预算的一部分，ZeRO/FSDP 用于切分训练状态。TP 频繁进行层内通信，优先利用 NVLink 等高速互联；PP 的跨 stage 传输相对少但有流水线气泡，是否跨机由拓扑和实测决定。长序列激活压力突出时再评估 CP。</p></div></details>
+<details class="qa-card" id="q-26" data-category="6"><summary><span class="q-number">26</span><span class="q-title">PP 为什么有流水线气泡？micro-batch 应该调小吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>把网络层切成多个 stage 后，开始时后续 stage 需要等数据，结束时前面的 stage 又可能空闲，形成填充和排空的气泡。增加<strong>micro-batch 的数量</strong>通常能摊薄气泡比例；把单个 micro-batch 的样本数调小不等于一定减少气泡，还可能降低矩阵效率并增加调度开销。要在固定全局 batch 下同时考虑梯度累积、显存、stage 负载均衡和通信，比较每步耗时与有效吞吐。可以用交错流水线进一步减少气泡，但会增加通信和实现复杂度。<a href="https://docs.nvidia.com/megatron-core/developer-guide/latest/apidocs/core/core.model_parallel_config.html">Megatron Core 流水线配置</a></p>
+<p><strong>深入理解：</strong>假设有 <code>p</code> 个流水线 stage、<code>m</code> 个 micro-batch，简单流水线的填充和排空使利用率受 <code>m/(m+p-1)</code> 一类关系影响；这是理解趋势的示意公式，不是所有 1F1B 或交错调度的精确效率。增加 micro-batch 数量通常能降低空闲比例，但 micro-batch 过小可能让矩阵乘法效率变差；增大数量也会改变梯度累积和内存压力。实际调参要固定全局 batch 与序列长度，分别测 stage 时间、气泡、通信与 tokens/s，再判断瓶颈是 stage 不平衡还是调度本身。</p></div></details>
+<details class="qa-card" id="q-27" data-category="6"><summary><span class="q-number">27</span><span class="q-title">NCCL 是什么？通信异常先查什么？IB/RDMA 起什么作用？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>NCCL 是 NVIDIA 的 GPU 间通信库，提供 All-Reduce、All-Gather、Reduce-Scatter、All-to-All 等集合通信，也支持点对点通信；训练中的梯度同步或 TP 通信可调用它。多机通信涉及网络拓扑与传输，InfiniBand/RDMA 是降低 CPU 参与、提升节点间数据传输效率的重要机制，但实际路径取决于硬件、驱动和配置。排障顺序：先确认所有 rank 的进程、world size、调用顺序和张量大小一致；再用小规模通信测试区分程序问题与链路问题；检查网卡/路由、IB 状态、拓扑和带宽；查看 NCCL 日志及 profiler。不要一上来盲改 NCCL 环境变量。<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html">NCCL 概览</a>、<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/networking_troubleshooting.html">网络排障</a></p>
+<p><strong>深入理解：</strong>定位 NCCL 问题可按三层分开。第一层是程序语义：rank/world size、通信组和集合调用顺序是否一致，否则一个 rank 等待另一个不同操作就会挂住。第二层是单机拓扑：GPU 间是 NVLink 还是 PCIe、有没有跨 NUMA；第三层是跨机网络：IB/RoCE 设备、路由、链路状态和带宽。先用 <code>nccl-tests</code> 或最小通信程序建立基线，再把真实训练的消息大小、并行组映射与 profiler 时间线对比；IB/RDMA 影响节点间传输，不能解决程序中的集合调用不匹配。</p></div></details>
+<details class="qa-card" id="q-28" data-category="6"><summary><span class="q-number">28</span><span class="q-title">TP=8 时 All-Reduce 在算什么？通信量怎么估？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>假设某一层把矩阵计算切到 8 个 rank，各 rank 得到同形状的部分结果 <code>y_r</code>，若下一步需要完整求和结果，则 <code>y = Σ(r=0..7) y_r</code>，All-Reduce 使 <strong>8 个 rank 都拿到相同的 y</strong>。是否需要这一操作以及每层做几次，要看列并行/行并行切分和实现，不能只说“切了注意力头就必然 All-Reduce”。若每 rank 输入张量大小为 <code>M</code> 字节，理想 ring All-Reduce 可视作 Reduce-Scatter + All-Gather，每 rank 传输量约 <code>2×(8−1)/8×M = 1.75M</code>（收发口径需说清）；实际耗时还受消息大小、算法、链路带宽/延迟、拓扑和计算重叠影响。<strong>例子：</strong><code>M=64 MiB</code> 时该简化模型约传输 <code>112 MiB/rank</code>。这是理论通信量，不是 NCCL 所有算法的固定数。<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html">NCCL 集合通信定义</a></p>
+<p><strong>深入理解：</strong>以行并行线性层为例，输入或权重按维度切成 8 份，各 rank 算出同一输出位置的部分和，需要求和后才能得到完整输出；All-Reduce 的结果在每个 rank 上相同。列并行层得到的是不同输出分片，后续如果仍能分片计算，未必立刻 All-Reduce。估算通信时先写出张量形状，例如 batch×sequence×hidden，再乘元素字节数得 <code>M</code>；ring 算法每 rank 的传输量约 <code>2(p-1)M/p</code>，但小消息可能由延迟主导，大消息才更接近带宽主导，NCCL 也可能选其他算法。</p></div></details>
+<details class="qa-card" id="q-29" data-category="6"><summary><span class="q-number">29</span><span class="q-title">PD 分离与分块 Prefill 分别解决什么？一定提升吞吐吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>PD 分离让 Prefill 和 Decode 在不同实例运行，并传递 KV/相关状态，使两阶段能按各自负载调资源，重点看 TTFT、token 间延迟和尾延迟。它增加传输、路由与维护成本，不能保证吞吐提高。分块 Prefill 是在同一服务调度中把长 Prefill 拆块，使它能与 Decode 请求交错编排；需要调块大小和 token 预算。两者可按负载特点对比，也不必断言“VLM 一律用某方案”。<strong>这次总结中“PD 分离提升吞吐”的回答应改成条件性表述</strong>；vLLM 官方文档明确说明其分离实现并不以提高吞吐为保证。<a href="https://docs.vllm.ai/en/latest/features/disagg_prefill/">vLLM PD 分离</a>、<a href="https://docs.vllm.ai/en/v0.18.1/configuration/optimization/">分块 Prefill</a></p>
+<p><strong>深入理解：</strong>两种方案处理的问题不同：PD 分离把 Prefill 和 Decode 放到不同资源池，适合两阶段负载比例差异明显、希望分别调度或隔离延迟的场景，但要付出 KV 传输和路由成本；分块 Prefill 在同一调度器里切长提示，使 Decode 不必一直等一个长 Prefill。选型不能靠流行方案，应该固定请求长度分布和到达率，对比 TTFT、TPOT、P95/P99、吞吐以及 GPU 利用率。若 Prefill 很短或 KV 传输代价高，PD 分离可能不划算。</p></div></details>
+<details class="qa-card" id="q-30" data-category="6"><summary><span class="q-number">30</span><span class="q-title">FlashAttention 除了算子融合，还有什么关键优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>核心是 <strong>I/O 感知的分块计算</strong>：把 Q/K/V 分块放到片上 SRAM/寄存器中复用，尽量不把完整的 <code>N×N</code> 注意力分数矩阵写回 HBM；用<strong>在线 softmax</strong>维护运行中的最大值与归一化和，保证分块后仍能计算精确注意力。反向传播中还可选择重算部分中间量以省存储。算子融合是实现效果的一部分，但只说“融合”遗漏了分块与在线 softmax。它主要降低中间结果的存储和 HBM 读写，不代表注意力本身的理论二次计算量消失。<strong>Qwen3.5-27B 是混合层结构，不能默认每层都运行标准全注意力 FlashAttention kernel。</strong><a href="https://arxiv.org/abs/2205.14135">FlashAttention 原论文</a>、<a href="https://huggingface.co/Qwen/Qwen3.5-27B">Qwen 模型卡</a></p>
+<p><strong>深入理解：</strong>普通实现常把 <code>QK^T</code> 的完整分数矩阵写到 HBM，做 softmax 后再读出参与乘 V，序列长度为 N 时这个中间矩阵是 N×N。FlashAttention 分块处理 Q/K/V，把块留在片上，并用在线 softmax 的最大值和归一化和逐块更新，避免物化完整矩阵；反向时可用重算换存储。它是精确注意力算法，主要降低 HBM I/O 与中间内存占用，计算量级仍随全注意力的序列长度近似二次增长。能否加速还依赖 head dim、序列长度、硬件及 kernel 实现。</p></div></details>
+<details class="qa-card" id="q-31" data-category="6"><summary><span class="q-number">31</span><span class="q-title">多机训练慢，如何做全链路性能排查？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>先固定模型、数据长度分布、全局 batch、并行配置、节点拓扑和软件版本，拿到单机/少卡基线；把每步拆成数据加载、CPU 调度、H2D 拷贝、前向/反向 kernel、梯度同步、优化器更新和 checkpoint。用 profiler 看 GPU 时间线中计算与通信是否真正重叠、各 rank 是否等待最慢者；再跑 NCCL 通信基准确认链路能力。若通信占比高，查拓扑、消息大小、TP/DP 分组和 overlap；若 GPU 空转，先查数据管线和 CPU；若算子慢，再看形状、精度、融合与访存。一次只改变一个因素，并报告 <strong>step time、tokens/s、扩展效率、显存峰值</strong>。不能未经测量就先认定是 NCCL。<a href="https://docs.pytorch.org/docs/stable/distributed.html">PyTorch 分布式诊断</a>、<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html">NCCL 排障</a></p>
+<p><strong>深入理解：</strong>一套可信的排查过程要先确认测量口径：每步 token 数、梯度累积、数据长度分布与预热是否一致。若所有 GPU 都周期性空转，可能是数据读取或 checkpoint；若某些 rank 提前结束而等待，查负载不均和同步点；若通信条带很长，比较 <code>nccl-tests</code> 与训练实际消息大小，并检查 TP/DP 组是否跨了慢链路。优化后不能只报 GPU 利用率，应该同时报告稳定阶段的 step time、有效 tokens/s、P95 step time、峰值显存和规模扩展效率，并确认精度与收敛行为没有受损。</p></div></details>
+<details class="qa-card" id="q-32" data-category="6"><summary><span class="q-number">32</span><span class="q-title">TTFT 高、TPOT 高各说明什么？怎么定位推理瓶颈？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>TTFT 包括排队、网络、分词/预处理、Prefill、KV 分配及首步 Decode；高 TTFT <strong>不能直接等于算力瓶颈</strong>。TPOT/ITL 受 Decode kernel、权重与 KV 读取、batch、通信、调度和流式传输影响；高 TPOT <strong>也不能直接等于带宽瓶颈</strong>。先固定输入/输出长度、并发、模型精度和缓存命中率，拆请求时间线；再用 profiler 与硬件计数器判断计算、带宽、通信或调度瓶颈。增大 batch 往往提高吞吐，但可能使等待和尾延迟变差；连续批处理有助于动态加入/退出请求，收益仍需压测验证。<a href="https://docs.vllm.ai/en/stable/configuration/optimization/">vLLM 优化文档</a></p>
+<p><strong>深入理解：</strong>定位 TTFT 时把客户端测到的总等待拆成网络往返、服务排队、预处理、Prefill 和首个 Decode token；若高并发下 TTFT 才变差，应先看排队和调度，不能直接调 kernel。TPOT 则要按输出 token 的时间间隔统计，并观察长度、batch 与缓存占用；若请求越多 TPOT 越高，可能是显存带宽、通信或调度竞争。比较方案时固定模型、量化精度、提示长度、生成长度、并发和前缀缓存状态，并同时报告 P50/P95，而非单个平均值。</p></div></details>
+<details class="qa-card" id="q-33" data-category="6"><summary><span class="q-number">33</span><span class="q-title">为什么选分布式优化岗位？缺少多卡训练经验怎么回答？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答模板：</strong>“我在【真实 H200 部署项目】中做过【自己负责的部署/性能测试工作】，由此发现单机推理指标之外还有多卡通信、显存规划与并行效率问题，所以希望深入分布式优化。我目前的实操主要在【真实范围】，没有独立完成过多机训练优化，不会把推理部署经验说成训练经验。我已在学习【亲自读过的框架代码/论文/实验】，能说明一个具体配置的通信与显存代价。进入岗位后，会先复现基线和 profiling，再参与定位和优化。”</p>
+<p><strong>回答方式：</strong>尽量用一个亲手测过的变量说明选择，例如“把并发从 A 调到 B，TTFT/TPOT/显存分别如何变化、为什么”。若没有原始记录，就保留方向性结论，不报精确改善数字。面试官指出“偏背诵”，意味着要能解释<strong>约束 → 方案 → 代价 → 实测证据</strong>，而非重复术语。</p>
+<h3>本次必须核对的项目事实</h3>
+<ol>
+<li>模型检查点的确切名称/版本、是否带视觉编码器、部署引擎与版本、H200 卡数和型号。</li>
+<li>“TTFT &lt;400 ms、平均 token &lt;20 ms、30 多并发”各自的输入/输出长度、并发压测方法、P50/P95/P99、是否预热与是否命中前缀缓存。</li>
+<li><code>90%</code> 指什么配置项；实际权重、KV、其他状态和引擎预留的显存观测值。</li>
+<li>Agent 项目“86%→96%、460+ 秒→120 秒”的评测任务数、成功定义、重复次数、本人负责的改动。</li>
+<li>CUDA 内存泄漏是否真在项目中发生、如何定位；没有真实案例就回答一般排查方法。</li>
+</ol>
+<p><strong>深入理解：</strong>这道题面试官想确认的是你是否知道能力边界、能否把已有经验迁移到训练系统。回答可以沿“亲历问题→发现底层瓶颈→补知识与实验→岗位匹配”展开：先讲自己在部署中亲手观察的一个显存或延迟现象，再说明从中理解了并行、通信与调度为何重要；明确多机训练目前主要是阅读和实验，不说成生产优化经历。最后准备一个可被追问的开源项目：解释配置为何使用某种并行策略、出现哪类瓶颈时会采集哪些指标，而不是只列框架名。</p></div></details></section>
+      <footer class="footer">个人面试复习资料。项目经历中的待核实字段请按真实情况填写，技术结论请结合版本与来源判断。</footer>
+    </main>
+  </div>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const search = document.querySelector('#search');
+      const cards = [...document.querySelectorAll('.qa-card')];
+      const sections = [...document.querySelectorAll('.category')];
+      const count = document.querySelector('#result-count');
+      const empty = document.querySelector('#empty');
+      const allButton = document.querySelector('#toggle-all');
+      const themeButton = document.querySelector('#theme-toggle');
+      let savedTheme = null;
+      try { savedTheme = localStorage.getItem('interview-notes-theme'); } catch (_) { /* file URL privacy mode */ }
+      if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+      else if (matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+
+      function updateThemeLabel() {
+        themeButton.textContent = root.dataset.theme === 'dark' ? '浅色模式' : '深色模式';
+      }
+      function updateAllLabel() {
+        const visible = cards.filter(card => !card.hidden);
+        allButton.textContent = visible.length && visible.every(card => card.open) ? '折叠全部' : '展开全部';
+      }
+      function filter() {
+        const query = search.value.trim().toLocaleLowerCase();
+        let shown = 0;
+        for (const card of cards) {
+          const match = !query || card.textContent.toLocaleLowerCase().includes(query);
+          card.hidden = !match;
+          if (match) shown++;
+        }
+        for (const section of sections) section.hidden = !section.querySelector('.qa-card:not([hidden])');
+        count.textContent = query ? `找到 ${shown} / ${cards.length} 道题` : `共 ${cards.length} 道题`;
+        empty.hidden = shown !== 0;
+        updateAllLabel();
+      }
+      search.addEventListener('input', filter);
+      allButton.addEventListener('click', () => {
+        const visible = cards.filter(card => !card.hidden);
+        const shouldOpen = !visible.every(card => card.open);
+        for (const card of visible) card.open = shouldOpen;
+        updateAllLabel();
+      });
+      document.addEventListener('toggle', event => {
+        if (event.target.matches?.('.qa-card')) updateAllLabel();
+      }, true);
+      themeButton.addEventListener('click', () => {
+        root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        try { localStorage.setItem('interview-notes-theme', root.dataset.theme); } catch (_) { /* keep current theme */ }
+        updateThemeLabel();
+      });
+      updateThemeLabel();
+      filter();
+    })();
+  </script>
+</body>
+</html>
