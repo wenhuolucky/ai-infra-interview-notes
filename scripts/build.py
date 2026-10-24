@@ -38,7 +38,7 @@ def extract_questions(source: str) -> tuple[list[tuple[str, list[dict[str, str]]
         current_title, current_number, current_lines = None, None, []
 
     for line in source.splitlines():
-        category_match = re.match(r"^## ([一二三四五六]、.+)$", line)
+        category_match = re.match(r"^## ([一二三四五六七八九十]+、.+)$", line)
         question_match = re.match(r"^### (\d+)\. (.+)$", line)
         if category_match:
             finish()
@@ -59,8 +59,8 @@ def extract_questions(source: str) -> tuple[list[tuple[str, list[dict[str, str]]
 
     finish()
     numbers = [int(q["number"]) for _, group in categories for q in group]
-    if numbers != list(range(1, 34)):
-        raise ValueError(f"Expected questions 1–33 exactly once, got {numbers}")
+    if numbers != list(range(1, len(numbers) + 1)):
+        raise ValueError(f"Expected sequential question numbers exactly once, got {numbers}")
     return categories, extras
 
 
@@ -70,7 +70,10 @@ def build() -> None:
     sections = []
     for index, (name, group) in enumerate(categories, start=1):
         category_id = f"category-{index}"
-        display_name = "六、大模型分布式与推理优化" if index == 6 else name
+        display_name = {
+            6: "六、大模型分布式与推理优化",
+            7: "七、Java 业务与 Agent 实战",
+        }.get(index, name)
         safe_name = html.escape(display_name)
         nav.append(f'<a class="nav-link" href="#{category_id}"><span>{safe_name}</span><small>{len(group)}</small></a>')
         cards = []
@@ -90,9 +93,13 @@ def build() -> None:
         )
 
     template = (ROOT / "scripts" / "template.html").read_text(encoding="utf-8")
-    page = template.replace("<!-- NAV -->", "\n".join(nav)).replace("<!-- QUESTIONS -->", "\n".join(sections))
+    question_count = sum(len(group) for _, group in categories)
+    page = (template.replace("<!-- NAV -->", "\n".join(nav))
+            .replace("<!-- QUESTIONS -->", "\n".join(sections))
+            .replace("__COUNT__", str(question_count))
+            .replace("__CATEGORIES__", str(len(categories))))
     OUTPUT.write_text(page, encoding="utf-8")
-    print(f"Generated {OUTPUT} ({sum(len(group) for _, group in categories)} questions)")
+    print(f"Generated {OUTPUT} ({question_count} questions)")
 
 
 if __name__ == "__main__":

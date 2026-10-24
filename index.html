@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>面经题库 · 33 道近期面试题</title>
+  <title>面经题库 · 39 道近期面试题</title>
   <style>
     :root {
       color-scheme: light;
@@ -117,8 +117,9 @@
 <a class="nav-link" href="#category-3"><span>三、网络通信</span><small>1</small></a>
 <a class="nav-link" href="#category-4"><span>四、项目工程与可观测性</span><small>3</small></a>
 <a class="nav-link" href="#category-5"><span>五、AI 编程、提示词与新技术</span><small>4</small></a>
-<a class="nav-link" href="#category-6"><span>六、大模型分布式与推理优化</span><small>15</small></a></nav>
-      <p class="sidebar-foot">33 道问题 · 6 个类别<br>先口述，再展开答案。</p>
+<a class="nav-link" href="#category-6"><span>六、大模型分布式与推理优化</span><small>15</small></a>
+<a class="nav-link" href="#category-7"><span>七、Java 业务与 Agent 实战</span><small>6</small></a></nav>
+      <p class="sidebar-foot">39 道问题 · 7 个类别<br>先口述，再展开答案。</p>
     </aside>
     <main class="main" id="top">
       <span class="eyebrow">面试复盘 / 系统复习</span>
@@ -132,7 +133,7 @@
         <button class="tool-button" id="toggle-all" type="button">展开全部</button>
         <button class="tool-button" id="theme-toggle" type="button" aria-label="切换深浅色">深色模式</button>
       </div>
-      <div class="summary-line"><span id="result-count" role="status">共 33 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
+      <div class="summary-line"><span id="result-count" role="status">共 39 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
       <div id="empty" hidden>没有找到相关题目。试试更短的关键词。</div>
       <section class="category" id="category-1"><div class="section-heading"><h2>一、Java 集合与并发</h2><span class="section-count">6 题</span></div><details class="qa-card" id="q-1" data-category="1"><summary><span class="q-number">01</span><span class="q-title">ArrayList 和 LinkedList 有什么区别？哪个用得多？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong><code>ArrayList</code> 底层是可扩容数组，按下标访问是 O(1)，顺序遍历通常也更快；在中间插入或删除元素，需要移动后续元素。<code>LinkedList</code> 是双向链表，已定位到节点后增删节点可以是 O(1)，但按下标查找是 O(n)，每个节点还有指针开销。普通业务中我会优先选 <code>ArrayList</code>；只有频繁在两端操作、并且链表的使用方式确实合适时才考虑 <code>LinkedList</code>，队列场景也会比较 <code>ArrayDeque</code>。两者都不是天然线程安全的。</p>
 <p><strong>追问提醒：</strong>不要笼统说“LinkedList 插入一定比 ArrayList 快”：如果要先按下标找到插入位置，查找成本仍是 O(n)。<a href="https://docs.oracle.com/javase/tutorial/collections/implementations/list.html">Oracle 集合教程</a></p>
@@ -287,7 +288,24 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <li>Agent 项目“86%→96%、460+ 秒→120 秒”的评测任务数、成功定义、重复次数、本人负责的改动。</li>
 <li>CUDA 内存泄漏是否真在项目中发生、如何定位；没有真实案例就回答一般排查方法。</li>
 </ol>
-<p><strong>深入理解：</strong>这道题面试官想确认的是你是否知道能力边界、能否把已有经验迁移到训练系统。回答可以沿“亲历问题→发现底层瓶颈→补知识与实验→岗位匹配”展开：先讲自己在部署中亲手观察的一个显存或延迟现象，再说明从中理解了并行、通信与调度为何重要；明确多机训练目前主要是阅读和实验，不说成生产优化经历。最后准备一个可被追问的开源项目：解释配置为何使用某种并行策略、出现哪类瓶颈时会采集哪些指标，而不是只列框架名。</p></div></details></section>
+<hr /></div></details></section>
+<section class="category" id="category-7"><div class="section-heading"><h2>七、Java 业务与 Agent 实战</h2><span class="section-count">6 题</span></div><details class="qa-card" id="q-34" data-category="7"><summary><span class="q-number">34</span><span class="q-title">如何用自我介绍把 Java 后端、Agent 和 RAG 经历讲成一条主线？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答模板：</strong>“我目前的经历有两条相互补充的主线。Java 后端方面，我在【真实项目】负责【本人完成的接口、订单、缓存或数据库工作】，遇到【一个可复现的业务问题】，通过【具体设计或排查】解决，并用【测试、指标或业务结果】验证。Agent/RAG 方面，我在【真实实习项目】负责【明确的模块】，重点处理【例如工具重复调用、图像资料检索或效果评估】。这些经历让我理解，Agent 最终仍要接入稳定的业务接口、权限、数据和可观测体系。我希望以 Java 业务开发为基础，在确实适合的审核、清洗或客服场景接入 Agent。”</p>
+<p><strong>深入理解：</strong>回答顺序建议是“岗位匹配 → 一个最能深挖的项目 → 挑战与本人行动 → 可核实结果 → 岗位动机”，控制在 60～90 秒。项目描述要分清业务目标、团队整体成果和个人职责；不能把同事负责的视频识别、鱼类追踪讲成自己完成，也不能把 Python Agent 经验等同于 Java 生产开发。若面试官问“收获”，讲一个工程决策的变化，例如从仅看模型是否返回答案，转向定义成功状态、失败类型、限流和回滚。简历、面经转述中的学校名称及成功率口径出现过不一致，面试前必须以简历和原始评测记录统一，不要临场拼接数字。</p>
+<p><strong>追问准备：</strong>为 Java 项目准备一个真实的接口或 SQL 调用链，为 Agent 项目准备一个失败轨迹及修复证据，为 RAG 项目准备一条从数据入库到检索回答的链路。没有精确实验记录时说“做过功能验证，尚无可靠量化对比”。</p></div></details>
+<details class="qa-card" id="q-35" data-category="7"><summary><span class="q-number">35</span><span class="q-title">自动化 Agent 与传统脚本的核心区别是什么？如何防止重复调用工具和错误重试？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>脚本适合页面和规则稳定、步骤可穷举的流程；Agent 更适合根据当前页面状态、工具结果和异常反馈动态选择下一步。但“用了大模型”不代表更可靠：登录、发布、保存草稿等动作应定义成可观测的状态转移，模型负责不确定部分的判断，程序负责权限、次数、超时和结果校验。比如平台达到当日发文额度后保存为草稿，系统应把它识别为 <code>DRAFT_LIMIT</code> 一类终态，停止发布并上报，而不是把“工具返回成功”误算为“发文成功”。</p>
+<p><strong>深入理解：</strong>每次任务需要唯一 ID，记录目标平台、内容版本、当前状态、工具调用次数和已发生的外部副作用。给全流程设置最大步数、最大耗时和预算；给单工具设置超时与有限重试。网络抖动、限流等暂时性错误可按退避策略重试；额度用尽、权限不足、验证码要求等需要等待条件变化或人工处理，不能无限重试。发布动作重试前要查平台当前状态或使用可用的幂等标识，避免重复发布。验证码应走平台允许的人工校验或正式接口流程，不能把规避风控当作方案优势。观察指标包括“最终发布成功率、草稿误判率、重复发布率、平均工具调用次数、人工接管率和 P95 耗时”。<a href="https://docs.langchain.com/oss/javascript/langgraph/thinking-in-langgraph">LangGraph 错误处理与人工接管</a></p>
+<p><strong>面试追问：</strong>如果脚本同样可以写状态机和异常分支，Agent 的价值在哪里？回答应是“面对未预先枚举、但可通过页面语义判断的状态时，能减少大量页面特定分支维护”；代价是模型成本、非确定性和更严格的监控需求。不能说 Agent 不需要设计异常场景。</p></div></details>
+<details class="qa-card" id="q-36" data-category="7"><summary><span class="q-number">36</span><span class="q-title">图像 RAG 知识库从视频采集到用户问答，完整链路怎样设计？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>先讲职责边界：摄像头视频由上游采集、抽帧、检测、裁剪与标注；我负责的是收到鱼类图片和标签后的知识入库、检索与回答环节。入库时保留图片原文件在对象存储，把图片 ID、来源视频与时间、物种标签、标注置信度、版本和访问路径作为元数据；按查询方式生成图像向量，或生成图片描述后做文本向量。查询时先判断用户是“根据图片找相似鱼种”还是“根据文字问生态知识”，分别选择匹配的编码与召回链路，必要时融合结果，再重排、取回原图或出处交给模型生成带证据的回答。</p>
+<p><strong>深入理解：</strong>“图片摘要进向量库、原图进对象存储”是可行的存储分工，但<strong>文本摘要向量不能天然代表视觉相似度</strong>；以图搜图需要能编码图像的模型及配套查询向量。业务关键是物种误识别的代价：低置信样本应人工复核，图片与标签要可追溯到采集批次；同一条鱼的连续帧要去重或按事件聚合，以免检索结果被近重复图片占满。索引更新要处理对象存储与向量库之间的一致性，删除或修正标签时同步更新向量和元数据。<a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/retrieval-augmented-generation-options/rag-custom-retrievers.html">AWS RAG 检索器概览</a></p>
+<p><strong>需要纠正的说法：</strong>把高匹配结果机械放在上下文首尾不是“利用注意力机制进行重排”。研究中观察到部分模型在长上下文中对中间证据利用较弱，但不能据此代替相关性排序。先用检索分数、元数据过滤或重排模型选准少量证据，再用固定测试集比较不同排序与上下文长度的答案质量。<a href="https://arxiv.org/abs/2307.03172">Lost in the Middle 原论文</a></p></div></details>
+<details class="qa-card" id="q-37" data-category="7"><summary><span class="q-number">37</span><span class="q-title">客服类 RAG 与 Agent 系统怎样评估效果，并据此优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>先定义真实业务目标和测试集，再把链路拆开测。RAG 检索层准备“问题—相关文档/证据”标注，测 <code>Recall@k</code>、<code>Precision@k</code> 或排序指标；生成层测答案正确性、证据支持程度、该拒答时是否拒答。Agent 层测实际问题解决率、错误路由率、工具调用成功率、重复调用和人工接管率。体验层同时看 TTFT、端到端 P50/P95、成本和高峰并发，不能只凭“前 10 条看起来准”或首 Token 快就下结论。</p>
+<p><strong>深入理解：</strong>测试集要按意图、资料新旧、长短问题、多轮追问、无答案和异常工具响应分层。若相关证据没有进入 Top-k，先查数据切片、标签、图片描述或召回策略；证据已召回但答案错，查重排、上下文构造、模型推理和引用；Agent 路由错，查意图分类样例与阈值；任务失败但每个工具都返回成功，则查状态定义和跨工具业务验证。多路召回不必对所有问题全部开启：先用意图识别决定文本、图片、结构化数据中哪些路需要参与，再对结果去重、融合、重排，并在上下文预算内保留证据。多路召回、子 Agent 路由、记忆或提示词优化都应做消融：固定同一批题，仅改一个环节，与简单基线比较收益、延迟和成本。线上抽样人工复核，并把失败案例回流离线集。<a href="https://docs.langchain.com/langsmith/evaluation-types">LangSmith 离线与在线评估</a></p>
+<p><strong>避免误答：</strong><code>Recall@10</code> 与 <code>Precision@10</code> 不同：前者问“应找到的证据有多少被找到”，后者问“返回的十条里有多少相关”。“业务解决率”须定义分母、判定标准和人工复核规则；如果项目没做过这套评估，应作为可落地的改进方案陈述，不编造已完成结果。</p></div></details>
+<details class="qa-card" id="q-38" data-category="7"><summary><span class="q-number">38</span><span class="q-title">Java 线程池的核心线程数和最大线程数怎么定？浏览器任务并发如何限制？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>先弄清瓶颈来自 CPU、I/O、内存、浏览器实例、IP/平台额度中的哪一个，再根据任务到达率、处理耗时、峰值、排队容忍度和机器资源压测。<code>ThreadPoolExecutor</code> 除核心线程数和最大线程数外，<strong>队列容量与拒绝策略同样关键</strong>：达到核心线程数后通常先入队，队列满了才扩到最大线程数；若使用无界队列，最大线程数通常不会发挥作用。对于浏览器任务，线程数不等于浏览器并发数，应再用信号量或资源池限制活跃浏览器实例。</p>
+<p><strong>深入理解：</strong>若一个浏览器及其子进程峰值约占 2 GiB，服务器总内存 16 GiB，简单算 <code>16/2=8</code> 只是理论上界；JVM、操作系统、缓存和突发峰值还要预留空间，因此不能直接推断“8 个核心线程安全地对应 8 个浏览器”。可以先设可用内存预算 <code>M_budget</code>，按实测浏览器峰值 <code>M_browser</code> 计算资源并发上界 <code>floor(M_budget/M_browser)</code>，再与平台额度和压测结果取更小值。队列必须有界，任务入队后要能查看排队时长；饱和时采用明确的拒绝、降级或稍后重试策略，不要无限堆积。监控活跃线程、队列长度、等待时间、浏览器峰值内存和任务完成率，再调整参数。<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html">Oracle <code>ThreadPoolExecutor</code> 文档</a></p>
+<p><strong>项目口径：</strong>录音里的“核心 8、最大 32”和“每浏览器约 2G”可以作为你当时的配置和观测陈述，但须核对机器总内存、队列类型与容量、同时存活浏览器数量、是否有独立的浏览器并发限制。没有这些条件，不能证明配置合理。</p></div></details>
+<details class="qa-card" id="q-39" data-category="7"><summary><span class="q-number">39</span><span class="q-title">面对慢 SQL 和多表联查，如何按证据逐步优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><p><strong>参考回答：</strong>先拿到慢 SQL、真实参数、数据量与 P95 耗时，复现后看 <code>EXPLAIN</code>，必要时在安全环境对 <code>SELECT</code> 用 <code>EXPLAIN ANALYZE</code> 比较估算行数与实际耗时。先判断慢在哪里：扫描太多、连接后结果膨胀、排序/临时表、回表过多，还是锁等待。对连接查询重点看连接条件的类型是否一致、过滤条件能否尽早生效、相关索引是否有效、实际连接顺序与每步行数。根据证据选择改索引、改写查询、减少返回列或调整数据模型，每次只改一项再复测。</p>
+<p><strong>深入理解：</strong><code>key</code> 显示用了索引，不等于查询就快；还要看扫描行数、过滤率、回表量、排序及连接放大。连接字段上建索引通常有帮助，但不能把“强制小表驱动大表”当成普适规则；优化器会依数据分布选择计划，MySQL 也可能使用 hash join。若估算与实际差异大，可检查统计信息与数据倾斜。冗余字段或预计算只能在热点查询确实值得且能维护数据一致性时引入。最后验证结果集语义不变，并报告同一数据规模和并发下的耗时、扫描行数、CPU/IO 变化，而不是只报 <code>EXPLAIN</code> 的某一列。<a href="https://dev.mysql.com/doc/refman/8.4/en/using-explain.html">MySQL EXPLAIN 指南</a>、<a href="https://dev.mysql.com/doc/refman/8.4/en/explain.html">MySQL EXPLAIN ANALYZE</a>、<a href="https://dev.mysql.com/doc/refman/8.4/en/hash-joins.html">MySQL Hash Join</a></p></div></details></section>
       <footer class="footer">个人面试复习资料。项目经历中的待核实字段请按真实情况填写，技术结论请结合版本与来源判断。</footer>
     </main>
   </div>
