@@ -85,6 +85,10 @@
     .answer table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: 14px; }
     .answer th, .answer td { padding: 9px 12px; border: 1px solid var(--line); text-align: left; min-width: 110px; }
     .answer th { background: var(--soft); }
+    .answer blockquote { margin: 14px 0; padding-left: 13px; border-left: 3px solid var(--line); color: var(--muted); font-size: 13px; }
+    .review-notes { scroll-margin-top: 30px; margin-top: 52px; padding: 24px; border: 1px solid var(--line); border-radius: 13px; background: var(--panel); box-shadow: var(--shadow); }
+    .review-notes ol { padding-left: 1.5em; }
+    .review-notes li { margin: 9px 0; }
     #empty { margin: 42px 0; padding: 35px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); text-align: center; }
     .footer { margin-top: 65px; border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 13px; }
     @media (max-width: 850px) {
@@ -130,6 +134,7 @@
       <div class="summary-line"><span id="result-count" role="status">共 __COUNT__ 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
       <div id="empty" hidden>没有找到相关题目。试试更短的关键词。</div>
       <!-- QUESTIONS -->
+      <!-- NOTES -->
       <footer class="footer">个人面试复习资料。项目经历中的待核实字段请按真实情况填写，技术结论请结合版本与来源判断。</footer>
     </main>
   </div>

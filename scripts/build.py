@@ -65,16 +65,15 @@ def extract_questions(source: str) -> tuple[list[tuple[str, list[dict[str, str]]
 
 
 def build() -> None:
-    categories, _ = extract_questions(SOURCE.read_text(encoding="utf-8"))
+    source = SOURCE.read_text(encoding="utf-8")
+    categories, _ = extract_questions(source)
+    notes_match = re.search(r"^## 复习前核对的个人事实\s*$", source, re.M)
+    notes = markdown.markdown(source[notes_match.end():].strip()) if notes_match else ""
     nav = []
     sections = []
     for index, (name, group) in enumerate(categories, start=1):
         category_id = f"category-{index}"
-        display_name = {
-            6: "六、大模型分布式与推理优化",
-            7: "七、Java 业务与 Agent 实战",
-        }.get(index, name)
-        safe_name = html.escape(display_name)
+        safe_name = html.escape(name)
         nav.append(f'<a class="nav-link" href="#{category_id}"><span>{safe_name}</span><small>{len(group)}</small></a>')
         cards = []
         for question in group:
@@ -94,8 +93,11 @@ def build() -> None:
 
     template = (ROOT / "scripts" / "template.html").read_text(encoding="utf-8")
     question_count = sum(len(group) for _, group in categories)
+    if notes:
+        nav.append('<a class="nav-link" href="#review-notes"><span>复习前核对</span></a>')
     page = (template.replace("<!-- NAV -->", "\n".join(nav))
             .replace("<!-- QUESTIONS -->", "\n".join(sections))
+            .replace("<!-- NOTES -->", f'<section class="review-notes" id="review-notes"><h2>复习前核对的个人事实</h2>{notes}</section>' if notes else "")
             .replace("__COUNT__", str(question_count))
             .replace("__CATEGORIES__", str(len(categories))))
     OUTPUT.write_text(page, encoding="utf-8")
