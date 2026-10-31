@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>面经题库 · 45 道近期面试题</title>
+  <title>面经题库 · 49 道近期面试题</title>
   <style>
     :root {
       color-scheme: light;
@@ -117,14 +117,14 @@
       <a class="brand" href="#top"><span class="brand-icon">问</span><span><strong>面经题库</strong><small>Interview Notes · 离线版</small></span></a>
       <p class="side-label">分类目录</p>
       <nav class="nav"><a class="nav-link" href="#category-1"><span>一、Java 基础、并发与 JVM</span><small>10</small></a>
-<a class="nav-link" href="#category-2"><span>二、MySQL 索引、事务与查询</span><small>4</small></a>
+<a class="nav-link" href="#category-2"><span>二、MySQL 索引、事务与查询</span><small>5</small></a>
 <a class="nav-link" href="#category-3"><span>三、Redis、缓存与分布式治理</span><small>5</small></a>
 <a class="nav-link" href="#category-4"><span>四、网络、日志与可观测性</span><small>3</small></a>
-<a class="nav-link" href="#category-5"><span>五、Agent、RAG 与 AI 辅助开发</span><small>8</small></a>
+<a class="nav-link" href="#category-5"><span>五、Agent、RAG 与 AI 辅助开发</span><small>10</small></a>
 <a class="nav-link" href="#category-6"><span>六、CUDA、分布式训练与推理</span><small>13</small></a>
-<a class="nav-link" href="#category-7"><span>七、项目表达与岗位选择</span><small>2</small></a>
+<a class="nav-link" href="#category-7"><span>七、项目表达、工程方法与岗位选择</span><small>3</small></a>
 <a class="nav-link" href="#review-notes"><span>复习前核对</span></a></nav>
-      <p class="sidebar-foot">45 道问题 · 7 个类别<br>先口述，再展开答案。</p>
+      <p class="sidebar-foot">49 道问题 · 7 个类别<br>先口述，再展开答案。</p>
     </aside>
     <main class="main" id="top">
       <span class="eyebrow">面试复盘 / 系统复习</span>
@@ -139,7 +139,7 @@
         <button class="tool-button" id="toggle-all" type="button">展开全部</button>
         <button class="tool-button" id="theme-toggle" type="button" aria-label="切换深浅色">深色模式</button>
       </div>
-      <div class="summary-line"><span id="result-count" role="status">共 45 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
+      <div class="summary-line"><span id="result-count" role="status">共 49 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
       <div id="empty" hidden>没有找到相关题目。试试更短的关键词。</div>
       <section class="category" id="category-1"><div class="section-heading"><h2>一、Java 基础、并发与 JVM</h2><span class="section-count">10 题</span></div><details class="qa-card" id="q-1" data-category="1"><summary><span class="q-number">01</span><span class="q-title">ArrayList 和 LinkedList 有什么区别？哪个用得多？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
@@ -210,7 +210,7 @@ public void update() {
 </blockquote>
 <p><strong>参考回答：</strong>常见三级结构是已完成单例对象、提前暴露的单例对象、用于生成早期引用的工厂。针对部分单例的属性/Setter 循环依赖，容器先实例化 A，再把 A 的早期引用工厂暴露出去；创建 B 时可取得 A 的早期引用，完成 B 后再给 A 注入 B。构造器循环依赖 <code>A(B)</code> 与 <code>B(A)</code> 则在<strong>实例化之前</strong>就互相等待，A 还没有可暴露的实例，三级缓存也无从提供早期引用。正确办法优先是拆开职责、抽取共同依赖；确有延迟获取需要时再谨慎考虑延迟注入。<a href="https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html">Spring 循环依赖文档</a>、<a href="https://github.com/spring-projects/spring-framework/blob/main/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java">Spring 单例缓存源码</a></p>
 <p><strong>追问边界：</strong>并非所有属性注入的循环依赖都能解决，例如作用域、代理和框架配置会影响结果；三级缓存中的工厂也服务于提前代理引用，不只是“多存一层”。</p></div></details></section>
-<section class="category" id="category-2"><div class="section-heading"><h2>二、MySQL 索引、事务与查询</h2><span class="section-count">4 题</span></div><details class="qa-card" id="q-11" data-category="2"><summary><span class="q-number">11</span><span class="q-title">事务隔离级别有哪些？默认是什么？各解决什么问题？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-2"><div class="section-heading"><h2>二、MySQL 索引、事务与查询</h2><span class="section-count">5 题</span></div><details class="qa-card" id="q-11" data-category="2"><summary><span class="q-number">11</span><span class="q-title">事务隔离级别有哪些？默认是什么？各解决什么问题？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>参考回答：</strong>SQL 常见四级如下；如果问的是 <strong>MySQL InnoDB</strong>，默认是 <code>REPEATABLE READ</code>（可重复读），实际环境仍可用 <code>SELECT @@transaction_isolation;</code> 确认。</p>
@@ -265,20 +265,25 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>参考回答：</strong>在 InnoDB 中，查询先命中二级索引，但所需列不全在该索引中时，需要取出主键，再到聚簇索引找整行，这一步通常叫回表。减少回表可让高频查询使用合适的覆盖索引，只查需要的列、避免无必要的 <code>SELECT *</code>；也要提高索引选择性，减少候选记录。不是任何回表都值得消除，索引过宽会增加存储与写入成本。</p>
 <p><strong>例子：</strong><code>SELECT status FROM orders WHERE user_id = ?</code> 若有 <code>(user_id, status)</code> 索引，查询所需列都在二级索引中，通常可通过覆盖索引完成；具体执行计划以 <code>EXPLAIN</code> 为准。<a href="https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html">MySQL 覆盖索引说明</a></p>
 <p><strong>深入理解：</strong>假设二级索引是 <code>(user_id, status)</code>，执行 <code>SELECT amount FROM orders WHERE user_id=?</code>，找到索引记录后还需要利用其中的主键去聚簇索引取 <code>amount</code>；若返回列是 <code>status</code>，就可能只读二级索引。覆盖索引避免的是这次额外查找，不保证一定是全局最优：为了覆盖许多字段而造一个很宽的索引，可能使索引页更少容纳记录、维护更贵。比较方案时要看实际过滤后的行数、回表次数、查询频率与写入成本。</p></div></details>
-<details class="qa-card" id="q-14" data-category="2"><summary><span class="q-number">14</span><span class="q-title">面对慢 SQL 和多表联查，如何按证据逐步优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-14" data-category="2"><summary><span class="q-number">14</span><span class="q-title">100 万条 BIGINT 索引，InnoDB B+ 树大约有几层？如何估算？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p>来源：得物 Java 三面转述（2026-10-31）。</p>
+</blockquote>
+<p><strong>面试可直接回答：</strong>“先确认是主键聚簇索引还是二级索引、页大小和每条记录开销。若只讨论一个 BIGINT 键的二级索引，我用 16 KiB 页、叶子记录粗估 24 字节、非叶节点的键加子页指针粗估 16 字节、约 70% 有效利用率演示：叶页约放 <code>16,384×0.7/24≈478</code> 条，100 万条需要约 2,093 个叶页；内节点扇出约 <code>16,384×0.7/16≈716</code>，所以一个内层放不下全部叶页，还需要根节点，合计约 <strong>3 层</strong>。这些字节数是估算假设，具体记录格式、主键长度、填充率会改变结果。”</p>
+<p><strong>推导与边界：</strong>一般先算 <code>叶页数≈N/每叶页记录数</code>，再反复除以非叶节点扇出，直到只剩一个根页。若是<strong>聚簇主键索引</strong>，叶页存整行，不知道行宽就无法只凭“BIGINT 8 字节、100 万行”推出确定层数；二级索引叶记录还含主键值，也不能只算 8 字节。实际树高可用 InnoDB 统计或页面分析工具核查，不应把“通常三层”背成定理。<a href="https://dev.mysql.com/doc/refman/8.4/en/innodb-physical-structure.html">MySQL InnoDB 物理结构</a>、<a href="https://dev.mysql.com/doc/refman/8.4/en/innodb-index-types.html">聚簇与二级索引</a></p></div></details>
+<details class="qa-card" id="q-15" data-category="2"><summary><span class="q-number">15</span><span class="q-title">面对慢 SQL 和多表联查，如何按证据逐步优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 二面转述（2026-10-24，问题按转述归纳）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“以订单列表为例，假设一张表有 200 万行，查询是 <code>WHERE user_id=? AND status=? ORDER BY created_at DESC LIMIT 20</code>。先看慢日志和 <code>EXPLAIN ANALYZE</code>：若扫描了大量行且额外排序，再比较 <code>(user_id,status,created_at)</code> 联合索引；若已命中索引仍慢，继续看返回列、回表、数据倾斜与锁等待。可以把同负载下 P95 由 180 ms 降至 35 ms 作为<strong>练习用</strong>结果，但面试中必须能说明采样窗口和执行计划，不能只报一个数字。”</p>
 <p><strong>参考回答：</strong>先拿到慢 SQL、真实参数、数据量与 P95 耗时，复现后看 <code>EXPLAIN</code>，必要时在安全环境对 <code>SELECT</code> 用 <code>EXPLAIN ANALYZE</code> 比较估算行数与实际耗时。先判断慢在哪里：扫描太多、连接后结果膨胀、排序/临时表、回表过多，还是锁等待。对连接查询重点看连接条件的类型是否一致、过滤条件能否尽早生效、相关索引是否有效、实际连接顺序与每步行数。根据证据选择改索引、改写查询、减少返回列或调整数据模型，每次只改一项再复测。</p>
 <p><strong>深入理解：</strong><code>key</code> 显示用了索引，不等于查询就快；还要看扫描行数、过滤率、回表量、排序及连接放大。连接字段上建索引通常有帮助，但不能把“强制小表驱动大表”当成普适规则；优化器会依数据分布选择计划，MySQL 也可能使用 hash join。若估算与实际差异大，可检查统计信息与数据倾斜。冗余字段或预计算只能在热点查询确实值得且能维护数据一致性时引入。最后验证结果集语义不变，并报告同一数据规模和并发下的耗时、扫描行数、CPU/IO 变化，而不是只报 <code>EXPLAIN</code> 的某一列。<a href="https://dev.mysql.com/doc/refman/8.4/en/using-explain.html">MySQL EXPLAIN 指南</a>、<a href="https://dev.mysql.com/doc/refman/8.4/en/explain.html">MySQL EXPLAIN ANALYZE</a>、<a href="https://dev.mysql.com/doc/refman/8.4/en/hash-joins.html">MySQL Hash Join</a></p>
 <p><strong>简历中的项目口径：</strong>后端版简历写到生活服务平台的 MySQL 表与索引设计，也列出 SQL 调优经验，但没有具体慢 SQL 的执行计划或优化前后耗时。面试前选一条真实订单／菜品查询，保留 SQL、索引、EXPLAIN ANALYZE 与复测结果。</p></div></details></section>
-<section class="category" id="category-3"><div class="section-heading"><h2>三、Redis、缓存与分布式治理</h2><span class="section-count">5 题</span></div><details class="qa-card" id="q-15" data-category="3"><summary><span class="q-number">15</span><span class="q-title">什么是 I/O 多路复用？Redis 如何利用它？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-3"><div class="section-heading"><h2>三、Redis、缓存与分布式治理</h2><span class="section-count">5 题</span></div><details class="qa-card" id="q-16" data-category="3"><summary><span class="q-number">16</span><span class="q-title">什么是 I/O 多路复用？Redis 如何利用它？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>参考回答：</strong>I/O 多路复用让一个线程通过 <code>select</code>、<code>poll</code>、<code>epoll</code> 等机制监视多个连接的就绪事件，哪个连接可读或可写，就处理哪个连接，避免每条连接长期占用一个阻塞线程。Redis 的网络事件处理采用事件循环与多路复用，让一个线程高效管理大量连接；命令执行的具体线程模型要看 Redis 版本和配置，不能把 Redis 所有工作都说成“只有一个线程”。它适合连接多、单次操作较短的场景，但耗时命令仍会阻塞相应执行路径。</p>
 <p><strong>追问提醒：</strong>多路复用解决的是等待多个 I/O 事件的方式，不意味着 CPU 密集任务会自动并行。<a href="https://redis.io/docs/latest/develop/reference/internals/">Redis 内部说明</a></p>
 <p><strong>深入理解：</strong><code>epoll</code> 等接口返回“哪些描述符目前就绪”，程序仍须自己执行非阻塞读写、解析请求和安排后续处理。它降低了大量空闲连接对应的线程开销，并不让一个命令执行得更快。以 Redis 为例，要把“网络连接管理”“网络读写”和“命令执行”分开描述：具体版本和配置可能引入 I/O 线程，而慢命令或大 Key 处理仍可能影响服务延迟。排查时应同时看连接数、请求耗时、慢日志和 CPU 使用率。</p></div></details>
-<details class="qa-card" id="q-16" data-category="3"><summary><span class="q-number">16</span><span class="q-title">如何保证 Redis 与 MySQL 数据一致？Redis 一般放什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-17" data-category="3"><summary><span class="q-number">17</span><span class="q-title">如何保证 Redis 与 MySQL 数据一致？Redis 一般放什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我会把 MySQL 定为权威数据源，热门菜品走旁路缓存：读缓存未命中后查库并设置约 10 分钟 TTL；修改菜品先提交数据库事务，再删除对应缓存。删除失败写入可重试事件并监控积压。若旧读在删缓存之后把旧值写回，仍可能短暂不一致，所以关键状态不只靠缓存判断，必要时引入版本校验。这里的 10 分钟是示例配置，实际应由业务可接受的陈旧时间决定。”</p>
@@ -286,24 +291,24 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>Redis 常放：</strong>高频读取、允许短暂陈旧、重建成本可控的数据，例如商品详情、用户公开资料、配置快照；也常用于会话、限流计数、临时状态，但这些用途的持久化与一致性要求各不相同。敏感信息要控制存储内容与访问权限。<a href="https://redis.io/docs/latest/develop/use-cases/cache-aside/">Redis cache-aside 文档</a></p>
 <p><strong>深入理解：</strong>“更新数据库后删除缓存”只是常见最终一致性方案，关键在失败和竞态处理。例如数据库提交成功但缓存删除失败，旧值会一直留到 TTL 到期；可以用可靠事件或重试队列补删，并监测失败量。又如旧读请求先读到旧库值、写请求提交并删缓存、旧读请求随后把旧值写回缓存，仍可能出现短暂陈旧；缩短 TTL、版本号校验或针对关键 Key 的串行化可降低风险。面试时先说业务容忍的陈旧窗口，金额、库存等核心状态应以数据库约束和权威读为准。</p>
 <p><strong>简历中的项目例子：</strong>生活服务平台将热门菜品和购物车等高频数据放入 Redis，MySQL 保存订单等权威状态。讨论一致性时可用‘菜品信息更新后删缓存’作方案示例；是否实际实现了删除失败补偿，需检查代码后再作亲历陈述。</p></div></details>
-<details class="qa-card" id="q-17" data-category="3"><summary><span class="q-number">17</span><span class="q-title">Redis 主从切换时如何降低数据丢失和脑裂风险？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-18" data-category="3"><summary><span class="q-number">18</span><span class="q-title">Redis 主从切换时如何降低数据丢失和脑裂风险？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：他人美团 Java 面经截图（仅作学习，不代表本人经历）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>Redis 主从复制默认异步：主节点确认写入后，副本可能还未收到；此时主节点故障并提升落后的副本，已确认写可能丢失。网络分区时旧主可能暂时仍对部分客户端可写，恢复后它会改为新主的副本，其分叉写入可能被舍弃。Sentinel/Cluster 的多数派故障判定与客户端及时更新路由能缩小脑裂窗口；旧主配置 <code>min-replicas-to-write</code> 与 <code>min-replicas-max-lag</code> 可在副本不足或延迟过大时拒写，限制风险。<code>WAIT</code> 可等待副本确认复制，但<strong>不能把 Redis 变成强一致存储</strong>，持久化与选主仍有失败窗口。<a href="https://redis.io/docs/latest/manual/replication/">Redis 复制</a>、<a href="https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/">Redis Sentinel</a></p>
 <p><strong>业务取舍：</strong>若是缓存，设计为从 MySQL 重建，重点是失效与恢复；若是不可丢的订单或资金事实，应以事务型数据库为权威来源，Redis 不独自承担最终确认。必须结合 RPO/RTO 要求、故障演练与复制延迟指标评估，不能承诺“绝不丢”。</p></div></details>
-<details class="qa-card" id="q-18" data-category="3"><summary><span class="q-number">18</span><span class="q-title">如何设计支持突发流量、集群一致性和故障降级的分布式限流？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-19" data-category="3"><summary><span class="q-number">19</span><span class="q-title">如何设计支持突发流量、集群一致性和故障降级的分布式限流？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：他人美团 Java 面经截图（仅作学习，不代表本人经历）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>先定义限流维度（用户、接口、商户或全局）、平均速率、允许突发量以及超限返回策略。令牌桶适合允许短时突发：按时间补充令牌，桶容量限定突发上界，请求原子地检查并扣减。多实例共享 Redis 时，用 Lua 脚本在同一原子操作内完成读状态、补令牌、判定和写回，避免各应用节点本地计数导致全局超发；Redis Cluster 下相关键要落在同一哈希槽。<a href="https://redis.io/docs/latest/develop/use-cases/rate-limiter/">Redis 限流指南</a></p>
 <p><strong>深入理解：</strong>“集群一致”要说明强度：单个 Redis 主节点上的脚本执行原子，不等于主从故障切换期间零丢失；复制异步可能让新主的令牌状态回退。若严格不超发是硬要求，需要更强一致的协调或接受可用性/延迟代价。Redis 不可用时可按接口等级选择本地保守限流、直接拒绝或短时放行，并明确各自的风险；热点 Key、时间源、TTL 和指标也要设计。压测观察允许率、误拒率、跨节点总放行数、P99 延迟以及故障切换后的最大超发，而不是只测正常情况下的 QPS。<a href="https://redis.io/docs/latest/manual/replication/">Redis 主从一致性边界</a></p></div></details>
-<details class="qa-card" id="q-19" data-category="3"><summary><span class="q-number">19</span><span class="q-title">如何给复杂业务链路做容量评估、降级与故障隔离？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-20" data-category="3"><summary><span class="q-number">20</span><span class="q-title">如何给复杂业务链路做容量评估、降级与故障隔离？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：他人美团 Java 面经截图（仅作学习，不代表本人经历）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我先画下单链路：订单写库是核心，RabbitMQ 通知和 WebSocket 提醒可以异步。假设峰值 200 QPS、下单核心处理平均 50 ms，平均在途请求约 10 个；还要按突发、P99 和重试预留容量。通知服务慢时限制消费并发、允许短时积压，不能让下单接口同步等提醒；支付或库存服务异常时则应快速失败或返回明确状态。压测分别看订单成功率、P99、连接池等待、消息积压和恢复耗时。”</p>
 <p><strong>参考回答：</strong>先画出入口到依赖的调用图，为每个环节标出峰值 QPS、平均与 P99 延迟、并发数、连接池/线程池、CPU/内存以及下游限额。用 Little 定律的近似关系 <code>并发请求数≈到达率×平均驻留时间</code> 做初估，再以压测和线上指标校验；任何一处排队或依赖变慢都可能放大端到端延迟。容量不是只看机器 CPU：还要查数据库连接、Redis、外部接口和消息积压。降级要按业务优先级划分，保住核心写入或查询，把推荐、画像、非关键展示等可选能力关闭或返回可接受的兜底值。故障隔离靠独立资源池、超时、有限重试、并发上限与熔断，避免一个慢依赖占满全站线程。</p>
 <p><strong>深入理解：</strong>面试中先给一个真实业务假设：入口峰值 1000 QPS，下游每次调用平均 50 ms，理论平均并发约 50；但 P99、突发和重试会抬高实际容量需求。压测应从单服务走到全链路，观察吞吐是否停止增长、尾延迟何时陡升、哪个资源先饱和。重试必须有预算与退避，否则故障时会把下游流量放大。说明“哪些请求可拒绝、哪些可排队、降级数据允许旧多久、恢复后如何补偿”，比只报限流熔断名词更有说服力。</p>
 <p><strong>项目化回答练习：</strong>以生活服务平台下单链路为例，先列订单写库、缓存、支付回调、RabbitMQ 通知和 WebSocket 提醒的依赖；区分必须成功的订单状态更新与可延迟的通知。若通知下游变慢，限制消费并发并允许积压，不能让下单请求同步等待提醒。这里是依据简历架构作的容量设计示例，具体峰值、故障演练和降级实现须用项目记录核对。</p></div></details></section>
-<section class="category" id="category-4"><div class="section-heading"><h2>四、网络、日志与可观测性</h2><span class="section-count">3 题</span></div><details class="qa-card" id="q-20" data-category="4"><summary><span class="q-number">20</span><span class="q-title">SSE 与 WebSocket 有什么区别？分别基于哪层？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-4"><div class="section-heading"><h2>四、网络、日志与可观测性</h2><span class="section-count">3 题</span></div><details class="qa-card" id="q-21" data-category="4"><summary><span class="q-number">21</span><span class="q-title">SSE 与 WebSocket 有什么区别？分别基于哪层？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>参考回答：</strong>SSE 是服务器向浏览器单向推送事件，基于 HTTP 响应流，浏览器常用 <code>EventSource</code>；客户端要发消息仍走普通 HTTP 请求。WebSocket 先通过 HTTP 握手，建立连接后按 WebSocket 协议双向通信。二者都运行在应用层；通常建立在 TCP 之上，不能把“基于网络哪一层”回答成 SSE 是传输层、WebSocket 是网络层。</p>
@@ -327,7 +332,7 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 </table>
 <p><strong>追问提醒：</strong>SSE 自带事件流格式，浏览器 <code>EventSource</code> 提供重连能力；WebSocket 双向且可发送文本/二进制帧。部署时还要考虑代理超时、心跳及连接数。<a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events">MDN SSE</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API">MDN WebSocket</a></p>
 <p><strong>深入理解：</strong>SSE 的消息沿一条保持打开的 HTTP 响应持续到达，天然适合“客户端发一次请求，服务端持续输出”的 LLM 流式回答；浏览器 <code>EventSource</code> 的自动重连与事件 ID 可以配合恢复，但服务端是否能补发取决于实现。WebSocket 在握手后使用独立帧协议，双方都能主动发送消息，适合频繁双向交互。工程选型还要看代理缓冲、连接保持、心跳、认证刷新与断线恢复。不能仅凭“实时性更高”就一律选 WebSocket，先问业务是否真的需要服务端之外的持续上行。</p></div></details>
-<details class="qa-card" id="q-21" data-category="4"><summary><span class="q-number">21</span><span class="q-title">日志中的操作人、操作时间从哪里取？并发时怎么保证不串？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-22" data-category="4"><summary><span class="q-number">22</span><span class="q-title">日志中的操作人、操作时间从哪里取？并发时怎么保证不串？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“在订单操作记录里，我会从服务端认证上下文取 <code>userId</code>，在请求入口生成 <code>requestId</code>，操作时间由服务端生成。AOP 在业务方法前后记录操作类型、对象 ID、结果和耗时；线程池中的异步通知显式传入 <code>userId/requestId</code>，不依赖子线程自动继承 <code>ThreadLocal</code>。MDC 在 <code>finally</code> 清理，避免线程复用造成串号。审计日志若要在主交易回滚时仍保留，需单独设计事务或消息链路。”</p>
@@ -335,7 +340,7 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>你的项目版待补充：</strong>认证方式是【JWT / Session / 其他】；用户 ID 从【具体对象】取得；日志写入方式是【AOP / 拦截器 / 业务代码】；异步任务是否有【上下文传递 / requestId】。只讲实际做过的部分。</p>
 <p><strong>深入理解：</strong>一次请求通常先经过鉴权过滤器或拦截器，服务端确认身份，再把用户 ID、请求 ID 与时间戳交给审计逻辑。时间建议记录明确时区的时间点，必要时统一用 UTC 存储，展示时再转换。并发的核心是上下文隔离：<code>ThreadLocal</code>/MDC 只绑定当前线程，线程池复用时漏清理会把上一请求的用户带到下一请求；异步任务换线程时又可能丢上下文。因此在 <code>finally</code> 清理，并对异步任务显式传递必要字段。日志若用于审计，还要明确主事务回滚时日志是否保留。</p>
 <p><strong>简历中的项目口径：</strong>后端版简历写到生活服务平台用 AOP 实现接口日志、权限校验和操作记录，并用 Redis 实现分布式 Session。可以据此介绍‘从服务端登录态获取操作者、在 AOP 记录操作’的设计；具体取值代码、日志是否异步及事务关系仍需用项目实现核对，不能从简历推定。</p></div></details>
-<details class="qa-card" id="q-22" data-category="4"><summary><span class="q-number">22</span><span class="q-title">全链路日志、异常诊断、可观测性建设，具体做了什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-23" data-category="4"><summary><span class="q-number">23</span><span class="q-title">全链路日志、异常诊断、可观测性建设，具体做了什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我会用一次发文失败解释全链路：任务入口生成 <code>taskId</code>，每一步记录平台、页面状态、动作、耗时、Token 消耗、错误码及结果回查；指标汇总成功率、P95 和重试次数。若‘提交工具成功’但页面显示草稿，就按 <code>taskId</code> 追到结果回查步骤，将其判为未发布而不是成功。模型推理服务则另看 TTFT、TPOT、GPU 显存和利用率。简历里的 86%→96% 是整体项目结果，不能归因于单一日志改动。”</p>
@@ -343,21 +348,21 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>你的项目版待补充：</strong>系统有【哪些服务/外部 API/Agent 工具】；实际采集了【日志/指标/追踪中的哪些】；定位过【一个真实故障】；优化前后【可核实的耗时或错误率】。如果只做了日志记录，不要称为完整的分布式追踪平台。</p>
 <p><strong>深入理解：</strong>把三个概念区分开：日志回答“发生了什么”，指标回答“总体是否异常”，追踪回答“一次请求在哪些阶段耗时”。一个可讲的排障链路是：先从错误率或 P95 延迟发现异常，按 <code>traceId</code> 找到慢请求，再看哪次数据库查询、外部 API 或 Agent 工具调用耗时或重试。记录结构化字段时要限制基数和敏感内容，错误码需可聚合；发生异常要保留根因堆栈，同时避免重复记录同一个错误。若项目只有日志与 requestId，就如实称为日志关联，不说自己建了完整可观测平台。</p>
 <p><strong>简历中的项目口径：</strong>极峰精灵实习写到记录 Agent 步骤、页面跳转、Token 消耗和任务耗时，并接入 Prometheus、Grafana、DCGM Exporter 观察推理服务与 GPU。面试回答应把 Agent 任务日志和推理服务指标分开，说明真实关联键与一次亲自定位的失败轨迹；简历没有证明已部署完整分布式链路追踪。</p></div></details></section>
-<section class="category" id="category-5"><div class="section-heading"><h2>五、Agent、RAG 与 AI 辅助开发</h2><span class="section-count">8 题</span></div><details class="qa-card" id="q-23" data-category="5"><summary><span class="q-number">23</span><span class="q-title">MCP 网关是独立开发还是协作？如何说明职责边界？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-5"><div class="section-heading"><h2>五、Agent、RAG 与 AI 辅助开发</h2><span class="section-count">10 题</span></div><details class="qa-card" id="q-24" data-category="5"><summary><span class="q-number">24</span><span class="q-title">MCP 网关是独立开发还是协作？如何说明职责边界？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“如果题目假设我负责工具接入，我会这样讲：我负责把数据库查询、RAG 检索和图表生成等工具注册到统一入口，约定参数 schema、权限、超时、错误码与调用日志；Agent 只看到允许使用的工具描述。比如查询工具超时 2 秒，最多有限重试，写操作先校验权限并留审计记录。网关负责治理，不替模型决定任务目标，也不等于长期记忆。这里的‘2 秒’和具体职责是模拟方案，不能从简历中的‘使用 MCP 工具生态’直接推出。”</p>
 <p><strong>参考回答模板：</strong>MCP 网关由【本人独立负责的模块／团队协作】完成；我亲自实现的是【协议接入、工具注册与路由、鉴权、超时、审计中真实做过的部分】。Agent 决定是否调用工具，网关处理接入与治理，工具完成具体动作。若我只在个人项目中使用 MCP 工具生态，而没有开发网关，就直接说明使用者角色，不把集成说成网关研发。</p>
 <p><strong>简历对照：</strong>两份简历均写到个人‘自进化多智能体 RAG 平台’融合 MCP 工具生态，技能项也列出 MCP；没有明确写独立开发 MCP 网关。面试前准备一张实际调用链和本人代码位置。</p>
 <p><strong>追问边界：</strong>工具的身份鉴别、租户隔离、超时与重试归属应按真实架构解释。MCP 本身不提供应用的长期记忆。</p></div></details>
-<details class="qa-card" id="q-24" data-category="5"><summary><span class="q-number">24</span><span class="q-title">Agent 记忆如何写入、检索、更新与评估？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-25" data-category="5"><summary><span class="q-number">25</span><span class="q-title">Agent 记忆如何写入、检索、更新与评估？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试追问（按主题拆分）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我会把记忆拆成‘提取—写入—召回—更新—遗忘’。例如用户明确说‘默认使用中文报告’，先存带用户 ID、来源和时间的偏好；下次只在相关任务中召回。若用户改成英文，旧偏好应被覆盖，过期或删除请求也要生效。可以用 200 条模拟测试样例覆盖记住、冲突更新和该忘记的情形；若改进前答对 162 条、改进后 182 条，准确率就是 81%→91%，同时记录错误引用与额外延迟。这个数字仅用于展示评测口径。”</p>
 <p><strong>参考回答：</strong>先定义需要记住的事实及保留期限。对话中提取候选记忆，经校验与去重后存储；收到新请求时按用户和任务检索，筛选相关内容放入上下文。用户更正时更新或删除旧记忆，过期与隐私删除也要有机制。存储介质按访问模式选择，不能把‘Redis＋向量库’当作唯一标准方案。</p>
 <p><strong>评估方法：</strong>构建‘应记住、应忘记、冲突更新、不相关记忆’固定样例，与无记忆基线比较事实命中率、错误引用率、任务完成率、延迟与成本。对失败样例区分提取遗漏、检索失败、排序错误及模型忽略记忆，再分别优化。</p>
 <p><strong>简历对照：</strong>简历列出多轮记忆能力，但未给出记忆系统单项指标。个人多智能体项目的 300 条测试集与任务成功率提升 12.8 个百分点是整体 GEPA 优化结果，不能归因于记忆模块。</p></div></details>
-<details class="qa-card" id="q-25" data-category="5"><summary><span class="q-number">25</span><span class="q-title">你如何使用 AI 写代码？生成代码有哪些不足，你负责什么、怎样继续学习？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-26" data-category="5"><summary><span class="q-number">26</span><span class="q-title">你如何使用 AI 写代码？生成代码有哪些不足，你负责什么、怎样继续学习？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我用 AI 起草重复性接口和测试初稿，需求边界、数据一致性、异常处理和上线责任由我承担。比如 AI 给订单状态更新写出‘先读状态，再写新状态’，我会检查并发下是否重复转换，改成带条件的更新并补重复回调测试。若被问代码量，可以说‘以一个约 1.2 万行的练习仓库为例，AI 起草后保留约 3000 行’，但这两个数只是演练口径；没有提交记录就不要声称是自己项目的真实统计。”</p>
@@ -365,7 +370,7 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>追问提醒：</strong>若被要求给数量，可先说明仓库总行数、本人贡献和 AI 辅助比例是不同口径；不要临场编造精确数字。</p>
 <p><strong>深入理解：</strong>如果面试官追问行数，可以先定义统计口径：仓库总行数、你提交的代码行数、AI 起草后保留的行数并不是一个数字。<code>git diff --stat</code> 或代码统计工具只能估算修改量，也不能证明每行由谁写。更能体现工程能力的答法是选一个真实模块，讲清需求由谁定义、AI 给了什么初稿、你发现了哪处问题、如何通过测试或评审修正。对性能、安全和并发路径，最终责任仍在提交者；没有记录时坦言无法可靠估计百分比。</p>
 <p><strong>深入学习追问：</strong>AI 生成代码后，我会沿调用链核对接口、异常、并发和依赖版本；对陌生技术查官方文档并做最小复现，再用测试和日志验证。面试时用一个真实改错案例说明‘AI 提议了什么、我发现什么、如何验证’，不要只保证自己会学习。代码行数、本人贡献与 AI 辅助比例是三种统计口径；没有记录时不报精确占比。</p></div></details>
-<details class="qa-card" id="q-26" data-category="5"><summary><span class="q-number">26</span><span class="q-title">提示词优化做了什么？初版手写还是 AI 生成？模型不执行的原因和修改？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-27" data-category="5"><summary><span class="q-number">27</span><span class="q-title">提示词优化做了什么？初版手写还是 AI 生成？模型不执行的原因和修改？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我会讲一次工具误调用：模型把‘查询鱼类历史出没’错误路由到文档问答。我先从 Trace 确认工具可见、参数 schema 完整，再修改工具描述，把‘需要时间范围和结构化统计时用数据库工具’写成清楚的条件，并给一正一反两个例子。固定测试集和模型参数，比较路由正确率、最终成功率与 Token 成本。简历中的 300 条测试集、任务成功率提升 12.8 个百分点属于整体 GEPA 优化，不能说这一条描述单独贡献了全部提升。”</p>
@@ -373,7 +378,7 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>追问提醒：</strong>模型不按提示词执行未必能只靠重写提示词解决；需要先看工具接口、上下文长度、输入质量、模型能力和采样设置。把“提示词改了很多”替换成可复现的失败案例与验证结果。</p>
 <p><strong>深入理解：</strong>提示词优化最好按实验讲：固定模型版本、采样参数和一组包含正常、边界、对抗输入的样例；只改一处指令或工具描述；记录格式错误、漏调工具、误调工具和任务成功数。若模型总在某一步跳过工具，先排查工具是否可见、参数 schema 是否清晰、上下文是否截断，再决定是否改提示词。对重要动作还应在程序侧做参数校验和结果验证，不能把可靠性全部押在自然语言指令上。项目中说“提升了 X%”前，准备好样例数和统计方式。</p>
 <p><strong>简历中的可用例子：</strong>个人‘自进化多智能体 RAG 平台’记录 Query 改写、召回、工具调用和生成 Trace，针对 Prompt、Skill、工具描述做 GEPA 优化；简历记载 300 条独立测试集上任务成功率提升 12.8 个百分点、上下文 Token 消耗降低 23%。这属于个人项目整体优化，回答提示词单项贡献时需准备消融或失败样例，不能把整体收益全归给某一条 Prompt。</p></div></details>
-<details class="qa-card" id="q-27" data-category="5"><summary><span class="q-number">27</span><span class="q-title">最近接触的新技术是什么？Browser-Use 如何实现浏览器自动化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-28" data-category="5"><summary><span class="q-number">28</span><span class="q-title">最近接触的新技术是什么？Browser-Use 如何实现浏览器自动化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“以自动发文为例，我会把登录、填写、上传、提交、回查拆为工具动作。Agent 每一步先读取当前页面状态，再决定动作；稳定的输入和上传步骤尽量用确定性自动化，遇到弹窗或布局变化才让模型解释页面语义。提交后必须回查‘已发布’状态；若只看到草稿，就结束为失败或等待人工处理。这样能讲出 browser-use 的观察—决策循环，也能解释 Playwright 在具体项目中的页面操作职责。”</p>
@@ -381,112 +386,131 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>版本提醒：</strong>不要背“Browser-Use 一定基于 Playwright”：其官方工程文章说明项目曾从 Playwright 转向直接使用 CDP；具体实现要看你讨论的版本与集成方式。若你只做过调研，没有实际接入，就说清楚“我读过文档、做过最小实验”，不要声称上线。<a href="https://browser-use.com/developers">Browser Use 官方开发者页</a>、<a href="https://browser-use.com/posts/playwright-to-cdp">Browser Use 工程文章</a></p>
 <p><strong>深入理解：</strong>一个浏览器 Agent 的循环可以拆为：读取当前页面状态、选动作、执行、等待页面变化、验证目标是否达成；失败则重试、回退或请求人工介入。DOM/可访问性树适合定位文字和控件，截图适合识别视觉布局；动态页面中元素可能重排，因此动作后要重新观察，不能长期复用旧坐标。真实系统还要处理登录态、弹窗、超时、下载、敏感操作确认和站点限制。面试时明确自己是使用过框架、读过源码还是仅做过调研。</p>
 <p><strong>简历中的项目口径：</strong>极峰精灵实习使用 browser-use、Playwright 与大模型，将登录、Cookie 管理、创建文章、填写正文、上传封面、提交与结果回查封装为工具，并接入今日头条、搜狐号等平台。可以用‘提交后回查发布状态’解释为什么每次动作之后都要重新观察与验证。</p></div></details>
-<details class="qa-card" id="q-28" data-category="5"><summary><span class="q-number">28</span><span class="q-title">自动化 Agent 与传统脚本的核心区别是什么？如何防止重复调用工具和错误重试？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-29" data-category="5"><summary><span class="q-number">29</span><span class="q-title">自动化 Agent 与传统脚本的核心区别是什么？如何防止重复调用工具和错误重试？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 二面转述（2026-10-24，问题按转述归纳）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“传统脚本适合固定页面；Agent 的价值是遇到未预设的弹窗、按钮改名或草稿状态时，能依据页面语义选择下一步。但发布必须由程序状态机兜底：每任务限制步骤和总时长，工具按错误类型重试，提交前后做幂等检查，额度用尽直接停。简历记载整体成功率 86%→96%、单篇 460s→120s；若用这组数据回答，要把成功定义为‘最终确认发布’，并准备具体评测口径。”</p>
 <p><strong>参考回答：</strong>脚本适合页面和规则稳定、步骤可穷举的流程；Agent 更适合根据当前页面状态、工具结果和异常反馈动态选择下一步。但“用了大模型”不代表更可靠：登录、发布、保存草稿等动作应定义成可观测的状态转移，模型负责不确定部分的判断，程序负责权限、次数、超时和结果校验。比如平台达到当日发文额度后保存为草稿，系统应把它识别为 <code>DRAFT_LIMIT</code> 一类终态，停止发布并上报，而不是把“工具返回成功”误算为“发文成功”。</p>
 <p><strong>深入理解：</strong>每次任务需要唯一 ID，记录目标平台、内容版本、当前状态、工具调用次数和已发生的外部副作用。给全流程设置最大步数、最大耗时和预算；给单工具设置超时与有限重试。网络抖动、限流等暂时性错误可按退避策略重试；额度用尽、权限不足、验证码要求等需要等待条件变化或人工处理，不能无限重试。发布动作重试前要查平台当前状态或使用可用的幂等标识，避免重复发布。验证码应走平台允许的人工校验或正式接口流程，不能把规避风控当作方案优势。观察指标包括“最终发布成功率、草稿误判率、重复发布率、平均工具调用次数、人工接管率和 P95 耗时”。<a href="https://docs.langchain.com/oss/javascript/langgraph/thinking-in-langgraph">LangGraph 错误处理与人工接管</a></p>
 <p><strong>面试追问：</strong>如果脚本同样可以写状态机和异常分支，Agent 的价值在哪里？回答应是“面对未预先枚举、但可通过页面语义判断的状态时，能减少大量页面特定分支维护”；代价是模型成本、非确定性和更严格的监控需求。不能说 Agent 不需要设计异常场景。</p>
-<p><strong>简历中的项目结果：</strong>极峰精灵实习写到发文成功率从 86% 提升到 96%，单篇耗时由 460s 降至 120s；涉及登录失效、页面元素变化、Cookie 续期、结果回查和重试。面试前需确认样本量、统计周期、成功是否仅指真正发布，以及两次测量的任务分布是否可比。</p></div></details>
-<details class="qa-card" id="q-29" data-category="5"><summary><span class="q-number">29</span><span class="q-title">图像 RAG 知识库从视频采集到用户问答，完整链路怎样设计？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p><strong>简历中的项目结果：</strong>极峰精灵实习写到发文成功率从 86% 提升到 96%，单篇耗时由 460s 降至 120s；涉及登录失效、页面元素变化、Cookie 续期、结果回查和重试。面试前需确认样本量、统计周期、成功是否仅指真正发布，以及两次测量的任务分布是否可比。</p>
+<p><strong>三面追问：460 秒为什么能降到 120 秒？</strong>可以沿一次任务的时间线回答：旧流程把每步都交给模型判断，页面改版或弹窗会触发反复观察、重复工具调用与无效重试；优化后将稳定动作封装成确定性 Tool，开放模型对异常页面的判断，但把成功判定收回程序。统一工具结果结构，设置步数/时间预算，提交后回查发布状态。对比前后相同任务分布下的模型调用次数、工具重试次数、P50/P95 和最终发布成功率。简历的 460s→120s 是整体结果，不能无证据地说某一项单独节省了 340 秒。</p></div></details>
+<details class="qa-card" id="q-30" data-category="5"><summary><span class="q-number">30</span><span class="q-title">重新做多平台 Agent 项目，从需求澄清到执行回收怎么设计？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p>来源：得物 Java 三面转述（2026-10-31）。</p>
+</blockquote>
+<p><strong>面试可直接回答：</strong>“先问清平台范围、账号权限、发布成功定义、每日额度、人工接管条件、吞吐与可接受成本。输入约定平台、账号、内容版本和封面，输出用任务 ID、状态、发布链接或失败原因。再把流程拆为账号准备、内容校验、登录、编辑、提交、结果回查和日志；每个任务用持久化状态机记录阶段、重试次数和外部副作用。稳定动作做确定性工具，页面语义判断交给 Agent，发布和重试由程序校验。任务结束后回收浏览器/会话资源、汇总成功率、耗时和失败类型，把真实失败案例回流测试集。”</p>
+<p><strong>追问：进度落后怎么办？</strong>先识别关键路径和阻塞依赖，给出新完成预测，及时向负责人说明范围、风险与可交付的最小闭环；优先保证一个平台的完整发布与回查，再扩到多个平台。成熟框架可复用，但要核对许可、维护状态和集成成本。加班只能处理短期工作量，不能替代范围调整与风险沟通。<strong>验收</strong>至少覆盖重复提交、验证码/权限失败、页面改版、断网恢复、额度用尽和任务重启后的状态恢复。</p></div></details>
+<details class="qa-card" id="q-31" data-category="5"><summary><span class="q-number">31</span><span class="q-title">图像 RAG 知识库从视频采集到用户问答，完整链路怎样设计？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 二面转述（2026-10-24，问题按转述归纳）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我会先分清视频上游与知识库：上游抽帧、检测和标注，知识库收到图片与物种标签后把原图存对象存储，元数据保留来源视频、时间、置信度与版本。文本问答走文档切片、关键词＋向量召回和重排；以图搜图则要用图像编码器，不能把图片的文字摘要向量直接当视觉特征。简历中的 HitRate@5 78.7%→91.3% 对应知识检索整体效果，不能自动归因于图像链路。”</p>
 <p><strong>参考回答：</strong>先讲职责边界：摄像头视频由上游采集、抽帧、检测、裁剪与标注；我负责的是收到鱼类图片和标签后的知识入库、检索与回答环节。入库时保留图片原文件在对象存储，把图片 ID、来源视频与时间、物种标签、标注置信度、版本和访问路径作为元数据；按查询方式生成图像向量，或生成图片描述后做文本向量。查询时先判断用户是“根据图片找相似鱼种”还是“根据文字问生态知识”，分别选择匹配的编码与召回链路，必要时融合结果，再重排、取回原图或出处交给模型生成带证据的回答。</p>
 <p><strong>深入理解：</strong>“图片摘要进向量库、原图进对象存储”是可行的存储分工，但<strong>文本摘要向量不能天然代表视觉相似度</strong>；以图搜图需要能编码图像的模型及配套查询向量。业务关键是物种误识别的代价：低置信样本应人工复核，图片与标签要可追溯到采集批次；同一条鱼的连续帧要去重或按事件聚合，以免检索结果被近重复图片占满。索引更新要处理对象存储与向量库之间的一致性，删除或修正标签时同步更新向量和元数据。<a href="https://docs.aws.amazon.com/prescriptive-guidance/latest/retrieval-augmented-generation-options/rag-custom-retrievers.html">AWS RAG 检索器概览</a></p>
 <p><strong>需要纠正的说法：</strong>把高匹配结果机械放在上下文首尾不是“利用注意力机制进行重排”。研究中观察到部分模型在长上下文中对中间证据利用较弱，但不能据此代替相关性排序。先用检索分数、元数据过滤或重排模型选准少量证据，再用固定测试集比较不同排序与上下文长度的答案质量。<a href="https://arxiv.org/abs/2307.03172">Lost in the Middle 原论文</a></p>
-<p><strong>简历与面经的口径差异：</strong>两份简历主要写多源文档清洗、切片、Embedding、关键词＋向量混合检索与重排，HitRate@5 从 78.7% 提升到 91.3%；录音转述还涉及鱼类图片与标签。若图片入库确由本人实现，需拿出数据流和检索例子；否则应把图像链路表述为系统上下游设计，不宣称已亲自完成。</p></div></details>
-<details class="qa-card" id="q-30" data-category="5"><summary><span class="q-number">30</span><span class="q-title">客服类 RAG 与 Agent 系统怎样评估效果，并据此优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p><strong>简历与面经的口径差异：</strong>两份简历主要写多源文档清洗、切片、Embedding、关键词＋向量混合检索与重排，HitRate@5 从 78.7% 提升到 91.3%；录音转述还涉及鱼类图片与标签。若图片入库确由本人实现，需拿出数据流和检索例子；否则应把图像链路表述为系统上下游设计，不宣称已亲自完成。</p>
+<p><strong>三面追问：所谓“记忆塌陷”怎么处理？</strong>面试官描述的是长上下文中间证据利用不足，先查是否真是检索失败、截断、证据冲突还是生成阶段忽略。工程上优先提高 Top-k 证据质量、去重、压缩上下文、明确引用与逐步检索；把关键证据放首尾只是一种待评测的排列策略。微调可能改善特定分布，但需要覆盖不同位置的训练与独立测试样本，不能宣称一次微调可以根治。对同一测试集分别报告证据位于首/中/尾时的准确率和引用正确率。<a href="https://arxiv.org/abs/2307.03172">Lost in the Middle 论文</a></p></div></details>
+<details class="qa-card" id="q-32" data-category="5"><summary><span class="q-number">32</span><span class="q-title">客服类 RAG 与 Agent 系统怎样评估效果，并据此优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 二面转述（2026-10-24，问题按转述归纳）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我会先定义问题集与判分：检索测 HitRate@5/Recall@10，生成测答案是否被证据支持，Agent 测任务是否真正完成。比如练习中用 1000 条有标准证据的查询，Top-5 命中从 787 条到 913 条，HitRate@5 就是 78.7%→91.3%；再按物种别名、拉丁学名、无答案问题分层查错。这里的 1000 条是为了说明算法的模拟样本量；简历只有百分比，没有写真实样本量。”</p>
 <p><strong>参考回答：</strong>先定义真实业务目标和测试集，再把链路拆开测。RAG 检索层准备“问题—相关文档/证据”标注，测 <code>Recall@k</code>、<code>Precision@k</code> 或排序指标；生成层测答案正确性、证据支持程度、该拒答时是否拒答。Agent 层测实际问题解决率、错误路由率、工具调用成功率、重复调用和人工接管率。体验层同时看 TTFT、端到端 P50/P95、成本和高峰并发，不能只凭“前 10 条看起来准”或首 Token 快就下结论。</p>
 <p><strong>深入理解：</strong>测试集要按意图、资料新旧、长短问题、多轮追问、无答案和异常工具响应分层。若相关证据没有进入 Top-k，先查数据切片、标签、图片描述或召回策略；证据已召回但答案错，查重排、上下文构造、模型推理和引用；Agent 路由错，查意图分类样例与阈值；任务失败但每个工具都返回成功，则查状态定义和跨工具业务验证。多路召回不必对所有问题全部开启：先用意图识别决定文本、图片、结构化数据中哪些路需要参与，再对结果去重、融合、重排，并在上下文预算内保留证据。多路召回、子 Agent 路由、记忆或提示词优化都应做消融：固定同一批题，仅改一个环节，与简单基线比较收益、延迟和成本。线上抽样人工复核，并把失败案例回流离线集。<a href="https://docs.langchain.com/langsmith/evaluation-types">LangSmith 离线与在线评估</a></p>
 <p><strong>避免误答：</strong><code>Recall@10</code> 与 <code>Precision@10</code> 不同：前者问“应找到的证据有多少被找到”，后者问“返回的十条里有多少相关”。“业务解决率”须定义分母、判定标准和人工复核规则；如果项目没做过这套评估，应作为可落地的改进方案陈述，不编造已完成结果。</p>
-<p><strong>简历中的指标归属：</strong>四川玻色子实习的知识检索 HitRate@5 为 78.7%→91.3%，Agent 内部测试任务完成率为 89.5%，异常任务恢复率为 93%，分析报告平均耗时约 2 小时→10 分钟。个人多智能体 RAG 平台另有 300 条独立测试集、任务成功率提升 12.8 个百分点的记录。不同项目、不同指标不能合并成一次实验；准备各自分母、样本与评判规则。</p></div></details></section>
-<section class="category" id="category-6"><div class="section-heading"><h2>六、CUDA、分布式训练与推理</h2><span class="section-count">13 题</span></div><details class="qa-card" id="q-31" data-category="6"><summary><span class="q-number">31</span><span class="q-title">C++ 指针与引用的区别是什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p><strong>简历中的指标归属：</strong>四川玻色子实习的知识检索 HitRate@5 为 78.7%→91.3%，Agent 内部测试任务完成率为 89.5%，异常任务恢复率为 93%，分析报告平均耗时约 2 小时→10 分钟。个人多智能体 RAG 平台另有 300 条独立测试集、任务成功率提升 12.8 个百分点的记录。不同项目、不同指标不能合并成一次实验；准备各自分母、样本与评判规则。</p>
+<p><strong>三面客服迁移追问：</strong>先用意图路由区分订单/物流等结构化实时问题、政策文档问题和开放投诉；结构化状态从权威业务接口查，政策问答走可溯源 RAG，复杂多步任务再交 Agent。商品价格、库存等有时效的数据不能只靠静态知识图谱或向量库；知识图谱适合关系查询、多跳关联，但投入前要与简单的 SQL/混合检索基线比较收益。问“召回答案是否相关”，应先评估召回的<strong>证据</strong>，再单独评估生成答案的事实性。</p></div></details>
+<details class="qa-card" id="q-33" data-category="5"><summary><span class="q-number">33</span><span class="q-title">复杂意图识别有哪些常用模型？如何为客服场景选型？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p>来源：得物 Java 三面转述（2026-10-31）。</p>
+</blockquote>
+<p><strong>面试可直接回答：</strong>“先定义意图标签与多标签/层级问题，建立规则和关键词基线。传统方案可把 TF-IDF 或 n-gram 特征接朴素贝叶斯、逻辑回归、线性 SVM；深度学习方案常用 TextCNN、BiLSTM 或预训练的 BERT 类编码器加分类头；开放意图或样本少时可用 embedding 相似度检索、少样本大模型分类。电商客服中，订单查询、退换货、商品咨询和投诉先分层识别；低置信或多意图请求转人工或更强模型，不强行单标签。”</p>
+<p><strong>选型与评估：</strong>先用标注集比较 macro-F1、各类召回率、混淆矩阵、拒识率、推理延迟和成本。类间混淆要检查标签定义、短文本上下文与训练样本；“查订单还是退货”可能需要追问或多意图分解。若意图只决定调用哪条工具链，误路由代价和兜底策略比单一准确率更重要。不要把知识图谱当成意图分类模型。<a href="https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html">scikit-learn 文本分类示例</a></p></div></details></section>
+<section class="category" id="category-6"><div class="section-heading"><h2>六、CUDA、分布式训练与推理</h2><span class="section-count">13 题</span></div><details class="qa-card" id="q-34" data-category="6"><summary><span class="q-number">34</span><span class="q-title">C++ 指针与引用的区别是什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>指针是保存地址的对象，可为空、可改指向，使用时通常要解引用；引用是已存在对象的别名，定义时必须绑定对象，之后不能重新绑定。函数参数若只是读取且希望避免拷贝，可用 <code>const T&amp;</code>；需要表示“可能没有对象”或可能改指向时用指针。<code>const</code> 指针和指向 <code>const</code> 的指针要区分。引用也不是“永远安全”：返回局部变量的引用或让引用指向已销毁对象，都会产生悬垂引用。<strong>项目回答</strong>应举自己处理资源或函数接口的例子，不要只背语法。</p>
 <p><strong>深入理解：</strong>指针与引用在接口设计上的差别比定义更重要。<code>T*</code> 可以表达可选对象，调用前需检查空值；<code>T&amp;</code> 表达必须存在的对象，调用方更容易理解前置条件。<code>const T&amp;</code> 能避免大对象拷贝，但返回引用时要保证被引用对象的寿命长于调用方使用时间。资源管理不要把裸指针误当所有权：动态资源优先考虑 RAII、<code>unique_ptr</code> 或明确的生命周期约定；CUDA 分配出的显存也应有可靠释放路径。</p></div></details>
-<details class="qa-card" id="q-32" data-category="6"><summary><span class="q-number">32</span><span class="q-title">CUDA 的 Grid、Block、Warp、Thread 与存储层级怎样对应？Warp 如何调度与同步？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-35" data-category="6"><summary><span class="q-number">35</span><span class="q-title">CUDA 的 Grid、Block、Warp、Thread 与存储层级怎样对应？Warp 如何调度与同步？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>CUDA kernel 的软件线程层级是 Grid → Block → Thread；同一 Block 的线程在硬件执行时会划分为 Warp，NVIDIA 常见 Warp 为 32 个线程。寄存器通常是线程私有，shared memory 由一个 Block 内线程共享，global memory 可被设备上的线程访问；L1/L2 是硬件缓存，不能简单把“Grid 对应显存、Block 对应缓存、Warp 对应寄存器”逐级硬配对。Block 在 SM 上执行；同一 Warp 的分支分歧可能让执行效率下降。优化还要看合并访存、共享内存 bank conflict、寄存器压力与占用率。<a href="https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/writing-cuda-kernels.html">CUDA 编程指南</a></p>
 <p><strong>深入理解：</strong>线程层级与存储层级是两套概念：Grid 是本次 kernel 的全部 Block，Block 内线程能通过 shared memory 协作并使用 block 级同步；Warp 是硬件调度分组，线程各自仍有寄存器。Global memory 容量大但访问延迟和带宽成本高；L2/L1 缓存、shared memory、寄存器能减少重复读写，但越靠近计算单元资源越紧张。优化一个 kernel 时应先从访存合并、数据复用与占用率分析，而不是简单认为“用了 shared memory 就一定快”；shared memory 过大或寄存器过多会减少并发驻留的 Block。</p>
 <p><strong>Warp 追问：</strong>Warp 通常由 32 个线程组成，但分支分歧会分别执行路径并屏蔽不活跃 lane；现代架构不能依赖天然锁步来省略同步。Warp 内交换数据应使用正确掩码的 shuffle 等原语；跨 Warp 通常需要 Block 级同步与 shared memory。<a href="https://docs.nvidia.com/cuda/cuda-programming-guide/02-basics/writing-cuda-kernels.html">CUDA SIMT 说明</a></p></div></details>
-<details class="qa-card" id="q-33" data-category="6"><summary><span class="q-number">33</span><span class="q-title">CUDA 内存泄漏通常怎么产生、怎么排查？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-36" data-category="6"><summary><span class="q-number">36</span><span class="q-title">CUDA 内存泄漏通常怎么产生、怎么排查？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>泄漏是已申请的资源在生命周期结束时没有释放，常见于 <code>cudaMalloc</code> 成功后异常路径漏掉 <code>cudaFree</code>、反复初始化、句柄或流未销毁、缓存无上界增长。空指针本身不是内存泄漏，递归也不是 CUDA 泄漏的典型定义。先看显存是否随重复请求持续增长、区分框架的缓存分配器与真正泄漏，再做最小复现；自写 CUDA 代码可用 Compute Sanitizer 的 <code>memcheck --leak-check full</code> 辅助定位。C++ 工程中用 RAII 封装资源，检查所有返回与异常路径。<a href="https://docs.nvidia.com/compute-sanitizer/ComputeSanitizer/index.html">NVIDIA Compute Sanitizer</a></p>
 <p><strong>深入理解：</strong>显存持续增长先不要立刻下“泄漏”结论：PyTorch 或推理引擎常有缓存分配器，进程占用看似不降，但缓存可被复用。应记录重复相同负载下的已分配量、预留量和请求结束后的基线，区分正常缓存、碎片化、未释放引用与真正丢失分配。对自写 CUDA/C++ 路径，逐个核对 <code>cudaMalloc</code>、stream、event、库句柄等资源的创建和销毁；用最小复现与 sanitizer 找到具体申请栈。空指针更可能引发非法访问，而不是解释泄漏。</p></div></details>
-<details class="qa-card" id="q-34" data-category="6"><summary><span class="q-number">34</span><span class="q-title">27B 模型 BF16、FP8、INT4 权重显存分别多少？H200 单卡能放下吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-37" data-category="6"><summary><span class="q-number">37</span><span class="q-title">27B 模型 BF16、FP8、INT4 权重显存分别多少？H200 单卡能放下吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>只估权重时用“参数量 × 每参数字节数”：27B × 2 B ≈ <strong>54 GB</strong>（约 <strong>50.3 GiB</strong>）；FP8 约 <strong>27 GB</strong>；理想的 4 bit 打包约 <strong>13.5 GB</strong>，不是 12 GB。实际量化检查点还可能有 scale、零点、未量化层与对齐开销。常见 H200 SXM 标称 141 GB HBM3e，单卡容纳 27B BF16 权重在容量上可行，但服务显存还包括 KV/其他状态、激活、临时工作区和引擎预留，不能由 54 GB 直接推出并发数或延迟。若 <code>gpu_memory_utilization=0.9</code>，它是引擎显存预算设置，不等于“90% 显存都给 KV”。<a href="https://docs.nvidia.com/enterprise-reference-architectures/hgx-ai-factory-h100-h200-b200/latest/components.html">NVIDIA H200 规格</a>、<a href="https://huggingface.co/Qwen/Qwen3.5-27B">Qwen3.5-27B 模型卡</a></p>
 <p><strong>深入理解：</strong>权重估算只是显存预算的第一步。推理时还需 KV Cache、激活、CUDA 图或临时工作区、框架管理开销；训练则另有梯度、优化器状态和保存给反向的激活，BF16 权重能放进 141 GB 不意味着单卡能做全参数训练。FP8/INT4 的实际大小与量化格式、scale/zero point、分组粒度、未量化模块有关。面试中可先算理论值，再明确“这是权重下界”，最后按服务配置与目标上下文、并发量去做实际显存测量。</p>
 <p><strong>简历中的项目口径：</strong>两份简历均写到 Qwen3.5-27B 在单张 H200 上部署、比较 BF16/FP8/INT4，并使用 vLLM 服务。模型精度、量化格式、引擎版本和实际峰值显存需从部署记录核对；简历未给出这些精确数值。</p></div></details>
-<details class="qa-card" id="q-35" data-category="6"><summary><span class="q-number">35</span><span class="q-title">KV Cache 显存如何估算？为什么不能直接说“能支撑 30 多并发”？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-38" data-category="6"><summary><span class="q-number">38</span><span class="q-title">KV Cache 显存如何估算？为什么不能直接说“能支撑 30 多并发”？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>对标准全注意力 Transformer，可先用 <code>batch × token数 × 层数 × 2(K/V) × KV头数 × 每头维度 × 每元素字节数</code> 估算；TP 切分 KV 头、KV 量化、页式分配、前缀复用都会改变实际占用。<strong>Qwen3.5-27B 是混合结构</strong>：64 层中每 4 层有 1 层全注意力，即 16 层；全注意力层的 4 个 KV 头、head dim 256，若 KV 用 BF16，则这部分约 <code>16×2×4×256×2 = 65,536 B</code>，即 <strong>64 KiB/历史 token</strong>，此外还要算线性注意力状态和实现开销。这是基于官方模型配置的理论估算，不是该项目实测显存。</p>
 <p><strong>项目回答模板：</strong>“我测到在【硬件型号、卡数、引擎版本、精度、输入/输出长度分布、最大长度】条件下，约【30+】个并发请求能稳定运行；最大并发与上下文长度、输出长度和调度配置强相关，我当时没有做极限容量曲线，因此不会把这个数当作通用上限。”<a href="https://huggingface.co/Qwen/Qwen3.5-27B">Qwen3.5-27B 模型卡</a></p>
 <p><strong>深入理解：</strong>估算时先把“每历史 token 的字节数”和“同时驻留的 token 总数”分开。以上述 64 KiB/token 的全注意力部分为例，若 30 个请求各保留 4,096 个历史 token，单这部分理论上约 <code>30×4096×64 KiB ≈ 7.5 GiB</code>；实际总量还要加线性注意力状态、页分配和运行时开销，且请求长度并不都相同。要把这个估算与框架日志、显存曲线和压测相互校验。并发指标至少要说明输入/输出长度分布、并发定义、排队策略与延迟目标；“能跑 30 个请求”和“30 并发满足 SLA”不是同一结论。</p>
 <p><strong>简历中的项目口径：</strong>简历写到构建并发压测集，统计 TTFT、TPOT 与 P95/P99；没有写‘稳定 30 余并发’对应的输入输出长度、SLO 或测量数据。这个数字来自面试转述，复述前应回查压测原始记录。</p></div></details>
-<details class="qa-card" id="q-36" data-category="6"><summary><span class="q-number">36</span><span class="q-title">27B 模型单卡能放下，训练或推理如何选 DP、TP、PP、CP？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-39" data-category="6"><summary><span class="q-number">39</span><span class="q-title">27B 模型单卡能放下，训练或推理如何选 DP、TP、PP、CP？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>先分训练和推理。<strong>推理</strong>若单卡能满足显存与延迟，可从单卡副本加数据并行扩吞吐开始；若单请求延迟、单卡算力或显存成为瓶颈，再测 TP/PP/CP 的收益与通信代价。<strong>训练</strong>即使权重能放下，梯度、优化器状态、激活通常也让全参数训练无法单卡完成；应先算总训练显存，考虑 DDP、FSDP/ZeRO、激活重计算和序列长度，再决定是否叠加 TP、PP、CP。TP 层内通信频繁，通常优先放在高速互联域；PP 可以跨机器，只是跨机激活传输和流水线气泡会增加代价，不能说“禁止跨机器”。CP 主要用于长序列压力，未遇到该瓶颈时不必默认使用。<a href="https://docs.nvidia.com/megatron-core/developer-guide/latest/user-guide/parallelism-guide.html">Megatron Core 并行策略</a></p>
 <p><strong>深入理解：</strong>可以用“先算容量，再算通信，再看性能”来回答并行选型。推理单卡可用时，多开副本常能提升总吞吐且避免 TP 每层通信；但若一个请求的计算延迟或显存超限，多副本不能解决，才考虑 TP/PP。全量训练常见 AdamW 优化器状态与梯度占用很大，因此权重 54 GB 只是总预算的一部分，ZeRO/FSDP 用于切分训练状态。TP 频繁进行层内通信，优先利用 NVLink 等高速互联；PP 的跨 stage 传输相对少但有流水线气泡，是否跨机由拓扑和实测决定。长序列激活压力突出时再评估 CP。</p></div></details>
-<details class="qa-card" id="q-37" data-category="6"><summary><span class="q-number">37</span><span class="q-title">PP 为什么有流水线气泡？micro-batch 应该调小吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-40" data-category="6"><summary><span class="q-number">40</span><span class="q-title">PP 为什么有流水线气泡？micro-batch 应该调小吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>把网络层切成多个 stage 后，开始时后续 stage 需要等数据，结束时前面的 stage 又可能空闲，形成填充和排空的气泡。增加<strong>micro-batch 的数量</strong>通常能摊薄气泡比例；把单个 micro-batch 的样本数调小不等于一定减少气泡，还可能降低矩阵效率并增加调度开销。要在固定全局 batch 下同时考虑梯度累积、显存、stage 负载均衡和通信，比较每步耗时与有效吞吐。可以用交错流水线进一步减少气泡，但会增加通信和实现复杂度。<a href="https://docs.nvidia.com/megatron-core/developer-guide/latest/apidocs/core/core.model_parallel_config.html">Megatron Core 流水线配置</a></p>
 <p><strong>深入理解：</strong>假设有 <code>p</code> 个流水线 stage、<code>m</code> 个 micro-batch，简单流水线的填充和排空使利用率受 <code>m/(m+p-1)</code> 一类关系影响；这是理解趋势的示意公式，不是所有 1F1B 或交错调度的精确效率。增加 micro-batch 数量通常能降低空闲比例，但 micro-batch 过小可能让矩阵乘法效率变差；增大数量也会改变梯度累积和内存压力。实际调参要固定全局 batch 与序列长度，分别测 stage 时间、气泡、通信与 tokens/s，再判断瓶颈是 stage 不平衡还是调度本身。</p></div></details>
-<details class="qa-card" id="q-38" data-category="6"><summary><span class="q-number">38</span><span class="q-title">NCCL 是什么？通信异常先查什么？IB/RDMA 起什么作用？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-41" data-category="6"><summary><span class="q-number">41</span><span class="q-title">NCCL 是什么？通信异常先查什么？IB/RDMA 起什么作用？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>NCCL 是 NVIDIA 的 GPU 间通信库，提供 All-Reduce、All-Gather、Reduce-Scatter、All-to-All 等集合通信，也支持点对点通信；训练中的梯度同步或 TP 通信可调用它。多机通信涉及网络拓扑与传输，InfiniBand/RDMA 是降低 CPU 参与、提升节点间数据传输效率的重要机制，但实际路径取决于硬件、驱动和配置。排障顺序：先确认所有 rank 的进程、world size、调用顺序和张量大小一致；再用小规模通信测试区分程序问题与链路问题；检查网卡/路由、IB 状态、拓扑和带宽；查看 NCCL 日志及 profiler。不要一上来盲改 NCCL 环境变量。<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/overview.html">NCCL 概览</a>、<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/networking_troubleshooting.html">网络排障</a></p>
 <p><strong>深入理解：</strong>定位 NCCL 问题可按三层分开。第一层是程序语义：rank/world size、通信组和集合调用顺序是否一致，否则一个 rank 等待另一个不同操作就会挂住。第二层是单机拓扑：GPU 间是 NVLink 还是 PCIe、有没有跨 NUMA；第三层是跨机网络：IB/RoCE 设备、路由、链路状态和带宽。先用 <code>nccl-tests</code> 或最小通信程序建立基线，再把真实训练的消息大小、并行组映射与 profiler 时间线对比；IB/RDMA 影响节点间传输，不能解决程序中的集合调用不匹配。</p></div></details>
-<details class="qa-card" id="q-39" data-category="6"><summary><span class="q-number">39</span><span class="q-title">TP=8 时 All-Reduce 在算什么？通信量怎么估？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-42" data-category="6"><summary><span class="q-number">42</span><span class="q-title">TP=8 时 All-Reduce 在算什么？通信量怎么估？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>假设某一层把矩阵计算切到 8 个 rank，各 rank 得到同形状的部分结果 <code>y_r</code>，若下一步需要完整求和结果，则 <code>y = Σ(r=0..7) y_r</code>，All-Reduce 使 <strong>8 个 rank 都拿到相同的 y</strong>。是否需要这一操作以及每层做几次，要看列并行/行并行切分和实现，不能只说“切了注意力头就必然 All-Reduce”。若每 rank 输入张量大小为 <code>M</code> 字节，理想 ring All-Reduce 可视作 Reduce-Scatter + All-Gather，每 rank 传输量约 <code>2×(8−1)/8×M = 1.75M</code>（收发口径需说清）；实际耗时还受消息大小、算法、链路带宽/延迟、拓扑和计算重叠影响。<strong>例子：</strong><code>M=64 MiB</code> 时该简化模型约传输 <code>112 MiB/rank</code>。这是理论通信量，不是 NCCL 所有算法的固定数。<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html">NCCL 集合通信定义</a></p>
 <p><strong>深入理解：</strong>以行并行线性层为例，输入或权重按维度切成 8 份，各 rank 算出同一输出位置的部分和，需要求和后才能得到完整输出；All-Reduce 的结果在每个 rank 上相同。列并行层得到的是不同输出分片，后续如果仍能分片计算，未必立刻 All-Reduce。估算通信时先写出张量形状，例如 batch×sequence×hidden，再乘元素字节数得 <code>M</code>；ring 算法每 rank 的传输量约 <code>2(p-1)M/p</code>，但小消息可能由延迟主导，大消息才更接近带宽主导，NCCL 也可能选其他算法。</p>
 <p><strong>算一遍：</strong>若需要求和的输出张量为 <code>batch=4, sequence=2048, hidden=4096</code>、BF16，则 <code>M=4×2048×4096×2 B=64 MiB</code>。TP=8 的理想 ring 模型给出每 rank 约 <code>1.75×64=112 MiB</code> 的总传输量；若每层发生两次类似通信，还要乘调用次数。随后检查实际实现是否使用 All-Reduce、Reduce-Scatter 或其他组合，不能把该算例直接当作模型实测流量。</p></div></details>
-<details class="qa-card" id="q-40" data-category="6"><summary><span class="q-number">40</span><span class="q-title">PD 分离与分块 Prefill 分别解决什么？一定提升吞吐吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-43" data-category="6"><summary><span class="q-number">43</span><span class="q-title">PD 分离与分块 Prefill 分别解决什么？一定提升吞吐吗？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>PD 分离让 Prefill 和 Decode 在不同实例运行，并传递 KV/相关状态，使两阶段能按各自负载调资源，重点看 TTFT、token 间延迟和尾延迟。它增加传输、路由与维护成本，不能保证吞吐提高。分块 Prefill 是在同一服务调度中把长 Prefill 拆块，使它能与 Decode 请求交错编排；需要调块大小和 token 预算。两者可按负载特点对比，也不必断言“VLM 一律用某方案”。<strong>这次总结中“PD 分离提升吞吐”的回答应改成条件性表述</strong>；vLLM 官方文档明确说明其分离实现并不以提高吞吐为保证。<a href="https://docs.vllm.ai/en/latest/features/disagg_prefill/">vLLM PD 分离</a>、<a href="https://docs.vllm.ai/en/v0.18.1/configuration/optimization/">分块 Prefill</a></p>
 <p><strong>深入理解：</strong>两种方案处理的问题不同：PD 分离把 Prefill 和 Decode 放到不同资源池，适合两阶段负载比例差异明显、希望分别调度或隔离延迟的场景，但要付出 KV 传输和路由成本；分块 Prefill 在同一调度器里切长提示，使 Decode 不必一直等一个长 Prefill。选型不能靠流行方案，应该固定请求长度分布和到达率，对比 TTFT、TPOT、P95/P99、吞吐以及 GPU 利用率。若 Prefill 很短或 KV 传输代价高，PD 分离可能不划算。</p></div></details>
-<details class="qa-card" id="q-41" data-category="6"><summary><span class="q-number">41</span><span class="q-title">FlashAttention 除了算子融合，还有什么关键优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-44" data-category="6"><summary><span class="q-number">44</span><span class="q-title">FlashAttention 除了算子融合，还有什么关键优化？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>核心是 <strong>I/O 感知的分块计算</strong>：把 Q/K/V 分块放到片上 SRAM/寄存器中复用，尽量不把完整的 <code>N×N</code> 注意力分数矩阵写回 HBM；用<strong>在线 softmax</strong>维护运行中的最大值与归一化和，保证分块后仍能计算精确注意力。反向传播中还可选择重算部分中间量以省存储。算子融合是实现效果的一部分，但只说“融合”遗漏了分块与在线 softmax。它主要降低中间结果的存储和 HBM 读写，不代表注意力本身的理论二次计算量消失。<strong>Qwen3.5-27B 是混合层结构，不能默认每层都运行标准全注意力 FlashAttention kernel。</strong><a href="https://arxiv.org/abs/2205.14135">FlashAttention 原论文</a>、<a href="https://huggingface.co/Qwen/Qwen3.5-27B">Qwen 模型卡</a></p>
 <p><strong>深入理解：</strong>普通实现常把 <code>QK^T</code> 的完整分数矩阵写到 HBM，做 softmax 后再读出参与乘 V，序列长度为 N 时这个中间矩阵是 N×N。FlashAttention 分块处理 Q/K/V，把块留在片上，并用在线 softmax 的最大值和归一化和逐块更新，避免物化完整矩阵；反向时可用重算换存储。它是精确注意力算法，主要降低 HBM I/O 与中间内存占用，计算量级仍随全注意力的序列长度近似二次增长。能否加速还依赖 head dim、序列长度、硬件及 kernel 实现。</p></div></details>
-<details class="qa-card" id="q-42" data-category="6"><summary><span class="q-number">42</span><span class="q-title">多机训练慢，如何做全链路性能排查？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-45" data-category="6"><summary><span class="q-number">45</span><span class="q-title">多机训练慢，如何做全链路性能排查？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>先固定模型、数据长度分布、全局 batch、并行配置、节点拓扑和软件版本，拿到单机/少卡基线；把每步拆成数据加载、CPU 调度、H2D 拷贝、前向/反向 kernel、梯度同步、优化器更新和 checkpoint。用 profiler 看 GPU 时间线中计算与通信是否真正重叠、各 rank 是否等待最慢者；再跑 NCCL 通信基准确认链路能力。若通信占比高，查拓扑、消息大小、TP/DP 分组和 overlap；若 GPU 空转，先查数据管线和 CPU；若算子慢，再看形状、精度、融合与访存。一次只改变一个因素，并报告 <strong>step time、tokens/s、扩展效率、显存峰值</strong>。不能未经测量就先认定是 NCCL。<a href="https://docs.pytorch.org/docs/stable/distributed.html">PyTorch 分布式诊断</a>、<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html">NCCL 排障</a></p>
 <p><strong>深入理解：</strong>一套可信的排查过程要先确认测量口径：每步 token 数、梯度累积、数据长度分布与预热是否一致。若所有 GPU 都周期性空转，可能是数据读取或 checkpoint；若某些 rank 提前结束而等待，查负载不均和同步点；若通信条带很长，比较 <code>nccl-tests</code> 与训练实际消息大小，并检查 TP/DP 组是否跨了慢链路。优化后不能只报 GPU 利用率，应该同时报告稳定阶段的 step time、有效 tokens/s、P95 step time、峰值显存和规模扩展效率，并确认精度与收敛行为没有受损。</p>
 <p><strong>故障分支练习：</strong>若扩至两机后 tokens/s 没有按卡数增长，先确认每步有效 token 数相同；看 profiler 中是 DataLoader 空档、某个 rank 等待、还是 NCCL 集合通信变长。只有通信变长时，才进一步比较 <code>nccl-tests</code> 的同消息规模带宽、GPU/网卡拓扑和并行组映射。回答可明确这是一套排查方案；简历只证明单 H200 推理部署，不能叙述为本人已完成的多机训练事故复盘。</p></div></details>
-<details class="qa-card" id="q-43" data-category="6"><summary><span class="q-number">43</span><span class="q-title">TTFT 高、TPOT 高各说明什么？怎么定位推理瓶颈？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<details class="qa-card" id="q-46" data-category="6"><summary><span class="q-number">46</span><span class="q-title">TTFT 高、TPOT 高各说明什么？怎么定位推理瓶颈？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“排查时我会固定模型精度、输入 512 token、输出 128 token 和并发 8 的<strong>模拟负载</strong>，把 TTFT 拆成网络、排队、Prefill 与首步解码；TPOT 再看连续生成期间的调度和 KV/权重读取。若 P95 TTFT 在高并发下由 480 ms 升到 900 ms，而低并发不变，先看队列和长提示是否堵塞，不直接说算力不足。比较 Chunked Prefill 前后，要同时报 P95 TTFT、TPOT、吞吐和显存，不能只挑一个好看的值。”</p>
 <p><strong>参考回答：</strong>TTFT 包括排队、网络、分词/预处理、Prefill、KV 分配及首步 Decode；高 TTFT <strong>不能直接等于算力瓶颈</strong>。TPOT/ITL 受 Decode kernel、权重与 KV 读取、batch、通信、调度和流式传输影响；高 TPOT <strong>也不能直接等于带宽瓶颈</strong>。先固定输入/输出长度、并发、模型精度和缓存命中率，拆请求时间线；再用 profiler 与硬件计数器判断计算、带宽、通信或调度瓶颈。增大 batch 往往提高吞吐，但可能使等待和尾延迟变差；连续批处理有助于动态加入/退出请求，收益仍需压测验证。<a href="https://docs.vllm.ai/en/stable/configuration/optimization/">vLLM 优化文档</a></p>
 <p><strong>深入理解：</strong>定位 TTFT 时把客户端测到的总等待拆成网络往返、服务排队、预处理、Prefill 和首个 Decode token；若高并发下 TTFT 才变差，应先看排队和调度，不能直接调 kernel。TPOT 则要按输出 token 的时间间隔统计，并观察长度、batch 与缓存占用；若请求越多 TPOT 越高，可能是显存带宽、通信或调度竞争。比较方案时固定模型、量化精度、提示长度、生成长度、并发和前缀缓存状态，并同时报告 P50/P95，而非单个平均值。</p>
 <p><strong>简历中的项目口径：</strong>vLLM 服务使用 Continuous Batching、Prefix Caching、Chunked Prefill 与 KV Cache 管理，采集 TTFT、TPOT、P95/P99，并用 Prometheus、Grafana、DCGM Exporter 监控。面试可沿真实压测曲线说明定位过程；简历没有给出每项优化的单独增益或具体延迟数值。</p></div></details></section>
-<section class="category" id="category-7"><div class="section-heading"><h2>七、项目表达与岗位选择</h2><span class="section-count">2 题</span></div><details class="qa-card" id="q-44" data-category="7"><summary><span class="q-number">44</span><span class="q-title">如何用自我介绍把 Java 后端、Agent 和 RAG 经历讲成一条主线？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-7"><div class="section-heading"><h2>七、项目表达、工程方法与岗位选择</h2><span class="section-count">3 题</span></div><details class="qa-card" id="q-47" data-category="7"><summary><span class="q-number">47</span><span class="q-title">如何用自我介绍把 Java 后端、Agent 和 RAG 经历讲成一条主线？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 二面转述（2026-10-24，问题按转述归纳）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我是西南石油大学网络空间安全专业 2027 届硕士，本科是计算机科学与技术。Java 方面，我做过生活服务平台的订单创建、支付回调、状态流转以及 MySQL、Redis 和 AOP 公共能力；我比较关注订单链路在重复请求和异步通知下的可靠性。AI 应用方面，我在极峰精灵参与 Qwen3.5-27B 的单卡部署与自动发文 Agent，在四川玻色子参与鱼类知识库和 Agent 工作流，接触了检索、工具调用和效果评估。我应聘 Java 业务开发，希望把后端的接口、数据和可靠性能力用于 Agent 业务落地。”</p>
 <p><strong>参考回答模板：</strong>“我目前的经历有两条相互补充的主线。Java 后端方面，我在【真实项目】负责【本人完成的接口、订单、缓存或数据库工作】，遇到【一个可复现的业务问题】，通过【具体设计或排查】解决，并用【测试、指标或业务结果】验证。Agent/RAG 方面，我在【真实实习项目】负责【明确的模块】，重点处理【例如工具重复调用、图像资料检索或效果评估】。这些经历让我理解，Agent 最终仍要接入稳定的业务接口、权限、数据和可观测体系。我希望以 Java 业务开发为基础，在确实适合的审核、清洗或客服场景接入 Agent。”</p>
 <p><strong>深入理解：</strong>回答顺序建议是“岗位匹配 → 一个最能深挖的项目 → 挑战与本人行动 → 可核实结果 → 岗位动机”，控制在 60～90 秒。项目描述要分清业务目标、团队整体成果和个人职责；不能把同事负责的视频识别、鱼类追踪讲成自己完成，也不能把 Python Agent 经验等同于 Java 生产开发。若面试官问“收获”，讲一个工程决策的变化，例如从仅看模型是否返回答案，转向定义成功状态、失败类型、限流和回滚。简历、面经转述中的学校名称及成功率口径出现过不一致，面试前必须以简历和原始评测记录统一，不要临场拼接数字。</p>
 <p><strong>追问准备：</strong>为 Java 项目准备一个真实的接口或 SQL 调用链，为 Agent 项目准备一个失败轨迹及修复证据，为 RAG 项目准备一条从数据入库到检索回答的链路。没有精确实验记录时说“做过功能验证，尚无可靠量化对比”。</p>
-<p><strong>根据两份简历可核对的自我介绍：</strong>我是西南石油大学网络空间安全专业 2027 届硕士。本科为计算机科学与技术。Java 方向，我在生活服务平台完成订单创建、支付回调、状态流转、MySQL/Redis 存储与缓存、AOP 操作记录等功能；AI 应用方向，我在极峰精灵实习参与 Qwen3.5-27B 单卡 H200 部署及发文 Agent，在四川玻色子实习负责鱼类知识库与 Agent 工作流。应聘 Java 岗时以订单链路和业务可靠性为主线，Agent/RAG 作为能接入业务的补充；个人项目与企业实习要明确区分。</p></div></details>
-<details class="qa-card" id="q-45" data-category="7"><summary><span class="q-number">45</span><span class="q-title">为什么选分布式优化岗位？缺少多卡训练经验怎么回答？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p><strong>根据两份简历可核对的自我介绍：</strong>我是西南石油大学网络空间安全专业 2027 届硕士。本科为计算机科学与技术。Java 方向，我在生活服务平台完成订单创建、支付回调、状态流转、MySQL/Redis 存储与缓存、AOP 操作记录等功能；AI 应用方向，我在极峰精灵实习参与 Qwen3.5-27B 单卡 H200 部署及发文 Agent，在四川玻色子实习负责鱼类知识库与 Agent 工作流。应聘 Java 岗时以订单链路和业务可靠性为主线，Agent/RAG 作为能接入业务的补充；个人项目与企业实习要明确区分。</p>
+<p><strong>三面行为追问：实习短、为何未留用？</strong>可简洁说明两段实习的起止时间、项目交付及下一步岗位选择，不猜测公司意图或贬低原团队。问全栈定位时，可回答“以 Java 后端和 AI 能力接入为主，前端能完成协作和基础调试；下一阶段重点补自动化测试、接口契约与线上排障”。回答学习方法时，举一个 Browser-Use 或 MySQL 的具体学习闭环：官方文档/源码 → 最小复现 → 指标或测试验证 → 复盘。</p></div></details>
+<details class="qa-card" id="q-48" data-category="7"><summary><span class="q-number">48</span><span class="q-title">TDD 与 SDD 是什么？怎样落到一次业务开发？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<p>来源：得物 Java 三面转述（2026-10-31）；“SDD”按面试官所说的规划驱动开发回答。</p>
+</blockquote>
+<p><strong>面试可直接回答：</strong>“TDD 是先写能暴露需求的失败测试，再写最少实现使测试通过，最后在测试保护下重构，即 Red–Green–Refactor。SDD 这个缩写没有唯一通用定义；按您这里的‘规划驱动’，我理解为先澄清目标、接口、约束、验收标准和任务依赖，再分阶段实现、验证、复盘。两者可以配合：规划回答做什么和如何验收，TDD帮助落实关键行为。”</p>
+<p><strong>订单例子：</strong>先列重复支付回调、订单已取消、金额不匹配等验收场景；挑一个重复回调写自动化测试，确认旧实现失败，再增加幂等条件更新与唯一约束，最后重构公共代码。接口契约和集成测试用于验证数据库、MQ 与回调边界，TDD 不等于所有细节都先写单测，也不替代压测和线上观测。说自己用过某种开发流程时，准备一个确实按红绿重构走完的提交实例。<a href="https://martinfowler.com/bliki/TestDrivenDevelopment.html">Martin Fowler：TDD</a></p></div></details>
+<details class="qa-card" id="q-49" data-category="7"><summary><span class="q-number">49</span><span class="q-title">为什么选分布式优化岗位？缺少多卡训练经验怎么回答？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我更想做分布式优化，是因为单卡 H200 上部署 27B 模型时，已经需要同时权衡权重、KV Cache、并发和首 Token 延迟；规模扩大后，通信和并行策略会成为新的约束。我做过的重点是单卡推理部署、vLLM 压测与监控，多机训练仍在学习阶段。若进入岗位，我会先复现训练基线，再把 step time 拆成数据、算子和通信，用 profiler 与 NCCL 基准定位瓶颈。这个回答展示可迁移的方法，不把单卡经验冒充多卡实战。”</p>
