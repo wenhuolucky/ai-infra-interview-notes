@@ -116,13 +116,13 @@
     <aside class="sidebar" aria-label="分类目录">
       <a class="brand" href="#top"><span class="brand-icon">问</span><span><strong>面经题库</strong><small>Interview Notes · 离线版</small></span></a>
       <p class="side-label">分类目录</p>
-      <nav class="nav"><a class="nav-link" href="#category-1"><span>一、Java 基础、并发与 JVM</span><small>12</small></a>
+      <nav class="nav"><a class="nav-link" href="#category-1"><span>一、Java、Spring 与 JVM</span><small>12</small></a>
 <a class="nav-link" href="#category-2"><span>二、MySQL 索引、事务与查询</span><small>6</small></a>
-<a class="nav-link" href="#category-3"><span>三、Redis、缓存与分布式治理</span><small>9</small></a>
+<a class="nav-link" href="#category-3"><span>三、缓存、消息队列与分布式业务设计</span><small>9</small></a>
 <a class="nav-link" href="#category-4"><span>四、网络、日志与可观测性</span><small>3</small></a>
 <a class="nav-link" href="#category-5"><span>五、Agent、RAG 与 AI 辅助开发</span><small>11</small></a>
-<a class="nav-link" href="#category-6"><span>六、CUDA、分布式训练与推理</span><small>13</small></a>
-<a class="nav-link" href="#category-7"><span>七、项目表达、工程方法与岗位选择</span><small>4</small></a>
+<a class="nav-link" href="#category-6"><span>六、C++、CUDA 与大模型训练推理</span><small>13</small></a>
+<a class="nav-link" href="#category-7"><span>七、工程方法、部署与岗位表达</span><small>4</small></a>
 <a class="nav-link" href="#review-notes"><span>复习前核对</span></a></nav>
       <p class="sidebar-foot">58 道问题 · 7 个类别<br>先口述，再展开答案。</p>
     </aside>
@@ -141,7 +141,7 @@
       </div>
       <div class="summary-line"><span id="result-count" role="status">共 58 道题</span><span>提示：点击题目展开；按 Ctrl+F 也可使用浏览器查找</span></div>
       <div id="empty" hidden>没有找到相关题目。试试更短的关键词。</div>
-      <section class="category" id="category-1"><div class="section-heading"><h2>一、Java 基础、并发与 JVM</h2><span class="section-count">12 题</span></div><details class="qa-card" id="q-1" data-category="1"><summary><span class="q-number">01</span><span class="q-title">ArrayList 和 LinkedList 有什么区别？哪个用得多？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+      <section class="category" id="category-1"><div class="section-heading"><h2>一、Java、Spring 与 JVM</h2><span class="section-count">12 题</span></div><details class="qa-card" id="q-1" data-category="1"><summary><span class="q-number">01</span><span class="q-title">ArrayList 和 LinkedList 有什么区别？哪个用得多？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
 <p><strong>参考回答：</strong><code>ArrayList</code> 底层是可扩容数组，按下标访问是 O(1)，顺序遍历通常也更快；在中间插入或删除元素，需要移动后续元素。<code>LinkedList</code> 是双向链表，已定位到节点后增删节点可以是 O(1)，但按下标查找是 O(n)，每个节点还有指针开销。普通业务中我会优先选 <code>ArrayList</code>；只有频繁在两端操作、并且链表的使用方式确实合适时才考虑 <code>LinkedList</code>，队列场景也会比较 <code>ArrayDeque</code>。两者都不是天然线程安全的。</p>
@@ -219,7 +219,9 @@ public void update() {
 <p>来源：北银金科 Java 技术面转述（2026-11-20）。</p>
 </blockquote>
 <p><strong>面试可直接回答：</strong>“常见代理模式下，外部调用进入 Spring 管理的 Bean 代理，事务拦截器按 <code>@Transactional</code> 配置获取事务、执行方法，正常完成就提交；抛出符合回滚规则的异常则回滚。默认对 <code>RuntimeException</code> 和 <code>Error</code> 回滚，受检异常默认不回滚，可用 <code>rollbackFor</code> 明确规则。<code>REQUIRED</code> 是默认传播行为：有事务就加入，没有就新建。事务是否最终提交还受外层事务、传播行为与异常处理影响。”</p>
-<p><strong>失效与处理：</strong>同类内部 <code>this.method()</code> 绕过代理；未由容器管理的对象、代理不能拦截的调用方式、异常被捕获而未抛出、跨线程执行等也可能使预期失效。<code>private</code>/非 <code>public</code> 方法能否被拦截与代理及版本有关，不宜背成无条件定律。先用集成测试验证回滚，再看调用是否过代理、异常类型、事务管理器与数据库连接；可拆到另一个 Bean、使用 <code>TransactionTemplate</code> 或调整异常规则。事务只覆盖同一事务资源边界，调用 MQ、Redis 或外部接口不会自动一起回滚。<a href="https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html">Spring 声明式事务</a></p></div></details></section>
+<p><strong>失效与处理：</strong>同类内部 <code>this.method()</code> 绕过代理；未由容器管理的对象、代理不能拦截的调用方式、异常被捕获而未抛出、跨线程执行等也可能使预期失效。<code>private</code>/非 <code>public</code> 方法能否被拦截与代理及版本有关，不宜背成无条件定律。先用集成测试验证回滚，再看调用是否过代理、异常类型、事务管理器与数据库连接；可拆到另一个 Bean、使用 <code>TransactionTemplate</code> 或调整异常规则。事务只覆盖同一事务资源边界，调用 MQ、Redis 或外部接口不会自动一起回滚。<a href="https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html">Spring 声明式事务</a></p>
+<p><strong>事务时序追问：</strong>假设 <code>OrderService.create()</code> 与 <code>PaymentService.record()</code> 都标了 <code>REQUIRED</code>，且外层通过代理调用内层，二者加入同一个物理事务。内层抛出运行时异常，事务拦截器将事务标为 rollback-only；即使外层捕获异常并正常返回，外层提交时仍可能得到 <code>UnexpectedRollbackException</code>，数据库改动不会提交。若异常只在同一个方法内部被捕获、从未传过事务代理，默认回滚规则可能根本未触发。应按业务决定继续抛出、显式标记回滚或把可失败的非核心动作移到事务后。<code>REQUIRES_NEW</code> 使用独立物理事务，也会额外占用连接，不能为“避免回滚”随意加。<a href="https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html">Spring 事务传播文档</a></p>
+<p><strong>数据库与 MQ 边界：</strong>订单事务提交不意味着 RabbitMQ 消息已发出。若先提交数据库、随后发布失败，会漏通知；可把待发布事件与订单写在同一数据库事务的 Outbox 表里，提交后由后台发布并用 confirm 标记完成。消费者仍要按事件 ID 幂等，因为重发可能发生。</p></div></details></section>
 <section class="category" id="category-2"><div class="section-heading"><h2>二、MySQL 索引、事务与查询</h2><span class="section-count">6 题</span></div><details class="qa-card" id="q-13" data-category="2"><summary><span class="q-number">13</span><span class="q-title">事务隔离级别有哪些？默认是什么？各解决什么问题？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
@@ -294,7 +296,7 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 </blockquote>
 <p><strong>面试可直接回答：</strong>“<code>WHERE</code> 在分组聚合前过滤原始行，<code>HAVING</code> 在分组后过滤聚合结果。统计每班人数并只保留超过 30 人的班级，可以写 <code>SELECT class_id, COUNT(*) AS student_count FROM student WHERE status='在读' GROUP BY class_id HAVING COUNT(*) &gt; 30;</code>。这里 <code>WHERE</code> 先排除非在读学生，<code>HAVING</code> 再按人数筛班级。”</p>
 <p><strong>追问边界：</strong>普通行条件能提前放 <code>WHERE</code> 时通常先过滤以减少参与分组的数据；<code>COUNT(*)</code> 计算所有过滤后的行，<code>COUNT(column)</code> 不计该列的 <code>NULL</code>。没有 <code>GROUP BY</code> 时也可能对整体聚合结果使用 <code>HAVING</code>。实际执行顺序和优化器变换不必机械等同于 SQL 的书写顺序。<a href="https://dev.mysql.com/doc/refman/8.4/en/select.html">MySQL HAVING 文档</a></p></div></details></section>
-<section class="category" id="category-3"><div class="section-heading"><h2>三、Redis、缓存与分布式治理</h2><span class="section-count">9 题</span></div><details class="qa-card" id="q-19" data-category="3"><summary><span class="q-number">19</span><span class="q-title">本地缓存和 Redis 缓存有什么区别？多实例系统怎样选择？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-3"><div class="section-heading"><h2>三、缓存、消息队列与分布式业务设计</h2><span class="section-count">9 题</span></div><details class="qa-card" id="q-19" data-category="3"><summary><span class="q-number">19</span><span class="q-title">本地缓存和 Redis 缓存有什么区别？多实例系统怎样选择？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：深瑞同华技术面转述（2026-11-12）。</p>
 </blockquote>
 <p><strong>面试可直接回答：</strong>“本地缓存位于每个应用实例进程内，访问无需网络，通常延迟更低，但每个实例有自己的副本，重启会丢失，容量也受进程内存限制。Redis 是独立服务，多个实例可共享缓存与计数状态，支持 TTL、数据结构和可配置持久化；代价是网络请求、运维成本与故障切换风险。Redis 的核心价值之一是跨实例共享状态，但它本身也不能自动保证与 MySQL 或各实例本地缓存强一致。”</p>
@@ -313,7 +315,8 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>Redis 常放：</strong>高频读取、允许短暂陈旧、重建成本可控的数据，例如商品详情、用户公开资料、配置快照；也常用于会话、限流计数、临时状态，但这些用途的持久化与一致性要求各不相同。敏感信息要控制存储内容与访问权限。<a href="https://redis.io/docs/latest/develop/use-cases/cache-aside/">Redis cache-aside 文档</a></p>
 <p><strong>深入理解：</strong>“更新数据库后删除缓存”只是常见最终一致性方案，关键在失败和竞态处理。例如数据库提交成功但缓存删除失败，旧值会一直留到 TTL 到期；可以用可靠事件或重试队列补删，并监测失败量。又如旧读请求先读到旧库值、写请求提交并删缓存、旧读请求随后把旧值写回缓存，仍可能出现短暂陈旧；缩短 TTL、版本号校验或针对关键 Key 的串行化可降低风险。面试时先说业务容忍的陈旧窗口，金额、库存等核心状态应以数据库约束和权威读为准。</p>
 <p><strong>简历中的项目例子：</strong>生活服务平台将热门菜品和购物车等高频数据放入 Redis，MySQL 保存订单等权威状态。讨论一致性时可用‘菜品信息更新后删缓存’作方案示例；是否实际实现了删除失败补偿，需检查代码后再作亲历陈述。</p>
-<p><strong>北银金科追问：DB 已提交但缓存还没删，如何处理？</strong>这是旁路缓存的陈旧窗口，延时双删只是降低某些读写交错的概率，固定 300～1000 ms 不是通用正确值，也不能消除窗口。MQ 或 binlog/CDC 事件可用于可靠补删与重建，但事件仍有延迟，且要处理重复、乱序、消费失败与消息和事务之间的原子性；可用事务 Outbox 降低漏发事件风险。若该业务必须读到最新值，关键路径应读权威数据库或采用可验证的版本/事务协议，先明确一致性要求再选方案。</p></div></details>
+<p><strong>北银金科追问：DB 已提交但缓存还没删，如何处理？</strong>这是旁路缓存的陈旧窗口，延时双删只是降低某些读写交错的概率，固定 300～1000 ms 不是通用正确值，也不能消除窗口。MQ 或 binlog/CDC 事件可用于可靠补删与重建，但事件仍有延迟，且要处理重复、乱序、消费失败与消息和事务之间的原子性；可用事务 Outbox 降低漏发事件风险。若该业务必须读到最新值，关键路径应读权威数据库或采用可验证的版本/事务协议，先明确一致性要求再选方案。</p>
+<p><strong>三个具体时序：</strong>① 写请求提交数据库后、删缓存前，另一读请求直接命中旧缓存；补删机制也无法撤销这次已返回的旧值。② 删缓存失败，旧值会持续到补偿成功或 TTL 到期；应记录失败、重试并告警。③ 读请求先查到旧数据库值，写请求提交并删缓存，旧读随后把旧值写回；可用带版本的缓存写入、失效通知或对关键 Key 串行化降低风险。面试先问“能接受多少秒旧值”，再决定缓存方案；资金、库存等关键判断应由权威存储和业务约束完成。</p></div></details>
 <details class="qa-card" id="q-22" data-category="3"><summary><span class="q-number">22</span><span class="q-title">Redis 主从切换时如何降低数据丢失和脑裂风险？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：他人美团 Java 面经截图（仅作学习，不代表本人经历）。</p>
 </blockquote>
@@ -335,17 +338,21 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p>来源：北银金科 Java 技术面转述（2026-11-20）。</p>
 </blockquote>
 <p><strong>面试可直接回答：</strong>“订单状态在 MySQL 提交后，订单服务发布含 <code>eventId</code>、<code>orderId</code>、<code>merchantId</code>、状态版本的通知事件到交换机；用商家 ID 选择路由键或队列分片，通知服务消费后查商家在线连接，再通过 WebSocket 推送。离线商家从数据库待办或消息记录补取，WebSocket 送达不等于商家已读。交换机类型和队列数量由路由方式、吞吐与运维成本决定，可以从少量固定队列开始压测，不必为每个商家建队列。”</p>
-<p><strong>可靠性与顺序：</strong>生产者 confirm 只确认消息到达 Broker 的相应阶段；持久化队列/消息、消费者手动 ACK、有限重试和死信队列各解决不同失败点。数据库提交与消息发布之间还需 Outbox 或等效机制处理漏发。消费者可能重复收到消息，应按 <code>eventId</code> 或订单状态版本幂等。相同商家路由同一队列不自动保证业务处理顺序：多消费者、并行处理、重入队与跨队列发布都可能乱序；若严格按订单顺序，应限制同一键的并行度并按状态版本拒绝旧事件。积压时先判断消费者还是下游 WebSocket/DB 瓶颈，再扩分片或消费者。<a href="https://www.rabbitmq.com/docs/confirms">RabbitMQ 确认机制</a></p></div></details>
+<p><strong>可靠性与顺序：</strong>生产者 confirm 只确认消息到达 Broker 的相应阶段；持久化队列/消息、消费者手动 ACK、有限重试和死信队列各解决不同失败点。数据库提交与消息发布之间还需 Outbox 或等效机制处理漏发。消费者可能重复收到消息，应按 <code>eventId</code> 或订单状态版本幂等。相同商家路由同一队列不自动保证业务处理顺序：多消费者、并行处理、重入队与跨队列发布都可能乱序；若严格按订单顺序，应限制同一键的并行度并按状态版本拒绝旧事件。积压时先判断消费者还是下游 WebSocket/DB 瓶颈，再扩分片或消费者。<a href="https://www.rabbitmq.com/docs/confirms">RabbitMQ 确认机制</a></p>
+<p><strong>把“多少队列、如何分配”说具体：</strong>以下是可压测的<strong>模拟设计</strong>：创建 <code>merchant.notify</code> 交换机和 4 个固定队列 <code>notify.0</code>～<code>notify.3</code>，发布时计算 <code>partition=merchantId % 4</code>，用 <code>notify.partition</code> 路由到对应队列。同商家事件进同一分片，但一个分片包含许多商家；队列数是容量与运维的选型结果，不是 RabbitMQ 规定的固定值。若用 Topic 交换机，可为每队列绑定精确路由键；不需要通配模式时 Direct 交换机更直观。改分片数需要考虑存量消息与新消息跨队列乱序。</p>
+<p><strong>完整链路与 ACK 时机：</strong>订单事务写订单及 Outbox → 发布任务投递持久化消息并等待 producer confirm → 消费者按事件 ID 去重、写入商家待办/通知状态 → 成功后手动 ACK → 在线连接经 WebSocket 推送。若 WebSocket 发送只是尽力通知，应让商家客户端上线后按通知 ID 拉取未读消息；不能把 socket 写入成功当作用户已读。需要严格按同一订单处理顺序时，按订单版本拒绝旧事件，并限制同一键的并行处理；可评估单活消费者和 prefetch，重投递仍要靠版本校验。<a href="https://www.rabbitmq.com/docs/consumers">RabbitMQ 单活消费者</a></p></div></details>
 <details class="qa-card" id="q-26" data-category="3"><summary><span class="q-number">26</span><span class="q-title">外卖库存怎样防超卖？锁商品还是锁订单，低库存怎样处理？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：北银金科 Java 技术面转述（2026-11-20）。</p>
 </blockquote>
 <p><strong>面试可直接回答：</strong>“要保护的不变量是同一 SKU 的可售库存不能小于零，竞争范围是商品 SKU，不是每个新建订单。普通下单可在数据库事务中执行条件扣减：<code>UPDATE sku_stock SET stock=stock-:n WHERE sku_id=:id AND stock&gt;=:n</code>，检查影响行数为 1 才继续创建或确认订单；订单请求 ID 加唯一约束防重复扣减。MySQL 行锁与条件更新在单库场景通常比额外加 Redis 分布式锁更直接。”</p>
-<p><strong>高并发与低库存：</strong>热点 SKU 可以限流、排队或用 Redis Lua 原子预扣减轻数据库压力，但 Redis 预扣不是最终事实：必须设计订单/数据库确认、失败回补、超时取消和 Redis 故障恢复，避免两套库存各自变化。库存只剩个位数时应更严格控制并发与重试，最终仍以数据库条件更新的影响行数为准。<code>version</code> 乐观锁可用于并发更新，但冲突率高时重试会放大流量；<code>SELECT ... FOR UPDATE</code> 适于需要先读后改的短事务。<code>CHECK(stock&gt;=0)</code> 可作额外保护，不能替代条件扣减与订单幂等。<a href="https://dev.mysql.com/doc/refman/8.4/en/update.html">MySQL UPDATE</a></p></div></details>
+<p><strong>高并发与低库存：</strong>热点 SKU 可以限流、排队或用 Redis Lua 原子预扣减轻数据库压力，但 Redis 预扣不是最终事实：必须设计订单/数据库确认、失败回补、超时取消和 Redis 故障恢复，避免两套库存各自变化。库存只剩个位数时应更严格控制并发与重试，最终仍以数据库条件更新的影响行数为准。<code>version</code> 乐观锁可用于并发更新，但冲突率高时重试会放大流量；<code>SELECT ... FOR UPDATE</code> 适于需要先读后改的短事务。<code>CHECK(stock&gt;=0)</code> 可作额外保护，不能替代条件扣减与订单幂等。<a href="https://dev.mysql.com/doc/refman/8.4/en/update.html">MySQL UPDATE</a></p>
+<p><strong>库存仅余 1 件的时序：</strong>请求 A、B 都执行 <code>UPDATE sku_stock SET stock=stock-1 WHERE sku_id=7 AND stock&gt;=1</code>。数据库对同一行串行处理，A 更新 1 行后库存为 0；B 重新判断条件后影响 0 行，返回“售罄”。只有更新 1 行的请求才能在同一事务中写入订单。请求重试时用 <code>(userId,requestId)</code> 或业务订单号的唯一约束保证不重复扣减；支付失败或超时取消要走幂等的反向状态迁移与回补，且不能在已履约后误回补。这里保护的是 SKU 库存行，锁每个新订单无法协调两笔订单竞争同一件商品。</p></div></details>
 <details class="qa-card" id="q-27" data-category="3"><summary><span class="q-number">27</span><span class="q-title">Redis 分布式锁如何实现？外卖系统哪些场景真正需要它？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：北银金科 Java 技术面转述（2026-11-20）。</p>
 </blockquote>
 <p><strong>面试可直接回答：</strong>“单 Redis 实例的基本模式是 <code>SET lock:key 随机唯一值 NX PX 租期</code>，获取与设过期原子完成；释放时用 Lua 比对持有者值后再删，避免旧持有者误删新锁。锁键按需要互斥的资源划分，例如同一商家某个定时任务或同一订单的跨服务状态机。查询通常不用锁；库存如果数据库条件更新已能保证不超卖，也不必默认再加 Redis 锁。”</p>
-<p><strong>业务边界：</strong>分布式锁的租期可能在长 GC、网络暂停或 Redis 故障切换时失效，旧持有者恢复后仍可能继续操作；重要写入应由数据库唯一约束、条件更新或递增 fencing token 再校验。Redisson 的可重入与续期能力方便使用，但也不能替代下游不变量。优惠券核销可先考虑数据库唯一约束和原子状态迁移；任务防重复执行则要结合幂等和任务所有权。讲场景时先说明为何单库事务、唯一键或乐观更新不足，再决定是否引入跨实例锁。<a href="https://redis.io/docs/latest/develop/use/patterns/distributed-locks/">Redis 分布式锁文档</a></p></div></details></section>
+<p><strong>业务边界：</strong>分布式锁的租期可能在长 GC、网络暂停或 Redis 故障切换时失效，旧持有者恢复后仍可能继续操作；重要写入应由数据库唯一约束、条件更新或递增 fencing token 再校验。Redisson 的可重入与续期能力方便使用，但也不能替代下游不变量。优惠券核销可先考虑数据库唯一约束和原子状态迁移；任务防重复执行则要结合幂等和任务所有权。讲场景时先说明为何单库事务、唯一键或乐观更新不足，再决定是否引入跨实例锁。<a href="https://redis.io/docs/latest/develop/use/patterns/distributed-locks/">Redis 分布式锁文档</a></p>
+<p><strong>跨实例任务例子：</strong>两个服务实例同时扫描同一商家的超时订单，若业务只允许一个实例执行该批任务，可用 <code>lock:merchant:timeout:{merchantId}</code> 竞争短期执行权。获得锁后还要按订单状态做条件更新；实例 A 因长暂停超过租期，实例 B 获锁并处理，A 恢复后不能仅凭“我曾获得锁”继续写入。若下游支持 fencing token，持锁代次单调增加，下游拒绝旧代次；若不支持，就用数据库条件更新、唯一键和幂等处理兜底。释放锁必须校验 token。面试应先说清跨实例互斥的对象、租期、超时与恢复，再说明为什么数据库原子操作单独不够。</p></div></details></section>
 <section class="category" id="category-4"><div class="section-heading"><h2>四、网络、日志与可观测性</h2><span class="section-count">3 题</span></div><details class="qa-card" id="q-28" data-category="4"><summary><span class="q-number">28</span><span class="q-title">SSE 与 WebSocket 有什么区别？分别基于哪层？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：近期个人面试。</p>
 </blockquote>
@@ -439,12 +446,14 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p>来源：深瑞同华技术面转述（2026-11-12）。</p>
 </blockquote>
 <p><strong>面试可直接回答：</strong>“把登录态当作有生命周期的敏感凭证管理，而不是假设 Cookie 可以无限续期。每个平台、账号维护隔离的会话存储和有效状态；任务开始前检查登录态，失效时进入重新认证或人工接管，再从安全检查点继续。发布前后都要核对平台实际状态，避免登录失效导致重复提交或把草稿算作发布。多账号并发要限制同账号互相覆盖会话。”</p>
-<p><strong>追问落地：</strong>Cookie 要限制访问权限、加密存储并避免写入日志；记录平台、账号、更新时间、最近验证结果和失效原因。恢复流程可区分过期、验证码、权限变化及风控提示，优先采用平台允许的正式接口或人工验证。云手机、浏览器持久化配置等方案只是不同运行环境，不能承诺绕过平台限制，也不能保证会话永不过期。指标看登录态失效率、重登成功率、人工接管率和重复发布率。</p></div></details>
+<p><strong>追问落地：</strong>Cookie 要限制访问权限、加密存储并避免写入日志；记录平台、账号、更新时间、最近验证结果和失效原因。恢复流程可区分过期、验证码、权限变化及风控提示，优先采用平台允许的正式接口或人工验证。云手机、浏览器持久化配置等方案只是不同运行环境，不能承诺绕过平台限制，也不能保证会话永不过期。指标看登录态失效率、重登成功率、人工接管率和重复发布率。</p>
+<p><strong>失败轨迹练习：</strong>任务 T 在编辑页面停留过久，提交时平台返回未登录。执行器不能立即重放“提交”，应把任务记为 <code>AUTH_EXPIRED</code>，保留内容版本、已上传封面和最后确认的页面状态；先重新认证，再查询该内容是否已经发布或保存草稿。若已发布，标记成功并记录链接；若未发布，回到可安全重试的检查点。对验证码或权限变化则转人工，不无限重登。<code>AUTH_EXPIRED</code> 和检查点名称是模拟设计，回答时应对应真实系统日志。</p></div></details>
 <details class="qa-card" id="q-38" data-category="5"><summary><span class="q-number">38</span><span class="q-title">重新做多平台 Agent 项目，从需求澄清到执行回收怎么设计？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 三面转述（2026-10-31）。</p>
 </blockquote>
 <p><strong>面试可直接回答：</strong>“先问清平台范围、账号权限、发布成功定义、每日额度、人工接管条件、吞吐与可接受成本。输入约定平台、账号、内容版本和封面，输出用任务 ID、状态、发布链接或失败原因。再把流程拆为账号准备、内容校验、登录、编辑、提交、结果回查和日志；每个任务用持久化状态机记录阶段、重试次数和外部副作用。稳定动作做确定性工具，页面语义判断交给 Agent，发布和重试由程序校验。任务结束后回收浏览器/会话资源、汇总成功率、耗时和失败类型，把真实失败案例回流测试集。”</p>
-<p><strong>追问：进度落后怎么办？</strong>先识别关键路径和阻塞依赖，给出新完成预测，及时向负责人说明范围、风险与可交付的最小闭环；优先保证一个平台的完整发布与回查，再扩到多个平台。成熟框架可复用，但要核对许可、维护状态和集成成本。加班只能处理短期工作量，不能替代范围调整与风险沟通。<strong>验收</strong>至少覆盖重复提交、验证码/权限失败、页面改版、断网恢复、额度用尽和任务重启后的状态恢复。</p></div></details>
+<p><strong>追问：进度落后怎么办？</strong>先识别关键路径和阻塞依赖，给出新完成预测，及时向负责人说明范围、风险与可交付的最小闭环；优先保证一个平台的完整发布与回查，再扩到多个平台。成熟框架可复用，但要核对许可、维护状态和集成成本。加班只能处理短期工作量，不能替代范围调整与风险沟通。<strong>验收</strong>至少覆盖重复提交、验证码/权限失败、页面改版、断网恢复、额度用尽和任务重启后的状态恢复。</p>
+<p><strong>状态机与验收再展开：</strong>可以定义 <code>CREATED→VALIDATED→AUTH_READY→EDITING→SUBMITTED→VERIFYING→PUBLISHED</code>，并有 <code>DRAFT</code>、<code>WAITING_HUMAN</code>、<code>FAILED</code> 等终态/暂停态。每次状态迁移写入任务 ID、内容版本、平台回执、重试次数和时间；服务重启后从最后一个已持久化检查点恢复。提交前查重，提交后回查发布链接，避免“工具返回成功”却重复发文。先交付一个平台的完整闭环，再按相同工具契约扩展平台；验收覆盖登录失效、弹窗、提交超时、重复回调和重启恢复。</p></div></details>
 <details class="qa-card" id="q-39" data-category="5"><summary><span class="q-number">39</span><span class="q-title">图像 RAG 知识库从视频采集到用户问答，完整链路怎样设计？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 二面转述（2026-10-24，问题按转述归纳）。</p>
 </blockquote>
@@ -469,7 +478,7 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 </blockquote>
 <p><strong>面试可直接回答：</strong>“先定义意图标签与多标签/层级问题，建立规则和关键词基线。传统方案可把 TF-IDF 或 n-gram 特征接朴素贝叶斯、逻辑回归、线性 SVM；深度学习方案常用 TextCNN、BiLSTM 或预训练的 BERT 类编码器加分类头；开放意图或样本少时可用 embedding 相似度检索、少样本大模型分类。电商客服中，订单查询、退换货、商品咨询和投诉先分层识别；低置信或多意图请求转人工或更强模型，不强行单标签。”</p>
 <p><strong>选型与评估：</strong>先用标注集比较 macro-F1、各类召回率、混淆矩阵、拒识率、推理延迟和成本。类间混淆要检查标签定义、短文本上下文与训练样本；“查订单还是退货”可能需要追问或多意图分解。若意图只决定调用哪条工具链，误路由代价和兜底策略比单一准确率更重要。不要把知识图谱当成意图分类模型。<a href="https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html">scikit-learn 文本分类示例</a></p></div></details></section>
-<section class="category" id="category-6"><div class="section-heading"><h2>六、CUDA、分布式训练与推理</h2><span class="section-count">13 题</span></div><details class="qa-card" id="q-42" data-category="6"><summary><span class="q-number">42</span><span class="q-title">C++ 指针与引用的区别是什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-6"><div class="section-heading"><h2>六、C++、CUDA 与大模型训练推理</h2><span class="section-count">13 题</span></div><details class="qa-card" id="q-42" data-category="6"><summary><span class="q-number">42</span><span class="q-title">C++ 指针与引用的区别是什么？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：曙光面试总结（2026-10-23，问题按总结还原）。</p>
 </blockquote>
 <p><strong>参考回答：</strong>指针是保存地址的对象，可为空、可改指向，使用时通常要解引用；引用是已存在对象的别名，定义时必须绑定对象，之后不能重新绑定。函数参数若只是读取且希望避免拷贝，可用 <code>const T&amp;</code>；需要表示“可能没有对象”或可能改指向时用指针。<code>const</code> 指针和指向 <code>const</code> 的指针要区分。引用也不是“永远安全”：返回局部变量的引用或让引用指向已销毁对象，都会产生悬垂引用。<strong>项目回答</strong>应举自己处理资源或函数接口的例子，不要只背语法。</p>
@@ -542,7 +551,7 @@ CREATE UNIQUE INDEX uk_user_email ON users(email);
 <p><strong>参考回答：</strong>TTFT 包括排队、网络、分词/预处理、Prefill、KV 分配及首步 Decode；高 TTFT <strong>不能直接等于算力瓶颈</strong>。TPOT/ITL 受 Decode kernel、权重与 KV 读取、batch、通信、调度和流式传输影响；高 TPOT <strong>也不能直接等于带宽瓶颈</strong>。先固定输入/输出长度、并发、模型精度和缓存命中率，拆请求时间线；再用 profiler 与硬件计数器判断计算、带宽、通信或调度瓶颈。增大 batch 往往提高吞吐，但可能使等待和尾延迟变差；连续批处理有助于动态加入/退出请求，收益仍需压测验证。<a href="https://docs.vllm.ai/en/stable/configuration/optimization/">vLLM 优化文档</a></p>
 <p><strong>深入理解：</strong>定位 TTFT 时把客户端测到的总等待拆成网络往返、服务排队、预处理、Prefill 和首个 Decode token；若高并发下 TTFT 才变差，应先看排队和调度，不能直接调 kernel。TPOT 则要按输出 token 的时间间隔统计，并观察长度、batch 与缓存占用；若请求越多 TPOT 越高，可能是显存带宽、通信或调度竞争。比较方案时固定模型、量化精度、提示长度、生成长度、并发和前缀缓存状态，并同时报告 P50/P95，而非单个平均值。</p>
 <p><strong>简历中的项目口径：</strong>vLLM 服务使用 Continuous Batching、Prefix Caching、Chunked Prefill 与 KV Cache 管理，采集 TTFT、TPOT、P95/P99，并用 Prometheus、Grafana、DCGM Exporter 监控。面试可沿真实压测曲线说明定位过程；简历没有给出每项优化的单独增益或具体延迟数值。</p></div></details></section>
-<section class="category" id="category-7"><div class="section-heading"><h2>七、项目表达、工程方法与岗位选择</h2><span class="section-count">4 题</span></div><details class="qa-card" id="q-55" data-category="7"><summary><span class="q-number">55</span><span class="q-title">如何用自我介绍把 Java 后端、Agent 和 RAG 经历讲成一条主线？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
+<section class="category" id="category-7"><div class="section-heading"><h2>七、工程方法、部署与岗位表达</h2><span class="section-count">4 题</span></div><details class="qa-card" id="q-55" data-category="7"><summary><span class="q-number">55</span><span class="q-title">如何用自我介绍把 Java 后端、Agent 和 RAG 经历讲成一条主线？</span><span class="chevron" aria-hidden="true"></span></summary><div class="answer"><blockquote>
 <p>来源：得物 Java 二面转述（2026-10-24，问题按转述归纳）。</p>
 </blockquote>
 <p><strong>面试口述示例（模拟；简历指标已注明）：</strong>“我是西南石油大学网络空间安全专业 2027 届硕士，本科是计算机科学与技术。Java 方面，我做过生活服务平台的订单创建、支付回调、状态流转以及 MySQL、Redis 和 AOP 公共能力；我比较关注订单链路在重复请求和异步通知下的可靠性。AI 应用方面，我在极峰精灵参与 Qwen3.5-27B 的单卡部署与自动发文 Agent，在四川玻色子参与鱼类知识库和 Agent 工作流，接触了检索、工具调用和效果评估。我应聘 Java 业务开发，希望把后端的接口、数据和可靠性能力用于 Agent 业务落地。”</p>
